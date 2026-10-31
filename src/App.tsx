@@ -45,7 +45,7 @@ export default function App() {
             </div>
             <div className="flex flex-col">
               <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-purple-400 via-indigo-300 to-pink-400 bg-clip-text text-transparent">
-                ScrollCount
+                ReelCounter
               </span>
               <span className="text-[10px] uppercase font-bold tracking-widest text-purple-400/80">Digital Wellbeing</span>
             </div>
@@ -128,7 +128,7 @@ export default function App() {
                   href="#download" 
                   className="w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-base text-white bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 transition-all text-center"
                 >
-                  Get ScrollCount
+                  Get ReelCounter
                 </a>
                 <a 
                   href="#preview" 
@@ -183,7 +183,7 @@ export default function App() {
                       <div className="flex items-center gap-2">
                         <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-white text-xs font-bold">▶</div>
                         <div>
-                          <div className="text-xs font-black text-slate-900">ScrollCount</div>
+                          <div className="text-xs font-black text-slate-900">ReelCounter</div>
                           <div className="text-[8px] text-slate-500">Scroll More. Score More.</div>
                         </div>
                       </div>
@@ -320,7 +320,7 @@ export default function App() {
               </div>
               <h3 className="text-xl font-bold mb-3">4. Battle Your Friends</h3>
               <p className={`text-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                Turn digital wellness into a friendly challenge. Share custom invite codes, pair up with peers, and see who keeps their scroll count lowest.
+                Turn digital wellness into a friendly challenge. Share custom invite codes, pair up with peers, and see who keeps their reel count lowest.
               </p>
             </div>
 
@@ -398,7 +398,7 @@ export default function App() {
                       <div className="flex items-center gap-2">
                         <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-white text-xs font-bold">▶</div>
                         <div>
-                          <div className="text-xs font-black">ScrollCount</div>
+                          <div className="text-xs font-black">ReelCounter</div>
                           <div className="text-[8px] text-slate-500">Scroll More. Score More.</div>
                         </div>
                       </div>
@@ -700,7 +700,7 @@ export default function App() {
               {[
                 { step: '01', title: 'Create or Join a Battle', desc: 'Generate an instant invite code directly from the Battle tab.' },
                 { step: '02', title: 'Share with a Friend', desc: 'Send your invite code over WhatsApp, Instagram, or direct message.' },
-                { step: '03', title: 'Live Synchronization', desc: 'Track each other’s scroll counts in real-time as you use supported apps.' },
+                { step: '03', title: 'Live Synchronization', desc: 'Track each other’s reel counts in real-time as you use supported apps.' },
                 { step: '04', title: 'Crown the Winner', desc: 'Review who showed higher discipline and stayed furthest beneath their threshold.' }
               ].map((item, idx) => (
                 <div key={idx} className="flex gap-4 items-start">
@@ -723,7 +723,7 @@ export default function App() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center space-y-4">
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-              Every Scroll Counts. Every Rank Matters.
+              Every Reel Counts. Every Rank Matters.
             </h2>
             <p className={isDark ? 'text-slate-400' : 'text-slate-600'}>
               See how your discipline stacks up. Mindful digital habits rewarded daily.
@@ -797,7 +797,7 @@ export default function App() {
             </div>
           </div>
           <p className="text-center text-xs text-slate-500">
-            *Demo data shown for illustration. Real rankings sync dynamically upon logging into ScrollCount.
+            *Demo data shown for illustration. Real rankings sync dynamically upon logging into ReelCounter.
           </p>
         </div>
       </section>
@@ -806,7 +806,7 @@ export default function App() {
       <section id="how-it-works" className={`py-24 border-t ${isDark ? 'border-slate-800/80 bg-[#080B14]' : 'border-slate-200 bg-slate-50'}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
           <div className="text-center max-w-2xl mx-auto space-y-4">
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">How ScrollCount Works</h2>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">How ReelCounter Works</h2>
             <p className={isDark ? 'text-slate-400' : 'text-slate-600'}>
               Simple setup in under 60 seconds with full user privacy and control.
             </p>
@@ -814,7 +814,7 @@ export default function App() {
 
           <div className="grid md:grid-cols-4 gap-6">
             {[
-              { num: '1', title: 'Download ScrollCount', desc: 'Get the Android APK or install via Google Play.' },
+              { num: '1', title: 'Download ReelCounter', desc: 'Get the Android APK or install via Google Play.' },
               { num: '2', title: 'Grant Permissions', desc: 'Enable standard accessibility or overlay permissions so the app can count video scrolls.' },
               { num: '3', title: 'Set Your Daily Cap', desc: 'Choose a target scroll limit (e.g., 400 reels/day) and set alert options.' },
               { num: '4', title: 'Track & Compete', desc: 'Watch your meters progress in real-time or challenge your friends in 1-on-1 battles.' }
@@ -836,7 +836,7 @@ export default function App() {
           }`}>
             <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5 text-purple-400" />
             <div className="text-xs leading-relaxed">
-              <strong>Transparent System Note:</strong> ScrollCount uses Android Accessibility and Display Overlay services solely to detect swipe gestures on supported short-video apps. It does not read private chat messages, passwords, or personal media.
+              <strong>Transparent System Note:</strong> ReelCounter uses Android Accessibility and Display Overlay services solely to detect swipe gestures on supported short-video apps. It does not read private chat messages, passwords, or personal media.
             </div>
           </div>
         </div>
@@ -893,16 +893,16 @@ export default function App() {
           <div className="space-y-3">
             {[
               {
-                q: 'What is ScrollCount?',
-                a: 'ScrollCount is an Android digital-wellbeing app engineered to count your vertical reel/short swipes on supported platforms, giving you real metrics on mindless doomscrolling.'
+                q: 'What is ReelCounter?',
+                a: 'ReelCounter is an Android digital-wellbeing app engineered to count your vertical reel/short swipes on supported platforms, giving you real metrics on mindless doomscrolling.'
               },
               {
-                q: 'Which platforms does ScrollCount support?',
-                a: 'Currently, ScrollCount tracks Instagram Reels, YouTube Shorts, and Facebook Reels. Additional short-form video apps are evaluated continuously.'
+                q: 'Which platforms does ReelCounter support?',
+                a: 'Currently, ReelCounter tracks Instagram Reels, YouTube Shorts, and Facebook Reels. Additional short-form video apps are evaluated continuously.'
               },
               {
                 q: 'How does scroll tracking work?',
-                a: 'ScrollCount utilizes Android Accessibility Services to detect scroll gestures occurring exclusively within supported video feed packages.'
+                a: 'ReelCounter utilizes Android Accessibility Services to detect scroll gestures occurring exclusively within supported video feed packages.'
               },
               {
                 q: 'Can I set my own daily scrolling limit?',
@@ -910,7 +910,7 @@ export default function App() {
               },
               {
                 q: 'What happens when I cross my limit?',
-                a: 'ScrollCount displays a friendly on-screen notification or non-intrusive overlay reminding you that your target is reached.'
+                a: 'ReelCounter displays a friendly on-screen notification or non-intrusive overlay reminding you that your target is reached.'
               },
               {
                 q: 'Can I use the app without creating an account?',
@@ -918,15 +918,15 @@ export default function App() {
               },
               {
                 q: 'How does Battle Mode work?',
-                a: 'In Battle Mode, you create or enter a room code (like SC2025). The app matches you with a friend to compare scroll counts head-to-head.'
+                a: 'In Battle Mode, you create or enter a room code (like SC2025). The app matches you with a friend to compare reel counts head-to-head.'
               },
               {
-                q: 'Is ScrollCount free to use?',
+                q: 'Is ReelCounter free to use?',
                 a: 'Core features including tracking, daily limit meters, and personal stats are free.'
               },
               {
                 q: 'Which Android permissions are required?',
-                a: 'ScrollCount requires Accessibility Service permission (to detect feed swipes) and optional Display Over Other Apps permission (for limit reminder overlays).'
+                a: 'ReelCounter requires Accessibility Service permission (to detect feed swipes) and optional Display Over Other Apps permission (for limit reminder overlays).'
               },
               {
                 q: 'How can I contact the team?',
@@ -973,7 +973,7 @@ export default function App() {
             </span>
           </h2>
           <p className={`text-base sm:text-lg max-w-xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-            Make every scroll count. Start building better digital habits with ScrollCount today.
+            Make every reel count. Start building better digital habits with ReelCounter today.
           </p>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -983,7 +983,7 @@ export default function App() {
               rel="noreferrer"
               className="px-8 py-4 rounded-2xl font-bold text-base text-white bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 transition-all"
             >
-              Get ScrollCount for Android
+              Get ReelCounter for Android
             </a>
             <a 
               href="#preview"
@@ -1008,7 +1008,7 @@ export default function App() {
               <div className="w-8 h-8 rounded-xl bg-purple-600 flex items-center justify-center text-white font-bold text-sm">
                 S
               </div>
-              <span className="font-extrabold text-lg tracking-tight">ScrollCount</span>
+              <span className="font-extrabold text-lg tracking-tight">ReelCounter</span>
               <span className="text-xs text-slate-500 font-medium ml-2">Scroll smarter. Live better.</span>
             </div>
 
@@ -1023,7 +1023,7 @@ export default function App() {
 
           <div className="border-t border-slate-800/60 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
             <div>
-              &copy; {new Date().getFullYear()} ScrollCount. All rights reserved.
+              &copy; {new Date().getFullYear()} ReelCounter. All rights reserved.
             </div>
             <div className="flex gap-6">
               <span className="cursor-pointer hover:underline">Privacy Policy</span>
