@@ -1,0 +1,24 @@
+{
+  "name": "ReelCounter",
+  "short_name": "ReelCounter",
+  "description": "Android digital-wellbeing app to track scrolling across Instagram Reels, YouTube Shorts, and Facebook Reels. Set daily limits and battle friends.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0A0D18",
+  "theme_color": "#0A0D18",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-dark.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-light.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

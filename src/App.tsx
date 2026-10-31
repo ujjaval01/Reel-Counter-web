@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Sun, Moon, Menu, X, ArrowRight, ShieldCheck, Flame, Trophy, 
   Swords, BellRing, Sparkles, ChevronDown, Check, Smartphone, 
@@ -14,15 +14,27 @@ export default function App() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
 
+  const setFavicon = (mode: 'dark' | 'light') => {
+    const link = document.querySelector("link[rel='icon']") as HTMLLinkElement | null;
+    if (link) {
+      link.href = mode === 'dark' ? '/icon-dark.png' : '/icon-light.png';
+    }
+  };
+
   const toggleTheme = () => {
     const next = theme === 'dark' ? 'light' : 'dark';
     setTheme(next);
+    setFavicon(next);
     if (next === 'light') {
       document.documentElement.classList.remove('dark');
     } else {
       document.documentElement.classList.add('dark');
     }
   };
+
+  useEffect(() => {
+    setFavicon(theme);
+  }, [theme]);
 
   const copyCode = () => {
     navigator.clipboard?.writeText('SC2025');
@@ -40,9 +52,11 @@ export default function App() {
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <a href="#" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/25 group-hover:scale-105 transition-transform">
-              <span className="text-white font-black text-xl">S</span>
-            </div>
+            <img
+              src={isDark ? '/icon-dark.png' : '/icon-light.png'}
+              alt="ReelCounter"
+              className="w-10 h-10 rounded-xl shadow-lg shadow-purple-500/25 group-hover:scale-105 transition-transform"
+            />
             <div className="flex flex-col">
               <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-purple-400 via-indigo-300 to-pink-400 bg-clip-text text-transparent">
                 ReelCounter
@@ -963,9 +977,6 @@ export default function App() {
       <section id="download" className="py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-purple-900/20 via-indigo-900/20 to-transparent pointer-events-none" />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 relative z-10">
-          <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-purple-600 to-pink-500 mx-auto flex items-center justify-center text-white text-2xl font-black shadow-xl shadow-purple-500/30">
-            S
-          </div>
           <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tight">
             Less Mindless Scrolling. <br />
             <span className="bg-gradient-to-r from-purple-400 via-indigo-300 to-pink-400 bg-clip-text text-transparent">
@@ -1005,9 +1016,11 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-xl bg-purple-600 flex items-center justify-center text-white font-bold text-sm">
-                S
-              </div>
+              <img
+              src={isDark ? '/icon-dark.png' : '/icon-light.png'}
+              alt="ReelCounter"
+              className="w-8 h-8 rounded-xl"
+            />
               <span className="font-extrabold text-lg tracking-tight">ReelCounter</span>
               <span className="text-xs text-slate-500 font-medium ml-2">Scroll smarter. Live better.</span>
             </div>
