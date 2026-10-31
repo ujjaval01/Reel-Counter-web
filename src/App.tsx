@@ -61,7 +61,7 @@ export default function App() {
               <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-purple-400 via-indigo-300 to-pink-400 bg-clip-text text-transparent">
                 ReelCounter
               </span>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-purple-400/80">Digital Wellbeing</span>
+              <span className="text-[10px] uppercase font-bold tracking-widest text-purple-400/80">TRACK & BATTLE</span>
             </div>
           </a>
 
