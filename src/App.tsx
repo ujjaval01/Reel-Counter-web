@@ -1,40 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   Sun, Moon, Menu, X, ArrowRight, ShieldCheck, Flame, Trophy, 
   Swords, BellRing, Sparkles, ChevronDown, Check, Smartphone, 
   Share2, Compass, BarChart3, Users, Clock, AlertTriangle, Layers,
   Instagram, Youtube
 } from 'lucide-react';
+import { useTheme } from './ThemeContext';
+import { useCurrentPath } from './router';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Link from './components/Link';
 
 export default function App() {
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const { theme, toggleTheme } = useTheme();
+  const currentPath = useCurrentPath();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'home' | 'battle' | 'leaderboard' | 'dashboard'>('home');
   const [lbFilter, setLbFilter] = useState<'global' | 'india' | 'friends'>('global');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
-
-  const setFavicon = (mode: 'dark' | 'light') => {
-    const link = document.querySelector("link[rel='icon']") as HTMLLinkElement | null;
-    if (link) {
-      link.href = mode === 'dark' ? '/icon-dark.png' : '/icon-light.png';
-    }
-  };
-
-  const toggleTheme = () => {
-    const next = theme === 'dark' ? 'light' : 'dark';
-    setTheme(next);
-    setFavicon(next);
-    if (next === 'light') {
-      document.documentElement.classList.remove('dark');
-    } else {
-      document.documentElement.classList.add('dark');
-    }
-  };
-
-  useEffect(() => {
-    setFavicon(theme);
-  }, [theme]);
 
   const copyCode = () => {
     navigator.clipboard?.writeText('SC2025');
@@ -43,6 +26,12 @@ export default function App() {
   };
 
   const isDark = theme === 'dark';
+
+  // Check if current route is the dedicated Privacy Policy page
+  const isPrivacyPolicy = currentPath.replace(/\/+$/, '') === '/privacy-policy';
+  if (isPrivacyPolicy) {
+    return <PrivacyPolicy />;
+  }
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${isDark ? 'bg-[#0A0D18] text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
@@ -1039,7 +1028,7 @@ export default function App() {
               &copy; {new Date().getFullYear()} ReelCounter. All rights reserved.
             </div>
             <div className="flex gap-6">
-              <span className="cursor-pointer hover:underline">Privacy Policy</span>
+              <Link to="/privacy-policy" className="cursor-pointer hover:underline hover:text-purple-400 transition-colors">Privacy Policy</Link>
               <span className="cursor-pointer hover:underline">Terms & Conditions</span>
               <span className="cursor-pointer hover:underline">Contact Support</span>
             </div>
