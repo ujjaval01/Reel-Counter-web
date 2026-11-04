@@ -1,7 +1,7 @@
 import React from 'react';
 import LegalLayout from '../components/LegalLayout';
 import {
-  Eye, EyeOff, Smartphone, Layers, Database, Lock, AlertTriangle,
+  Eye, EyeOff, Smartphone, Layers, Database, Lock,
   CheckCircle2, Info, Mail, Globe, Cloud, UserX, FileText,
   ExternalLink, Sparkles, Sliders
 } from 'lucide-react';
@@ -177,9 +177,9 @@ export default function PrivacyPolicy() {
             </div>
             <div className="pt-2 border-t border-[#3B3456]">
               <span className="text-slate-400 block mb-0.5">Privacy Contact Email:</span>
-              <code className="text-purple-300 font-mono bg-[#1E1B2E] px-2 py-0.5 rounded border border-[#3B3456]">
+              <a href="mailto:sainiujvl@gmail.com" className="text-purple-300 font-mono bg-[#1E1B2E] px-2 py-0.5 rounded border border-[#3B3456] hover:underline inline-block">
                 sainiujvl@gmail.com
-              </code>
+              </a>
             </div>
           </div>
         </div>
@@ -661,26 +661,13 @@ export default function PrivacyPolicy() {
             <li><strong>Sign Out:</strong> Signed-in users can disconnect their Google account in the app settings to stop further cloud synchronization on that device.</li>
           </ul>
 
-          {/* QUALIFIED ACCOUNT DELETION NOTICE FLAGGING IMPLEMENTATION */}
-          <div className="p-5 rounded-2xl border border-amber-600/40 bg-amber-950/20 space-y-3">
-            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wide text-amber-300">
-              <AlertTriangle className="w-4 h-4 text-amber-400" />
-              <span>Account Deletion Implementation Notice</span>
-            </div>
+          <div className="p-5 rounded-2xl border border-[#3B3456] bg-[#262238] space-y-2">
+            <h3 className={`font-bold text-sm ${headingClasses}`}>
+              Account and Cloud Data Deletion
+            </h3>
             <p className="text-xs text-slate-300 leading-relaxed">
-              The existing static audit identified a dedicated in-app account deletion feature as requiring implementation or verification.
+              Users can request permanent deletion of their account and all associated cloud data (profile, stats, and battle history) at any time by emailing <a href="mailto:sainiujvl@gmail.com" className="text-purple-300 font-mono hover:underline font-medium">sainiujvl@gmail.com</a> with their registered email address or User ID. All data will be permanently deleted from our servers within 30 days.
             </p>
-            <div className="text-xs text-slate-300 space-y-1.5 border-t border-amber-800/30 pt-2">
-              <p>
-                • <strong>Current Status:</strong> We do not claim that an automated in-app account deletion workflow is currently available in the application.
-              </p>
-              <p>
-                • <strong>Developer Verification Item:</strong> A dedicated account deletion flow is flagged as requiring developer implementation and verification to satisfy Google Play Data Safety requirements.
-              </p>
-              <p>
-                • <strong>Inquiries:</strong> If you have questions regarding account data removal, please contact the developer at <code className="font-mono text-purple-300">sainiujvl@gmail.com</code> once an official privacy contact channel is confirmed.
-              </p>
-            </div>
           </div>
         </div>
       </section>
@@ -703,13 +690,13 @@ export default function PrivacyPolicy() {
           <div className="p-5 rounded-2xl border border-[#3B3456] bg-[#262238] space-y-3 mb-4">
             <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wide text-purple-300">
               <Info className="w-4 h-4 text-[#7C3AED]" />
-              <span>Target Audience Notice</span>
+              <span>Audience and Age Policy</span>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              The intended audience and applicable age requirements are marked for developer confirmation in the Google Play Console (such as 13+, 16+, or general audience).
+              Reel Counter is designed as a digital wellbeing application intended for a general audience. The application does not intentionally target children or knowingly collect personal information from individuals below the minimum legal age in their respective jurisdiction.
             </p>
             <p className="text-xs text-slate-300 leading-relaxed">
-              The application does not intentionally collect personal information from individuals below the applicable minimum legal age in their jurisdiction. If a parent or guardian becomes aware that personal details have been submitted without consent, they should contact the developer at <code className="font-mono text-purple-300">sainiujvl@gmail.com</code> so that appropriate verification and data removal steps can be evaluated.
+              If a parent or guardian becomes aware that personal details have been submitted without consent, they should contact the developer at <a href="mailto:sainiujvl@gmail.com" className="text-purple-300 font-mono hover:underline font-medium">sainiujvl@gmail.com</a>, and we will promptly verify and permanently delete any corresponding records.
             </p>
           </div>
         </div>
@@ -788,9 +775,9 @@ export default function PrivacyPolicy() {
             <div className="pt-3 border-t border-[#3B3456] grid sm:grid-cols-2 gap-3 text-xs">
               <div>
                 <span className="text-slate-400 block mb-0.5">Privacy Contact Email:</span>
-                <code className="text-purple-300 font-mono font-bold bg-[#1E1B2E] px-2 py-0.5 rounded border border-[#3B3456]">
+                <a href="mailto:sainiujvl@gmail.com" className="text-purple-300 font-mono font-bold bg-[#1E1B2E] px-2 py-0.5 rounded border border-[#3B3456] hover:underline inline-block">
                   sainiujvl@gmail.com
-                </code>
+                </a>
               </div>
               <div>
                 <span className="text-slate-400 block mb-0.5">Application Package:</span>
@@ -808,45 +795,6 @@ export default function PrivacyPolicy() {
                   https://reelcounter.vercel.app/privacy-policy
                 </a>
               </div>
-            </div>
-          </div>
-
-          {/* DEVELOPER VERIFICATION SUMMARY TABLE */}
-          <div className="p-5 rounded-2xl border border-amber-600/40 bg-amber-950/20 space-y-3">
-            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wide text-amber-300">
-              <AlertTriangle className="w-4 h-4 text-amber-400" />
-              <span>Developer Pre-Publication Verification Checklist</span>
-            </div>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              Before submitting Reel Counter to the Google Play Store or publishing this policy in production, the developer must resolve and verify the following items:
-            </p>
-            <div className="overflow-x-auto">
-              <table className="w-full text-xs text-left">
-                <thead>
-                  <tr className="border-b border-amber-800/40 font-bold text-amber-200">
-                    <th className="py-2 pr-3">Verification Item</th>
-                    <th className="py-2 pr-3">Current Policy Status</th>
-                    <th className="py-2">Required Developer Action</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-amber-800/20 text-slate-300">
-                  <tr>
-                    <td className="py-2.5 pr-3 font-semibold text-white">1. Contact Email</td>
-                    <td className="py-2.5 pr-3"><code className="font-mono text-purple-300">sainiujvl@gmail.com</code></td>
-                    <td className="py-2.5 text-slate-300">Replace placeholder with an active, monitored privacy contact address.</td>
-                  </tr>
-                  <tr>
-                    <td className="py-2.5 pr-3 font-semibold text-white">2. Account Deletion</td>
-                    <td className="py-2.5 pr-3 text-amber-300">Flagged as requiring implementation</td>
-                    <td className="py-2.5 text-slate-300">Implement and verify in-app account deletion before Google Play submission.</td>
-                  </tr>
-                  <tr>
-                    <td className="py-2.5 pr-3 font-semibold text-white">3. Children's Audience</td>
-                    <td className="py-2.5 pr-3 text-amber-300">Marked for developer confirmation</td>
-                    <td className="py-2.5 text-slate-300">Confirm target age group declaration (e.g. 13+) in Google Play Console.</td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
         </div>
