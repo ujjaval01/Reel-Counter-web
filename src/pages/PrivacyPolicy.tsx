@@ -1,119 +1,98 @@
 import React from 'react';
-import { useTheme } from '../ThemeContext';
 import LegalLayout from '../components/LegalLayout';
-import { 
-  ShieldCheck, Smartphone, Database, Lock, EyeOff, AlertTriangle, 
-  CheckCircle2, Info, Mail, Globe, Cloud, Sparkles, UserX, FileText,
-  Layers, ExternalLink, HelpCircle
+import {
+  Eye, EyeOff, Smartphone, Layers, Database, Lock, AlertTriangle,
+  CheckCircle2, Info, Mail, Globe, Cloud, UserX, FileText,
+  ExternalLink, Sparkles, Sliders
 } from 'lucide-react';
 
 const SECTIONS = [
   { id: 'section-1', number: '1', title: 'Introduction' },
-  { id: 'section-2', number: '2', title: 'Information About the Developer' },
-  { id: 'section-3', number: '3', title: 'Scope of This Policy' },
-  { id: 'section-4', number: '4', title: 'How Reel Counter Works' },
-  { id: 'section-5', number: '5', title: 'Information Processed by the App' },
-  { id: 'section-6', number: '6', title: 'Accessibility Service and On-Device Processing' },
-  { id: 'section-7', number: '7', title: 'Local Storage' },
-  { id: 'section-8', number: '8', title: 'Google Sign-In and Account Information' },
-  { id: 'section-9', number: '9', title: 'Firebase Authentication and Firestore' },
-  { id: 'section-10', number: '10', title: 'How Information Is Used' },
-  { id: 'section-11', number: '11', title: 'Data Sharing and Third-Party Services' },
-  { id: 'section-12', number: '12', title: 'Data Retention' },
-  { id: 'section-13', number: '13', title: 'Data Deletion and User Choices' },
-  { id: 'section-14', number: '14', title: 'Data Security' },
-  { id: 'section-15', number: '15', title: 'Children\'s Privacy' },
-  { id: 'section-16', number: '16', title: 'International Data Processing' },
-  { id: 'section-17', number: '17', title: 'Changes to This Policy' },
-  { id: 'section-18', number: '18', title: 'Contact Information' },
+  { id: 'section-2', number: '2', title: 'About the Developer' },
+  { id: 'section-3', number: '3', title: 'Information We Process' },
+  { id: 'section-4', number: '4', title: 'Accessibility Service Disclosure' },
+  { id: 'section-5', number: '5', title: 'Floating Overlay Permission' },
+  { id: 'section-6', number: '6', title: 'Local Data Storage' },
+  { id: 'section-7', number: '7', title: 'Google Sign-In and Firebase' },
+  { id: 'section-8', number: '8', title: 'How We Use Information' },
+  { id: 'section-9', number: '9', title: 'Third-Party Services and Data Sharing' },
+  { id: 'section-10', number: '10', title: 'Data Security' },
+  { id: 'section-11', number: '11', title: 'Data Retention' },
+  { id: 'section-12', number: '12', title: 'Data Deletion and User Choices' },
+  { id: 'section-13', number: '13', title: 'Children\'s Privacy' },
+  { id: 'section-14', number: '14', title: 'International Data Processing' },
+  { id: 'section-15', number: '15', title: 'Changes to This Policy' },
+  { id: 'section-16', number: '16', title: 'Contact Us' },
 ];
 
 export default function PrivacyPolicy() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
-
-  const cardClasses = isDark
-    ? 'bg-[#12172A] border-slate-800 text-slate-300'
-    : 'bg-white border-slate-200 text-slate-700 shadow-sm';
-
-  const calloutInfoClasses = isDark
-    ? 'bg-blue-950/30 border-blue-800/60 text-blue-200'
-    : 'bg-blue-50 border-blue-200 text-blue-900';
-
-  const calloutWarningClasses = isDark
-    ? 'bg-amber-950/30 border-amber-800/60 text-amber-200'
-    : 'bg-amber-50 border-amber-200 text-amber-900';
-
-  const calloutSuccessClasses = isDark
-    ? 'bg-emerald-950/30 border-emerald-800/60 text-emerald-200'
-    : 'bg-emerald-50 border-emerald-200 text-emerald-900';
-
-  const headingClasses = isDark ? 'text-white' : 'text-slate-900';
-  const subtextClasses = isDark ? 'text-slate-400' : 'text-slate-600';
-  const dividerClasses = isDark ? 'border-slate-800/80' : 'border-slate-200';
+  const cardClasses = 'bg-[#262238] border border-[#3B3456] rounded-2xl p-5 text-slate-300';
+  const headingClasses = 'text-white font-bold';
+  const subtextClasses = 'text-slate-300 text-sm leading-relaxed';
+  const dividerClasses = 'border-t border-[#312B4A] pt-8';
 
   return (
     <LegalLayout
       title="Privacy Policy"
-      description="Official Privacy Policy for Reel Counter (com.uv.reelcounter) by Ujjaval Saini. Transparent disclosures covering our on-device Accessibility Service processing, local storage, guest mode, and optional Google Sign-In with Firebase."
-      lastUpdated="November 2026"
-      badge="Verified App Policy"
+      description="Official, audit-based Privacy Policy for Reel Counter (com.uv.reelcounter) by Ujjaval Saini. Transparent disclosures covering our on-device Accessibility Service, floating overlay, guest mode local storage, and optional Google Sign-In with Firebase."
+      effectiveDate="November 4, 2026"
+      lastUpdated="November 4, 2026"
     >
-      {/* 4 HIGHLIGHT CARDS */}
+      {/* 4 CORE ARCHITECTURE HIGHLIGHT CARDS */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className={`p-5 rounded-2xl border ${cardClasses} flex flex-col justify-between`}>
+        <div className={`${cardClasses} flex flex-col justify-between hover:border-[#7C3AED]/50 transition-colors`}>
           <div className="space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold">
+            <div className="w-10 h-10 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] flex items-center justify-center font-bold">
               <Smartphone className="w-5 h-5" />
             </div>
             <h3 className={`font-bold text-sm ${headingClasses}`}>On-Device Detection</h3>
             <p className="text-xs leading-relaxed text-slate-400">
-              Scroll events and UI node metadata are inspected in-memory on your device to count reels. No screen text or media is captured.
+              Accessibility service inspects UI node metadata in volatile memory strictly to count scrolls. No screen text or media is captured.
             </p>
           </div>
         </div>
 
-        <div className={`p-5 rounded-2xl border ${cardClasses} flex flex-col justify-between`}>
+        <div className={`${cardClasses} flex flex-col justify-between hover:border-[#7C3AED]/50 transition-colors`}>
           <div className="space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold">
+            <div className="w-10 h-10 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] flex items-center justify-center font-bold">
+              <Layers className="w-5 h-5" />
+            </div>
+            <h3 className={`font-bold text-sm ${headingClasses}`}>Floating Overlay</h3>
+            <p className="text-xs leading-relaxed text-slate-400">
+              The overlay permission is used solely to display your active count on top of the screen, never to read background screen contents.
+            </p>
+          </div>
+        </div>
+
+        <div className={`${cardClasses} flex flex-col justify-between hover:border-[#7C3AED]/50 transition-colors`}>
+          <div className="space-y-2">
+            <div className="w-10 h-10 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] flex items-center justify-center font-bold">
               <UserX className="w-5 h-5" />
             </div>
             <h3 className={`font-bold text-sm ${headingClasses}`}>Guest Mode by Default</h3>
             <p className="text-xs leading-relaxed text-slate-400">
-              Track reels without creating an account or logging in. All counting metrics and preferences are stored strictly on your device.
+              Core counting works locally without signing in. Platform counts, daily goals, and totals reside strictly on your device.
             </p>
           </div>
         </div>
 
-        <div className={`p-5 rounded-2xl border ${cardClasses} flex flex-col justify-between`}>
+        <div className={`${cardClasses} flex flex-col justify-between hover:border-[#7C3AED]/50 transition-colors`}>
           <div className="space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-bold">
-              <Cloud className="w-5 h-5" />
-            </div>
-            <h3 className={`font-bold text-sm ${headingClasses}`}>Optional Cloud Sync</h3>
-            <p className="text-xs leading-relaxed text-slate-400">
-              Google Sign-In and Firebase are only utilized if you choose to sync your totals, join Battle Mode, or appear on leaderboards.
-            </p>
-          </div>
-        </div>
-
-        <div className={`p-5 rounded-2xl border ${cardClasses} flex flex-col justify-between`}>
-          <div className="space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-pink-500/10 text-pink-400 flex items-center justify-center font-bold">
+            <div className="w-10 h-10 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] flex items-center justify-center font-bold">
               <EyeOff className="w-5 h-5" />
             </div>
             <h3 className={`font-bold text-sm ${headingClasses}`}>No Ad Trackers</h3>
             <p className="text-xs leading-relaxed text-slate-400">
-              The static codebase audit confirmed the absence of AdMob, advertising SDKs, Firebase Analytics, or Crashlytics trackers.
+              Static audit verified no AdMob, advertising SDKs, Firebase Analytics, or Crashlytics in the inspected project.
             </p>
           </div>
         </div>
       </div>
 
-      {/* TABLE OF CONTENTS CARD */}
-      <section aria-labelledby="toc-heading" className={`p-6 sm:p-8 rounded-3xl border ${cardClasses}`}>
+      {/* TABLE OF CONTENTS */}
+      <section aria-labelledby="toc-heading" className="p-6 sm:p-8 rounded-3xl border border-[#3B3456] bg-[#262238] shadow-lg">
         <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 rounded-xl bg-purple-500/10 text-purple-400">
+          <div className="p-2 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED]">
             <FileText className="w-5 h-5" />
           </div>
           <div>
@@ -129,9 +108,9 @@ export default function PrivacyPolicy() {
             <a
               key={sec.id}
               href={`#${sec.id}`}
-              className="flex items-baseline gap-2.5 py-1 text-slate-400 hover:text-purple-400 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 rounded px-1 -mx-1"
+              className="flex items-baseline gap-2.5 py-1 text-slate-300 hover:text-purple-300 transition-colors focus:outline-none focus:ring-2 focus:ring-[#7C3AED] rounded px-1 -mx-1"
             >
-              <span className="font-mono text-purple-400 font-bold w-5 shrink-0">{sec.number}.</span>
+              <span className="font-mono text-[#7C3AED] font-bold w-5 shrink-0">{sec.number}.</span>
               <span className="truncate">{sec.title}</span>
             </a>
           ))}
@@ -139,673 +118,665 @@ export default function PrivacyPolicy() {
       </section>
 
       {/* SECTION 1: INTRODUCTION */}
-      <section id="section-1" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
+      <section id="section-1" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
         <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
             1
           </span>
           <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
             Introduction
           </h2>
         </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            Welcome to <strong>Reel Counter</strong>. Reel Counter is an Android digital wellbeing and screen-time awareness application designed to help individuals monitor, quantify, and regulate their consumption of short-form video content across supported mobile applications, including Instagram Reels, YouTube Shorts, and Facebook Reels.
+        <div className={subtextClasses}>
+          <p className="mb-3">
+            Welcome to <strong>Reel Counter</strong>. Reel Counter is an Android digital wellbeing and screen-time awareness application created to help users monitor, understand, and reduce repetitive short-form video consumption across supported social media applications.
+          </p>
+          <p className="mb-3">
+            This Privacy Policy explains what information is processed by the app, where data is stored, and what user choices are available. We operate on a <strong>local-first principle</strong>: core video counting functionality runs directly on your device without requiring you to register, sign in, or provide personal credentials.
           </p>
           <p>
-            We believe that digital self-improvement utilities should respect and protect individual privacy. Reel Counter is engineered around a <strong>privacy-first, local-first architecture</strong>: you can use all primary tracking features completely on your device without creating an account or supplying personal contact details.
-          </p>
-          <p>
-            This Privacy Policy describes in full transparency what information is accessed, how it is processed, where it is stored, and what rights and choices you possess when you use the Reel Counter Android application and our informational website.
+            Please read this policy carefully to understand our technical implementation and data handling practices.
           </p>
         </div>
       </section>
 
-      {/* SECTION 2: INFORMATION ABOUT THE DEVELOPER */}
-      <section id="section-2" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
+      {/* SECTION 2: ABOUT THE DEVELOPER */}
+      <section id="section-2" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
         <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
             2
           </span>
           <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
-            Information About the Developer
+            About the Developer
           </h2>
         </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            Reel Counter is published and maintained by independent developer <strong>Ujjaval Saini</strong>.
+        <div className={subtextClasses}>
+          <p className="mb-4">
+            Reel Counter is developed, published, and maintained by <strong>Ujjaval Saini</strong>.
           </p>
-          <div className={`p-4 rounded-2xl border ${cardClasses} space-y-2`}>
-            <div className="grid sm:grid-cols-2 gap-3 text-xs">
+          <div className="p-5 rounded-2xl border border-[#3B3456] bg-[#262238] space-y-3 text-xs">
+            <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <span className="text-slate-400 block">Application Name:</span>
-                <strong className={headingClasses}>Reel Counter</strong>
+                <span className="text-slate-400 block mb-0.5">Application Name:</span>
+                <strong className="text-white text-sm">Reel Counter</strong>
               </div>
               <div>
-                <span className="text-slate-400 block">Android Package Name:</span>
-                <code className="text-purple-400 font-mono">com.uv.reelcounter</code>
+                <span className="text-slate-400 block mb-0.5">Android Package Name:</span>
+                <code className="text-purple-300 font-mono text-xs">com.uv.reelcounter</code>
               </div>
               <div>
-                <span className="text-slate-400 block">Publisher / Developer:</span>
-                <strong className={headingClasses}>Ujjaval Saini</strong>
+                <span className="text-slate-400 block mb-0.5">Developer / Publisher:</span>
+                <strong className="text-white text-sm">Ujjaval Saini</strong>
               </div>
               <div>
-                <span className="text-slate-400 block">Official Website & Policy:</span>
-                <a
-                  href="https://reelcounter.vercel.app/privacy-policy"
-                  className="text-purple-400 hover:underline break-all"
-                >
-                  https://reelcounter.vercel.app/privacy-policy
+                <span className="text-slate-400 block mb-0.5">Official Website:</span>
+                <a href="https://reelcounter.vercel.app/" className="text-purple-300 hover:underline">
+                  https://reelcounter.vercel.app/
                 </a>
               </div>
             </div>
+            <div className="pt-2 border-t border-[#3B3456]">
+              <span className="text-slate-400 block mb-0.5">Privacy Contact Email:</span>
+              <code className="text-purple-300 font-mono bg-[#1E1B2E] px-2 py-0.5 rounded border border-[#3B3456]">
+                sainiujvl@gmail.com
+              </code>
+            </div>
           </div>
-          <p>
-            For privacy-related inquiries, data requests, or policy questions, please consult Section 18 for our official contact details.
-          </p>
         </div>
       </section>
 
-      {/* SECTION 3: SCOPE OF THIS POLICY */}
-      <section id="section-3" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
+      {/* SECTION 3: INFORMATION WE PROCESS */}
+      <section id="section-3" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
         <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
             3
           </span>
           <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
-            Scope of This Policy
+            Information We Process
           </h2>
         </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            This Privacy Policy applies solely to:
-          </p>
-          <ul className="list-disc list-inside space-y-1.5 pl-2">
-            <li>The <strong>Reel Counter</strong> Android mobile application (<code className="font-mono text-xs">com.uv.reelcounter</code>).</li>
-            <li>The accompanying web interface and documentation hosted at <code className="font-mono text-xs">https://reelcounter.vercel.app</code>.</li>
-            <li>Direct communications and customer support interactions between you and the developer.</li>
-          </ul>
-          <div className={`p-4 rounded-2xl border ${calloutInfoClasses} flex items-start gap-3`}>
-            <Info className="w-5 h-5 shrink-0 mt-0.5" />
-            <div className="text-xs leading-relaxed space-y-1">
-              <strong className="block font-semibold">Third-Party Platforms Disclaimer</strong>
-              Reel Counter is an independent utility that assists users in monitoring short-video scrolling. It is not affiliated with, endorsed by, or sponsored by Meta Platforms, Inc. (Instagram, Facebook) or Google LLC / Alphabet Inc. (YouTube). When you interact with third-party social media applications on your device, their respective Terms of Service and Privacy Policies govern the collection and use of your data by those companies.
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 4: HOW REEL COUNTER WORKS */}
-      <section id="section-4" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
-        <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
-            4
-          </span>
-          <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
-            How Reel Counter Works
-          </h2>
-        </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            Reel Counter helps users become mindful of repetitive video scrolling through real-time detection, daily count meters, streak tracking, and interactive challenges. The app functions through two modes:
-          </p>
-          <div className="grid md:grid-cols-2 gap-4 pt-2">
-            <div className={`p-5 rounded-2xl border ${cardClasses} space-y-2`}>
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs font-bold">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                Mode 1: Guest Mode (Default)
-              </div>
-              <p className="text-xs leading-relaxed text-slate-400">
-                You can immediately use Reel Counter without registering or logging in. The app counts short videos locally, tracks daily targets, and displays your statistics without sending any data to external servers.
-              </p>
-            </div>
-
-            <div className={`p-5 rounded-2xl border ${cardClasses} space-y-2`}>
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-400 text-xs font-bold">
-                <Cloud className="w-3.5 h-3.5" />
-                Mode 2: Synchronized Mode (Optional)
-              </div>
-              <p className="text-xs leading-relaxed text-slate-400">
-                If you choose to sign in using Google Sign-In, Reel Counter securely synchronizes your aggregate scroll totals via Firebase so that you can switch devices, compete in 1v1 Battle Mode, and participate in community leaderboards.
-              </p>
-            </div>
-          </div>
-          <p>
-            To detect scrolling activity in supported third-party apps, Reel Counter relies on an <strong>Android Accessibility Service</strong>, which must be explicitly enabled by the user in Android system settings.
-          </p>
-        </div>
-      </section>
-
-      {/* SECTION 5: INFORMATION PROCESSED BY THE APP */}
-      <section id="section-5" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
-        <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
-            5
-          </span>
-          <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
-            Information Processed by the App
-          </h2>
-        </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            The table below outlines every category of information processed by Reel Counter, indicating where it is handled and whether it is stored:
+        <div className={subtextClasses}>
+          <p className="mb-4">
+            Based on our verified static audit, Reel Counter processes information according to the following categories:
           </p>
 
-          <div className="overflow-x-auto rounded-2xl border border-slate-800">
+          <div className="overflow-x-auto rounded-2xl border border-[#3B3456] mb-6">
             <table className="w-full text-xs text-left">
-              <thead className={isDark ? 'bg-slate-900/80 text-slate-200' : 'bg-slate-100 text-slate-800'}>
+              <thead className="bg-[#1E1B2E] text-slate-200">
                 <tr>
-                  <th className="p-3 font-bold border-b border-slate-800">Data Category</th>
-                  <th className="p-3 font-bold border-b border-slate-800">Specific Items</th>
-                  <th className="p-3 font-bold border-b border-slate-800">Where Handled</th>
-                  <th className="p-3 font-bold border-b border-slate-800">Purpose</th>
+                  <th className="p-3.5 font-bold border-b border-[#3B3456]">Category</th>
+                  <th className="p-3.5 font-bold border-b border-[#3B3456]">Specific Data Items</th>
+                  <th className="p-3.5 font-bold border-b border-[#3B3456]">Processing Location</th>
+                  <th className="p-3.5 font-bold border-b border-[#3B3456]">Purpose</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-[#312B4A] bg-[#262238]">
                 <tr>
-                  <td className="p-3 font-semibold text-purple-400">UI Node Metadata & Scroll Events</td>
-                  <td className="p-3">Container view identifiers, layout nodes, scroll direction events</td>
-                  <td className="p-3">Ephemeral in-memory RAM (never saved or transmitted)</td>
-                  <td className="p-3">Detecting reel transitions across supported apps</td>
+                  <td className="p-3.5 font-semibold text-purple-300">UI Metadata & Scroll Events</td>
+                  <td className="p-3.5">View IDs, node class names, container hierarchies, scroll events</td>
+                  <td className="p-3.5">Ephemeral on-device memory (RAM)</td>
+                  <td className="p-3.5">Detecting reel feeds & scroll gestures</td>
                 </tr>
                 <tr>
-                  <td className="p-3 font-semibold text-purple-400">Local Usage Metrics</td>
-                  <td className="p-3">Daily counts, platform breakdown (IG, YT, FB), streak tallies, daily limits</td>
-                  <td className="p-3">Local Android storage (SharedPreferences / SQLite)</td>
-                  <td className="p-3">Displaying wellbeing charts and limit enforcement</td>
+                  <td className="p-3.5 font-semibold text-purple-300">Local Usage Metrics</td>
+                  <td className="p-3.5">Daily reel counts, platform breakdown, daily goals, historical totals</td>
+                  <td className="p-3.5">Device local storage</td>
+                  <td className="p-3.5">Tracking wellbeing stats & goal progress</td>
                 </tr>
                 <tr>
-                  <td className="p-3 font-semibold text-purple-400">Interface Settings</td>
-                  <td className="p-3">Theme preference (dark/light), notifications toggle</td>
-                  <td className="p-3">Local Android storage</td>
-                  <td className="p-3">User experience consistency</td>
+                  <td className="p-3.5 font-semibold text-purple-300">Overlay & UI Settings</td>
+                  <td className="p-3.5">Floating counter screen coordinates, UI preferences</td>
+                  <td className="p-3.5">Device local storage</td>
+                  <td className="p-3.5">Persisting visual overlay position & theme</td>
                 </tr>
                 <tr>
-                  <td className="p-3 font-semibold text-purple-400">Account Identity (Optional)</td>
-                  <td className="p-3">Firebase UID, email address, display name, avatar URL</td>
-                  <td className="p-3">Firebase Authentication & Cloud Firestore</td>
-                  <td className="p-3">User login, cloud synchronization, leaderboard identification</td>
+                  <td className="p-3.5 font-semibold text-purple-300">Account Identity (Optional)</td>
+                  <td className="p-3.5">Firebase UID, email address, display name, avatar URL</td>
+                  <td className="p-3.5">Firebase Authentication & Firestore</td>
+                  <td className="p-3.5">Authentication & social profile identification</td>
                 </tr>
                 <tr>
-                  <td className="p-3 font-semibold text-purple-400">Synchronized Totals (Optional)</td>
-                  <td className="p-3">Aggregate daily counts, historical totals, Battle Mode status</td>
-                  <td className="p-3">Firebase Cloud Firestore</td>
-                  <td className="p-3">Multi-device sync, friend battles, leaderboard ranking</td>
+                  <td className="p-3.5 font-semibold text-purple-300">Synced Totals (Optional)</td>
+                  <td className="p-3.5">Aggregate daily reel counts, historical daily totals</td>
+                  <td className="p-3.5">Firebase Cloud Firestore</td>
+                  <td className="p-3.5">Cross-device sync, Battle Mode, leaderboards</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <div className={`p-4 rounded-2xl border ${calloutSuccessClasses} space-y-2`}>
-            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wide">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>Audit Finding: Data Not Collected</span>
-            </div>
-            <p className="text-xs leading-relaxed">
-              A comprehensive static codebase audit confirmed that Reel Counter does <strong>NOT</strong> collect, request, record, or transmit:
+          <div className="p-5 rounded-2xl border border-[#3B3456] bg-[#262238] mb-4 space-y-3">
+            <h3 className={`font-bold text-sm ${headingClasses}`}>Supported Applications</h3>
+            <p className="text-xs text-slate-300">
+              The static audit verifies that Reel Counter detects scrolling specifically in the following supported short-form video platforms:
             </p>
-            <ul className="list-disc list-inside text-xs space-y-1 pl-2">
-              <li>Precise or coarse GPS / network location</li>
-              <li>Contacts, phone books, or call logs</li>
-              <li>Camera video, microphone audio recordings, or photo library files</li>
-              <li>Google Advertising ID (AAID) for ad targeting or behavioural profiling</li>
-              <li>Screen text, captions, comments, or private messages from monitored feeds</li>
-              <li>Account passwords or login credentials for third-party social media accounts</li>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1 text-xs">
+              <div className="p-2.5 rounded-xl bg-[#1E1B2E] border border-[#3B3456] text-center font-semibold text-purple-300">
+                Instagram
+              </div>
+              <div className="p-2.5 rounded-xl bg-[#1E1B2E] border border-[#3B3456] text-center font-semibold text-purple-300">
+                YouTube Shorts
+              </div>
+              <div className="p-2.5 rounded-xl bg-[#1E1B2E] border border-[#3B3456] text-center font-semibold text-purple-300">
+                Facebook Reels
+              </div>
+              <div className="p-2.5 rounded-xl bg-[#1E1B2E] border border-[#3B3456] text-center font-semibold text-purple-300">
+                Snapchat Spotlight
+              </div>
+            </div>
+            <p className="text-[11px] text-slate-400 italic">
+              Note: Unverified platforms, including TikTok, are not included in this audit.
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl border border-[#3B3456] bg-[#221E33] space-y-2">
+            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wide text-emerald-400">
+              <CheckCircle2 className="w-4 h-4" />
+              <span>Verified Non-Collection Findings</span>
+            </div>
+            <p className="text-xs text-slate-300">
+              The static codebase audit confirmed that Reel Counter does <strong>not</strong> collect or process:
+            </p>
+            <ul className="list-disc list-inside text-xs space-y-1 pl-1 text-slate-400">
+              <li>GPS or network location data.</li>
+              <li>Device contacts or address books.</li>
+              <li>Camera or microphone audio/video recordings.</li>
+              <li>Photos, images, or media library contents.</li>
+              <li>Google Advertising ID (AAID).</li>
+              <li>AdMob, Firebase Analytics, or Crashlytics tracking data.</li>
             </ul>
           </div>
         </div>
       </section>
 
-      {/* SECTION 6: ACCESSIBILITY SERVICE AND ON-DEVICE PROCESSING */}
-      <section id="section-6" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
+      {/* SECTION 4: ACCESSIBILITY SERVICE DISCLOSURE (CLEARLY HIGHLIGHTED) */}
+      <section id="section-4" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
         <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
-            6
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
+            4
           </span>
           <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
-            Accessibility Service and On-Device Processing
+            Accessibility Service Disclosure
           </h2>
         </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            Android enforces strict sandbox boundaries between applications. To count short-form videos without requiring invasive root permissions or proprietary platform APIs, Reel Counter requests the user to grant permission for an <strong>Android Accessibility Service</strong> (<code className="text-xs font-mono">AccessibilityService</code>).
-          </p>
 
-          <div className={`p-5 rounded-2xl border ${cardClasses} space-y-3`}>
-            <h3 className={`font-bold text-sm ${headingClasses}`}>Accurate Description of Service Operation</h3>
-            <p className="text-xs leading-relaxed">
-              When enabled, the Accessibility Service receives system accessibility events (such as scroll gestures and window state changes). The service inspects relevant <strong>UI node metadata</strong> (such as container identifiers, view hierarchy structure, and package names) strictly to:
-            </p>
-            <ol className="list-decimal list-inside text-xs space-y-1.5 pl-2">
-              <li>Identify when a supported short-form video feed (e.g., Instagram Reels, YouTube Shorts, or Facebook Reels) is in the foreground.</li>
-              <li>Detect when a vertical scroll gesture has transitioned to the next video item.</li>
-              <li>Increment your local reel counter and compare against your active daily limit.</li>
-            </ol>
+        {/* PROMINENT HIGHLIGHTED BOX */}
+        <div className="p-6 sm:p-8 rounded-3xl border-2 border-[#7C3AED] bg-[#2A2440] shadow-xl space-y-5">
+          <div className="flex items-start gap-4">
+            <div className="p-3 rounded-2xl bg-[#7C3AED]/20 text-[#7C3AED] shrink-0">
+              <Smartphone className="w-6 h-6" />
+            </div>
+            <div className="space-y-1">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#7C3AED]">Core Permission Disclosure</span>
+              <h3 className="text-xl font-extrabold text-white">
+                How Reel Counter Uses the Android Accessibility Service
+              </h3>
+            </div>
           </div>
 
-          <div className={`p-4 rounded-2xl border ${calloutInfoClasses} space-y-2`}>
-            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wide">
-              <ShieldCheck className="w-4 h-4" />
-              <span>Strict On-Device Privacy Safeguards</span>
+          <div className="space-y-3 text-sm text-slate-200 leading-relaxed">
+            <p>
+              Reel Counter uses the Android <code className="font-mono text-xs bg-[#1E1B2E] px-1.5 py-0.5 rounded text-purple-300">AccessibilityService</code> API to detect relevant scrolling events and identify supported short-form video feeds (Instagram, YouTube Shorts, Facebook Reels, and Snapchat Spotlight).
+            </p>
+            <p>
+              <strong>Why this permission is required:</strong> Android enforces strict security boundaries (sandboxing) between separate applications. An app cannot monitor when you scroll past video content in another app unless granted accessibility access. Reel Counter relies on this permission to recognize when a supported short-form video feed is open and when vertical scroll gestures occur, allowing it to increment your counter and track your daily goal.
+            </p>
+            <p>
+              <strong>What the service processes on-device:</strong> The service processes relevant UI metadata, such as view IDs and node class names, locally in volatile memory to recognize video containers.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-[#1E1B2E] border border-[#3B3456] space-y-2">
+            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wide text-purple-300">
+              <EyeOff className="w-4 h-4 text-[#7C3AED]" />
+              <span>Explicit Non-Collection Safeguards</span>
             </div>
-            <ul className="list-disc list-inside text-xs space-y-1.5 pl-2">
-              <li>
-                <strong>Ephemeral in-memory analysis only:</strong> All inspection of UI node metadata occurs purely in volatile device RAM. Metadata is discarded immediately after scroll evaluation.
+            <p className="text-xs text-slate-300">
+              According to the static audit, the Accessibility Service does <strong>NOT</strong> intentionally collect, store, or transmit:
+            </p>
+            <ul className="grid sm:grid-cols-2 gap-2 text-xs text-slate-400 pl-2">
+              <li className="flex items-center gap-2">
+                <span className="text-emerald-400 font-bold">✓</span> No private messages or direct chats.
               </li>
-              <li>
-                <strong>No content recording:</strong> The app does <strong>not</strong> record, transcribe, capture, or transmit screen text, captions, user comments, private direct messages, video frames, or audio streams.
+              <li className="flex items-center gap-2">
+                <span className="text-emerald-400 font-bold">✓</span> No passwords or account credentials.
               </li>
-              <li>
-                <strong>No keystroke logging:</strong> The service does not inspect or monitor text input fields, virtual keyboard entries, passwords, credit cards, or personal messages.
+              <li className="flex items-center gap-2">
+                <span className="text-emerald-400 font-bold">✓</span> No typed text or keystroke inputs.
               </li>
-              <li>
-                <strong>No social credentials:</strong> Reel Counter never accesses, asks for, or stores passwords or authentication tokens for your Instagram, YouTube, or Facebook accounts.
+              <li className="flex items-center gap-2">
+                <span className="text-emerald-400 font-bold">✓</span> No video content or audio tracks.
+              </li>
+              <li className="flex items-center gap-2 sm:col-span-2">
+                <span className="text-emerald-400 font-bold">✓</span> No screen recordings or captured screenshots.
               </li>
             </ul>
+          </div>
+
+          <div className="text-xs text-slate-300 space-y-2">
+            <p>
+              <strong>Local Processing Only:</strong> Accessibility event information is processed locally on your device for reel detection. The audit does not identify transmission of these event details to Firebase or external servers.
+            </p>
+            <p>
+              <strong>User Activation & Revocation:</strong> The Accessibility Service is never enabled automatically. You must explicitly grant it by navigating to:
+            </p>
+            <div className="p-2.5 rounded-xl bg-[#1E1B2E] border border-[#3B3456] font-mono text-xs text-purple-300 inline-block">
+              Android Settings &gt; Accessibility &gt; Reel Counter &gt; Enable
+            </div>
+            <p>
+              You can disable or revoke this permission at any time through the same Android system settings menu without losing your local counts.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 5: FLOATING OVERLAY PERMISSION */}
+      <section id="section-5" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
+        <div className="flex items-center gap-3">
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
+            5
+          </span>
+          <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
+            Floating Overlay Permission
+          </h2>
+        </div>
+        <div className={subtextClasses}>
+          <p className="mb-3">
+            Reel Counter requests the <code className="font-mono text-xs bg-[#262238] px-1.5 py-0.5 rounded text-purple-300">SYSTEM_ALERT_WINDOW</code> permission, commonly referred to as "Display over other apps".
+          </p>
+
+          <div className="p-5 rounded-2xl border border-[#3B3456] bg-[#262238] space-y-3 mb-4">
+            <div className="flex items-center gap-2 font-bold text-sm text-white">
+              <Layers className="w-4 h-4 text-[#7C3AED]" />
+              <span>Purpose of the Floating Overlay</span>
+            </div>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              When enabled by the user, this permission allows Reel Counter to display a compact, floating counter widget directly over supported applications. This visual indicator provides real-time awareness of how many short videos you have watched during your active session.
+            </p>
+            <div className="p-3.5 rounded-xl bg-[#1E1B2E] border border-[#3B3456] text-xs text-slate-300">
+              <strong className="text-purple-300 block mb-1">Important Privacy Distinction:</strong>
+              This permission is used exclusively to visually display the floating counter on screen. It is <strong>NOT</strong> used to collect, capture, read, or inspect screen content from the underlying applications.
+            </div>
           </div>
 
           <p className="text-xs text-slate-400">
-            <strong>Revocability:</strong> The Accessibility Service permission cannot be activated silently or automatically. It requires explicit user approval in Android System Settings. You can revoke this permission at any time by navigating to <code className="font-mono text-purple-400">Android Settings &gt; Accessibility &gt; Reel Counter</code> and toggling the service off.
+            <strong>User Control:</strong> You can enable or disable the floating overlay at any time within Reel Counter's settings or through <code className="font-mono text-xs text-purple-300">Android Settings &gt; Apps &gt; Special app access &gt; Display over other apps &gt; Reel Counter</code>. The floating counter's on-screen coordinates are stored locally on your device to remember your preferred position.
           </p>
         </div>
       </section>
 
-      {/* SECTION 7: LOCAL STORAGE */}
-      <section id="section-7" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
+      {/* SECTION 6: LOCAL DATA STORAGE */}
+      <section id="section-6" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
         <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
+            6
+          </span>
+          <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
+            Local Data Storage
+          </h2>
+        </div>
+        <div className={subtextClasses}>
+          <p className="mb-3">
+            Reel Counter is engineered to support a complete <strong>Guest Mode</strong>: users can access core counting functionality without signing in or linking an account.
+          </p>
+          <div className="p-5 rounded-2xl border border-[#3B3456] bg-[#262238] space-y-3 mb-4">
+            <h3 className={`font-bold text-xs uppercase tracking-wider ${headingClasses}`}>
+              Locally Stored Data Elements:
+            </h3>
+            <ul className="grid sm:grid-cols-2 gap-2 text-xs text-slate-300 pl-2">
+              <li className="flex items-start gap-2">
+                <span className="text-[#7C3AED]">•</span> Daily reel counts.
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#7C3AED]">•</span> Platform-specific counts (IG, YT, FB, Snapchat).
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#7C3AED]">•</span> Historical daily totals.
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#7C3AED]">•</span> Daily goals and target limits.
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#7C3AED]">•</span> Floating overlay screen position.
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#7C3AED]">•</span> User interface preferences (e.g., theme).
+              </li>
+            </ul>
+          </div>
+          <p className="mb-3 text-xs text-slate-300">
+            <strong>Retention:</strong> This locally stored information is generally retained on the device until you reset metrics within the app, clear app data via <code className="font-mono text-xs text-purple-300">Android Settings &gt; Apps &gt; Reel Counter &gt; Storage &gt; Clear Data</code>, or uninstall the application.
+          </p>
+          <p className="text-xs text-slate-400">
+            <strong>Storage Safeguards:</strong> Local data is stored within Reel Counter's private sandbox storage on Android. We do not make unsupported claims that every local value is individually encrypted with custom encryption at rest.
+          </p>
+        </div>
+      </section>
+
+      {/* SECTION 7: GOOGLE SIGN-IN AND FIREBASE */}
+      <section id="section-7" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
+        <div className="flex items-center gap-3">
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
             7
           </span>
           <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
-            Local Storage
+            Google Sign-In and Firebase
           </h2>
         </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            When using Reel Counter in <strong>Guest Mode</strong>, all application data is stored solely on your Android device using standard operating system storage mechanisms, including Android <code className="font-mono text-xs">SharedPreferences</code> and local application-private SQLite/Room databases.
+        <div className={subtextClasses}>
+          <p className="mb-3">
+            Authentication is optional. For users who choose to create an account or synchronize their data, the app uses:
           </p>
-          <div className={`p-4 rounded-2xl border ${cardClasses} space-y-2`}>
-            <h3 className={`font-bold text-xs ${headingClasses}`}>Locally Stored Data Elements:</h3>
-            <ul className="list-disc list-inside text-xs space-y-1 pl-2 text-slate-400">
-              <li>Daily reel counts and historical daily totals</li>
-              <li>Platform-specific breakdown statistics (Instagram, YouTube, Facebook)</li>
-              <li>Active daily target limits and streak calculations</li>
-              <li>App configuration preferences (such as Dark/Light theme selection)</li>
+          <ul className="list-disc list-inside space-y-1.5 pl-2 text-xs text-slate-300 mb-4">
+            <li><strong>Firebase Authentication</strong> (managed by Google LLC).</li>
+            <li><strong>Firebase Cloud Firestore</strong> (managed by Google LLC).</li>
+            <li><strong>Google Play Services Authentication</strong> (Android framework).</li>
+          </ul>
+
+          <div className="p-5 rounded-2xl border border-[#3B3456] bg-[#262238] space-y-3 mb-4">
+            <h3 className={`font-bold text-xs uppercase tracking-wider ${headingClasses}`}>
+              Data Processed When Users Sign In:
+            </h3>
+            <ul className="grid sm:grid-cols-2 gap-2 text-xs text-slate-300 pl-2">
+              <li className="flex items-start gap-2">
+                <span className="text-[#7C3AED]">•</span> Firebase User ID (UID).
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#7C3AED]">•</span> Email address.
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#7C3AED]">•</span> Display name.
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#7C3AED]">•</span> Avatar / profile information.
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#7C3AED]">•</span> Aggregate daily reel counts.
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#7C3AED]">•</span> Historical daily totals.
+              </li>
             </ul>
           </div>
-          <p>
-            <strong>Security &amp; Sandboxing:</strong> Local data is shielded by the standard Android application sandbox, which prevents other third-party applications installed on your phone from reading Reel Counter's private directory. We accurately note that data in local storage is protected by operating-system sandboxing; we do not make unsupported claims that every local value is independently encrypted.
-          </p>
-          <p>
-            <strong>Retention &amp; Removal:</strong> Local data persists on your device until you choose to reset your statistics inside the app, clear application data via <code className="font-mono text-xs">Android Settings &gt; Apps &gt; Reel Counter &gt; Storage &gt; Clear Data</code>, or uninstall the application.
+
+          <p className="text-xs text-slate-300">
+            <strong>Purpose:</strong> These details are used for authentication, account management, cloud synchronization, and implemented social features (such as multiplayer Battle Mode and community leaderboards). Firebase infrastructure receives relevant data when these features are used.
           </p>
         </div>
       </section>
 
-      {/* SECTION 8: GOOGLE SIGN-IN AND ACCOUNT INFORMATION */}
-      <section id="section-8" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
+      {/* SECTION 8: HOW WE USE INFORMATION */}
+      <section id="section-8" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
         <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
             8
           </span>
           <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
-            Google Sign-In and Account Information
+            How We Use Information
           </h2>
         </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            Creating an account or signing in is entirely optional. Users who choose to authenticate may do so via Google Sign-In, integrated through Google Play Services and Firebase Authentication.
+        <div className={subtextClasses}>
+          <p className="mb-3">
+            Reel Counter uses the information described above strictly for the following operational purposes:
           </p>
-          <p>
-            When you sign in with your Google account, the app receives standard identity tokens provided by Google's OAuth protocol:
-          </p>
-          <ul className="list-disc list-inside space-y-1.5 pl-2 text-xs">
-            <li><strong>Firebase User ID (UID):</strong> A unique, pseudonymous identifier assigned to your account.</li>
-            <li><strong>Email Address:</strong> Used for account identity verification and communication if needed.</li>
-            <li><strong>Display Name:</strong> Shown on your profile, in 1v1 Battle Mode, and on community leaderboards.</li>
-            <li><strong>Profile Avatar URL:</strong> Used to display your Google profile avatar image within the application interface.</li>
+          <ul className="list-disc list-inside space-y-2 pl-2 text-xs text-slate-300 mb-4">
+            <li><strong>Reel Counting & Tracking:</strong> Monitoring scroll events in supported apps (Instagram, YouTube Shorts, Facebook Reels, Snapchat Spotlight) to calculate your reel count.</li>
+            <li><strong>Wellbeing Metrics & Limits:</strong> Displaying daily tallies, comparing counts against daily goals, and showing the floating overlay counter.</li>
+            <li><strong>Cloud Synchronization:</strong> Associating aggregate counts with your Firebase UID so your statistics persist across device switches (for signed-in users).</li>
+            <li><strong>Social & Competitive Features:</strong> Enabling Battle Mode matchups and displaying public gamer tags and scores on leaderboards (for signed-in users).</li>
+            <li><strong>Preferences:</strong> Remembering your floating overlay position and visual display preferences.</li>
           </ul>
-          <p>
-            We do not receive or store your Google account password. Google handles the authentication flow securely on its own systems.
-          </p>
-        </div>
-      </section>
 
-      {/* SECTION 9: FIREBASE AUTHENTICATION AND FIRESTORE */}
-      <section id="section-9" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
-        <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
-            9
-          </span>
-          <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
-            Firebase Authentication and Firestore
-          </h2>
-        </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            For users who enable cloud synchronization, backend cloud infrastructure is provided by <strong>Google Firebase</strong> (a cloud service platform provided by Google LLC):
-          </p>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className={`p-4 rounded-2xl border ${cardClasses} space-y-2`}>
-              <div className="font-bold text-xs text-purple-400">Firebase Authentication</div>
-              <p className="text-xs leading-relaxed text-slate-400">
-                Verifies user identity, issues secure authentication tokens, and maintains login sessions across application restarts.
-              </p>
-            </div>
-
-            <div className={`p-4 rounded-2xl border ${cardClasses} space-y-2`}>
-              <div className="font-bold text-xs text-purple-400">Firebase Cloud Firestore</div>
-              <p className="text-xs leading-relaxed text-slate-400">
-                A secure NoSQL cloud database used to store user profiles, aggregate daily counts, total historical counts, active Battle Mode states, and community leaderboard standings.
-              </p>
-            </div>
-          </div>
-          <p>
-            All network communication between Reel Counter and Firebase services is encrypted in transit using industry-standard <strong>Transport Layer Security (TLS/HTTPS)</strong>. Google/Firebase infrastructure processes relevant information in accordance with Google's robust cloud security and the <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" className="text-purple-400 hover:underline inline-flex items-center gap-1">Google Privacy Policy <ExternalLink className="w-3 h-3" /></a>.
-          </p>
-        </div>
-      </section>
-
-      {/* SECTION 10: HOW INFORMATION IS USED */}
-      <section id="section-10" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
-        <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
-            10
-          </span>
-          <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
-            How Information Is Used
-          </h2>
-        </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            Information processed by Reel Counter is used solely to provide and improve your digital wellbeing experience. Specifically, we use information for:
-          </p>
-          <ul className="list-disc list-inside space-y-2 pl-2 text-xs">
-            <li><strong>Core Counting &amp; Analytics:</strong> Calculating daily reel counts, tracking weekly averages, and rendering wellbeing progress charts.</li>
-            <li><strong>Limit Enforcement &amp; Alerts:</strong> Evaluating active consumption against your configured daily target and displaying in-app warnings or system notifications when limits are reached.</li>
-            <li><strong>Multi-Device Synchronization:</strong> Linking your aggregate statistics to your Firebase UID so your progress is preserved if you change phones (signed-in users only).</li>
-            <li><strong>Social Battle Mode &amp; Leaderboards:</strong> Allowing authenticated players to challenge friends, compare scroll totals, and display rank in regional or global leaderboards.</li>
-            <li><strong>Interface Persistence:</strong> Remembering your theme mode (dark or light) and display preferences.</li>
-            <li><strong>App Integrity:</strong> Ensuring legitimate functionality and diagnosing critical app errors.</li>
-          </ul>
-          <div className={`p-4 rounded-2xl border ${calloutSuccessClasses} flex items-center gap-3`}>
-            <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-400" />
-            <span className="text-xs font-semibold">
-              We do <strong>not</strong> sell, rent, monetize, or broker personal data. We do not use your information for targeted advertising or commercial profiling.
+          <div className="p-4 rounded-2xl bg-[#1E1B2E] border border-[#3B3456] flex items-center gap-3">
+            <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+            <span className="text-xs font-semibold text-slate-200">
+              We do not sell or rent users' personal information. We do not use your information for advertising profiling or commercial data resale.
             </span>
           </div>
         </div>
       </section>
 
-      {/* SECTION 11: DATA SHARING AND THIRD-PARTY SERVICES */}
-      <section id="section-11" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
+      {/* SECTION 9: THIRD-PARTY SERVICES AND DATA SHARING */}
+      <section id="section-9" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
         <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
-            11
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
+            9
           </span>
           <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
-            Data Sharing and Third-Party Services
+            Third-Party Services and Data Sharing
           </h2>
         </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            Reel Counter limits third-party integrations to essential platform and infrastructure providers:
+        <div className={subtextClasses}>
+          <p className="mb-3">
+            Reel Counter integrates with specific third-party infrastructure providers to support authentication and cloud storage:
           </p>
+          <ul className="list-disc list-inside space-y-1.5 pl-2 text-xs text-slate-300 mb-4">
+            <li>
+              <strong>Google Play Services:</strong> Used on Android for Google Sign-In authentication.
+            </li>
+            <li>
+              <strong>Firebase Authentication & Cloud Firestore (Google LLC):</strong> Cloud infrastructure used to authenticate users and store synchronized statistics.
+            </li>
+          </ul>
 
-          <div className={`p-4 rounded-2xl border ${cardClasses} space-y-3`}>
-            <h3 className={`font-bold text-xs ${headingClasses}`}>Identified Third-Party Infrastructure:</h3>
-            <ul className="list-disc list-inside text-xs space-y-1.5 pl-2 text-slate-400">
-              <li>
-                <strong>Google Play Services:</strong> Powers core Android framework interactions and Google Sign-In authentication.
-              </li>
-              <li>
-                <strong>Firebase Authentication (Google LLC):</strong> Facilitates secure user account verification.
-              </li>
-              <li>
-                <strong>Firebase Cloud Firestore (Google LLC):</strong> Cloud storage provider for user profiles and synchronized game statistics.
-              </li>
-            </ul>
-          </div>
-
-          <div className={`p-4 rounded-2xl border ${calloutInfoClasses} space-y-2`}>
-            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wide">
-              <Info className="w-4 h-4" />
-              <span>Static Codebase Audit Verification</span>
-            </div>
-            <p className="text-xs leading-relaxed">
-              The static codebase audit verified that Reel Counter does <strong>not</strong> include:
+          <div className="p-5 rounded-2xl border border-[#3B3456] bg-[#262238] space-y-3 mb-4">
+            <h3 className={`font-bold text-xs uppercase tracking-wider ${headingClasses}`}>
+              Data Sharing Disclosures
+            </h3>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Google/Firebase services process information required for authentication and cloud synchronization in accordance with the <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" className="text-purple-300 hover:underline inline-flex items-center gap-1">Google Privacy Policy <ExternalLink className="w-3 h-3" /></a>.
             </p>
-            <ul className="list-disc list-inside text-xs space-y-1 pl-2">
-              <li>Google AdMob, Unity Ads, AppLovin, or any advertising SDKs</li>
-              <li>Firebase Analytics, Google Analytics, or third-party usage telemetries</li>
-              <li>Firebase Crashlytics or third-party automated crash reporters</li>
-              <li>Social media trackers, marketing pixels, or attribution SDKs</li>
-            </ul>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              We do not sell or rent personal information. While we do not share data with commercial advertisers, we do not make an absolute claim that information is never shared with third parties: data is processed by Google/Firebase infrastructure as necessary to operate account features, and information may be disclosed if strictly required to comply with applicable laws, court orders, or enforceable governmental requests.
+            </p>
           </div>
 
-          <p>
-            We do not share your information with any other third parties, except in narrow circumstances where required to comply with applicable laws, judicial proceedings, or enforceable governmental requests.
-          </p>
-        </div>
-      </section>
-
-      {/* SECTION 12: DATA RETENTION */}
-      <section id="section-12" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
-        <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
-            12
-          </span>
-          <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
-            Data Retention
-          </h2>
-        </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            We adhere to data minimization principles and distinguish between locally stored data and cloud-synchronized data:
-          </p>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className={`p-4 rounded-2xl border ${cardClasses} space-y-2`}>
-              <h3 className={`font-bold text-xs ${headingClasses}`}>Local Data (Guest Mode)</h3>
-              <p className="text-xs leading-relaxed text-slate-400">
-                Metrics and settings stored locally on your device persist until you clear application storage, reset data via in-app settings, or uninstall Reel Counter. We do not enforce automatic expiration of your local historical metrics.
-              </p>
-            </div>
-
-            <div className={`p-4 rounded-2xl border ${cardClasses} space-y-2`}>
-              <h3 className={`font-bold text-xs ${headingClasses}`}>Cloud Data (Signed-In Accounts)</h3>
-              <p className="text-xs leading-relaxed text-slate-400">
-                Synchronized profile information and aggregate counts stored in Firebase Firestore are maintained for the active lifecycle of your account to ensure continuity of your battle stats and rankings. Cloud data remains until an account deletion is requested.
-              </p>
-            </div>
-          </div>
           <p className="text-xs text-slate-400">
-            We do not fabricate arbitrary retention windows. If your account remains inactive for extended periods, cloud records may be subject to periodic maintenance or cleanup in accordance with applicable service terms.
+            <strong>Absence of Third-Party Ad Networks:</strong> The static codebase audit did not identify AdMob, advertising SDKs, Firebase Analytics, or Crashlytics in the inspected project.
           </p>
         </div>
       </section>
 
-      {/* SECTION 13: DATA DELETION AND USER CHOICES */}
-      <section id="section-13" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
+      {/* SECTION 10: DATA SECURITY */}
+      <section id="section-10" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
         <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
-            13
-          </span>
-          <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
-            Data Deletion and User Choices
-          </h2>
-        </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            You have full control over the information you share and store with Reel Counter:
-          </p>
-          <div className="space-y-3">
-            <div className={`p-4 rounded-2xl border ${cardClasses} space-y-1.5`}>
-              <div className="font-bold text-xs text-purple-400">1. Disabling the Accessibility Service</div>
-              <p className="text-xs leading-relaxed text-slate-400">
-                You can immediately halt reel detection at any time by toggling off Reel Counter in <code className="font-mono text-xs">Android Settings &gt; Accessibility</code>. Revoking accessibility permissions does not erase your historical counts.
-              </p>
-            </div>
-
-            <div className={`p-4 rounded-2xl border ${cardClasses} space-y-1.5`}>
-              <div className="font-bold text-xs text-purple-400">2. Deleting Local Device Data</div>
-              <p className="text-xs leading-relaxed text-slate-400">
-                To wipe all local counts, preferences, and cached statistics, open <code className="font-mono text-xs">Android Settings &gt; Apps &gt; Reel Counter &gt; Storage &gt; Clear Data</code> or uninstall the app.
-              </p>
-            </div>
-
-            <div className={`p-4 rounded-2xl border ${cardClasses} space-y-1.5`}>
-              <div className="font-bold text-xs text-purple-400">3. Signing Out of Your Account</div>
-              <p className="text-xs leading-relaxed text-slate-400">
-                Signed-in users can disconnect their Google account at any time via the in-app profile menu. Signing out stops cloud synchronization on that device.
-              </p>
-            </div>
-          </div>
-
-          {/* DEVELOPER VERIFICATION CALLOUT FOR ACCOUNT DELETION */}
-          <div className={`p-5 rounded-2xl border ${calloutWarningClasses} space-y-3`}>
-            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wide">
-              <AlertTriangle className="w-4 h-4 text-amber-400" />
-              <span>Account &amp; Cloud Data Deletion Notice</span>
-            </div>
-            <p className="text-xs leading-relaxed">
-              The Android app audit identified a dedicated in-app <strong>Delete Account flow</strong> as a required implementation or verification item under Google Play's Data Safety and Account Deletion policy.
-            </p>
-            <div className="text-xs leading-relaxed space-y-2">
-              <p>
-                <strong>How to Request Deletion:</strong> If you have created a cloud account and wish to permanently delete your account, authentication record, synchronized counts, and battle history from Firebase, please email developer Ujjaval Saini at <code className="font-mono bg-purple-500/20 px-1.5 py-0.5 rounded text-purple-300">[CONTACT_EMAIL_PLACEHOLDER]</code> with the subject line <em>"Account Deletion Request - Reel Counter"</em> from your registered Google email address.
-              </p>
-              <p>
-                Verified deletion requests are permanently purged from Firebase Authentication and Cloud Firestore within 30 days. An automated in-app deletion button will also be made available directly within application settings upon final verification of the in-app deletion flow.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 14: DATA SECURITY */}
-      <section id="section-14" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
-        <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
-            14
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
+            10
           </span>
           <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
             Data Security
           </h2>
         </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            We implement reasonable technical and organizational measures to safeguard user data:
+        <div className={subtextClasses}>
+          <p className="mb-3">
+            Reel Counter applies standard technical safeguards appropriate to its functionality:
           </p>
-          <ul className="list-disc list-inside space-y-1.5 pl-2 text-xs">
-            <li><strong>Encrypted Communications:</strong> All network requests to Firebase servers are transmitted using modern Transport Layer Security (TLS 1.2 and TLS 1.3/HTTPS).</li>
-            <li><strong>Database Security Rules:</strong> Cloud Firestore security rules ensure that authenticated users can only write to their own account documents.</li>
-            <li><strong>Operating System Isolation:</strong> Local application files are isolated inside Android's protected application sandbox.</li>
-            <li><strong>No Credential Storage:</strong> We never handle or store passwords for your Google account or monitored social media platforms.</li>
+          <ul className="list-disc list-inside space-y-1.5 pl-2 text-xs text-slate-300 mb-4">
+            <li><strong>Encrypted Transmission:</strong> Communications between Reel Counter and Firebase services use HTTPS / TLS encryption in transit.</li>
+            <li><strong>Operating System Sandboxing:</strong> Local metrics are stored within Android's application-private storage, isolated from unauthorized access by other apps on your device.</li>
           </ul>
+
+          <div className="p-4 rounded-2xl border border-[#3B3456] bg-[#262238] text-xs text-slate-300 space-y-2">
+            <strong className="text-white block">Accurate Security Limitations:</strong>
+            <p>
+              We provide no unsupported guarantees regarding Firestore Security Rules or encryption at rest. While standard security measures are utilized, no method of transmission over the internet or method of electronic storage is 100% secure. Absolute security cannot be guaranteed.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 11: DATA RETENTION */}
+      <section id="section-11" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
+        <div className="flex items-center gap-3">
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
+            11
+          </span>
+          <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
+            Data Retention
+          </h2>
+        </div>
+        <div className={subtextClasses}>
+          <p className="mb-3">
+            Data retention is divided into local storage and cloud synchronization:
+          </p>
+          <div className="grid sm:grid-cols-2 gap-4 mb-4">
+            <div className="p-4 rounded-2xl border border-[#3B3456] bg-[#262238] space-y-2">
+              <h3 className={`font-bold text-xs uppercase tracking-wider ${headingClasses}`}>Local Data (Guest Mode)</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Retained on your device until you reset data in the app, clear application storage in Android system settings, or uninstall the application.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl border border-[#3B3456] bg-[#262238] space-y-2">
+              <h3 className={`font-bold text-xs uppercase tracking-wider ${headingClasses}`}>Cloud Data (Signed-In Accounts)</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Account information and aggregate counts are retained in Firebase infrastructure while the account remains active to provide ongoing cloud synchronization and leaderboard functionality.
+              </p>
+            </div>
+          </div>
           <p className="text-xs text-slate-400">
-            <strong>Realistic Disclaimer:</strong> While we employ industry-standard security safeguards, no method of electronic storage or transmission over the internet is completely impenetrable. Consequently, we cannot guarantee absolute or infallible security against all potential threats.
+            We do not claim arbitrary retention periods beyond what is supported by the actual service configuration.
           </p>
         </div>
       </section>
 
-      {/* SECTION 15: CHILDREN'S PRIVACY */}
-      <section id="section-15" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
+      {/* SECTION 12: DATA DELETION AND USER CHOICES */}
+      <section id="section-12" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
         <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
-            15
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
+            12
+          </span>
+          <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
+            Data Deletion and User Choices
+          </h2>
+        </div>
+        <div className={subtextClasses}>
+          <p className="mb-3">
+            Users possess the following direct controls over their data and permissions:
+          </p>
+          <ul className="list-disc list-inside space-y-1.5 pl-2 text-xs text-slate-300 mb-5">
+            <li><strong>Revoke Accessibility Service:</strong> Disable the service at any time in <code className="font-mono text-xs text-purple-300">Android Settings &gt; Accessibility &gt; Reel Counter</code>.</li>
+            <li><strong>Revoke Overlay Permission:</strong> Turn off "Display over other apps" at any time in Android settings.</li>
+            <li><strong>Clear Local Data:</strong> Clear all local counts and preferences via <code className="font-mono text-xs text-purple-300">Android Settings &gt; Apps &gt; Reel Counter &gt; Storage &gt; Clear Data</code> or by uninstalling the application.</li>
+            <li><strong>Sign Out:</strong> Signed-in users can disconnect their Google account in the app settings to stop further cloud synchronization on that device.</li>
+          </ul>
+
+          {/* QUALIFIED ACCOUNT DELETION NOTICE FLAGGING IMPLEMENTATION */}
+          <div className="p-5 rounded-2xl border border-amber-600/40 bg-amber-950/20 space-y-3">
+            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wide text-amber-300">
+              <AlertTriangle className="w-4 h-4 text-amber-400" />
+              <span>Account Deletion Implementation Notice</span>
+            </div>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              The existing static audit identified a dedicated in-app account deletion feature as requiring implementation or verification.
+            </p>
+            <div className="text-xs text-slate-300 space-y-1.5 border-t border-amber-800/30 pt-2">
+              <p>
+                • <strong>Current Status:</strong> We do not claim that an automated in-app account deletion workflow is currently available in the application.
+              </p>
+              <p>
+                • <strong>Developer Verification Item:</strong> A dedicated account deletion flow is flagged as requiring developer implementation and verification to satisfy Google Play Data Safety requirements.
+              </p>
+              <p>
+                • <strong>Inquiries:</strong> If you have questions regarding account data removal, please contact the developer at <code className="font-mono text-purple-300">sainiujvl@gmail.com</code> once an official privacy contact channel is confirmed.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 13: CHILDREN'S PRIVACY */}
+      <section id="section-13" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
+        <div className="flex items-center gap-3">
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
+            13
           </span>
           <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
             Children's Privacy
           </h2>
         </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            Reel Counter is designed as a digital wellbeing tool for a general audience. The application does not intentionally market to, solicit information from, or knowingly collect personal information from children.
+        <div className={subtextClasses}>
+          <p className="mb-3">
+            Reel Counter is designed as a digital wellbeing tool. We do not invent an age restriction or make claims regarding COPPA compliance.
           </p>
-          
-          {/* DEVELOPER VERIFICATION ITEM */}
-          <div className={`p-4 rounded-2xl border ${calloutWarningClasses} space-y-2`}>
-            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wide">
-              <AlertTriangle className="w-4 h-4 text-amber-400" />
-              <span>Developer Verification Item: Target Audience Declaration</span>
+
+          <div className="p-5 rounded-2xl border border-[#3B3456] bg-[#262238] space-y-3 mb-4">
+            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wide text-purple-300">
+              <Info className="w-4 h-4 text-[#7C3AED]" />
+              <span>Target Audience Notice</span>
             </div>
-            <p className="text-xs leading-relaxed">
-              In accordance with Google Play's Families Policy, the developer must verify and declare the target age group in Google Play Console (e.g., 13+, 16+, or 18+). The app does not knowingly collect personal data from children under 13 (or the minimum legal age in your jurisdiction).
+            <p className="text-xs text-slate-300 leading-relaxed">
+              The intended audience and applicable age requirements are marked for developer confirmation in the Google Play Console (such as 13+, 16+, or general audience).
+            </p>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              The application does not intentionally collect personal information from individuals below the applicable minimum legal age in their jurisdiction. If a parent or guardian becomes aware that personal details have been submitted without consent, they should contact the developer at <code className="font-mono text-purple-300">sainiujvl@gmail.com</code> so that appropriate verification and data removal steps can be evaluated.
             </p>
           </div>
-
-          <p>
-            If a parent or legal guardian discovers that their child has registered an account or provided personal details without parental consent, please contact developer Ujjaval Saini at <code className="font-mono bg-purple-500/20 px-1.5 py-0.5 rounded text-purple-300">[CONTACT_EMAIL_PLACEHOLDER]</code>. We will verify and permanently delete the corresponding account records promptly.
-          </p>
         </div>
       </section>
 
-      {/* SECTION 16: INTERNATIONAL DATA PROCESSING */}
-      <section id="section-16" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
+      {/* SECTION 14: INTERNATIONAL DATA PROCESSING */}
+      <section id="section-14" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
         <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
-            16
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
+            14
           </span>
           <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
             International Data Processing
           </h2>
         </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            Reel Counter's optional cloud features operate on Google Cloud and Firebase infrastructure. Google maintains data centers distributed globally, predominantly in the United States and other regions.
+        <div className={subtextClasses}>
+          <p className="mb-3">
+            If you use optional Google Sign-In and cloud synchronization, your account data is processed on Google Firebase infrastructure.
           </p>
-          <p>
-            If you access Reel Counter from outside the United States (for example, from the European Economic Area, the United Kingdom, Canada, or India), your synchronized account data may be transferred to and processed in jurisdictions whose data protection laws may differ from those in your country. Google relies on standard contractual clauses (SCCs) and robust organizational measures for international data transfers.
+          <p className="text-xs text-slate-300 leading-relaxed">
+            Google operates data centers and servers globally, including within the United States. If you access cloud features from outside the United States, your synchronized account data may be transferred to and processed in jurisdictions where data protection standards may differ from those in your country.
           </p>
         </div>
       </section>
 
-      {/* SECTION 17: CHANGES TO THIS POLICY */}
-      <section id="section-17" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
+      {/* SECTION 15: CHANGES TO THIS POLICY */}
+      <section id="section-15" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
         <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
-            17
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
+            15
           </span>
           <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
             Changes to This Policy
           </h2>
         </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            We may revise this Privacy Policy periodically to reflect app updates, new feature releases, changes in legal obligations, or improvements to our infrastructure.
+        <div className={subtextClasses}>
+          <p className="mb-3">
+            We may update this Privacy Policy from time to time to reflect modifications in application functionality, technical architecture, or legal requirements.
           </p>
-          <p>
-            When changes are posted:
-          </p>
-          <ul className="list-disc list-inside space-y-1.5 pl-2 text-xs">
-            <li>The updated version will be published at <a href="https://reelcounter.vercel.app/privacy-policy" className="text-purple-400 hover:underline">https://reelcounter.vercel.app/privacy-policy</a>.</li>
-            <li>The <strong>"Effective Date / Last Updated"</strong> date at the top of the policy will be updated.</li>
-            <li>For material modifications that alter data handling practices, we will provide noticeable in-app notice where feasible.</li>
+          <ul className="list-disc list-inside space-y-1.5 pl-2 text-xs text-slate-300 mb-3">
+            <li>Any updated version will be published at <a href="https://reelcounter.vercel.app/privacy-policy" className="text-purple-300 hover:underline">https://reelcounter.vercel.app/privacy-policy</a>.</li>
+            <li>The "Last Updated" date at the top of this document will reflect the date of the most recent revision.</li>
           </ul>
-          <p>
-            Your continued use of Reel Counter following the posting of an updated policy signifies your acknowledgment and acceptance of the revised terms.
+          <p className="text-xs text-slate-400">
+            Users are encouraged to review this policy periodically. Continued use of the application following the posting of an updated policy represents acknowledgment of those changes.
           </p>
         </div>
       </section>
 
-      {/* SECTION 18: CONTACT INFORMATION */}
-      <section id="section-18" className={`pt-8 border-t ${dividerClasses} scroll-mt-28 space-y-4`}>
+      {/* SECTION 16: CONTACT US */}
+      <section id="section-16" className={`${dividerClasses} scroll-mt-28 space-y-4`}>
         <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-mono text-sm font-bold">
-            18
+          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] font-mono text-sm font-bold">
+            16
           </span>
           <h2 className={`text-2xl font-bold tracking-tight ${headingClasses}`}>
-            Contact Information
+            Contact Us
           </h2>
         </div>
-        <div className={`space-y-4 text-sm leading-relaxed ${subtextClasses}`}>
-          <p>
-            If you have questions, feedback, or requests regarding this Privacy Policy or your data, please contact the developer:
+        <div className={subtextClasses}>
+          <p className="mb-4">
+            For inquiries, technical questions, or privacy-related concerns regarding Reel Counter, please contact the developer:
           </p>
 
-          <div className={`p-6 rounded-3xl border ${cardClasses} space-y-3`}>
+          <div className="p-6 rounded-3xl border border-[#3B3456] bg-[#262238] space-y-4 mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold">
+              <div className="w-10 h-10 rounded-xl bg-[#7C3AED]/15 text-[#7C3AED] flex items-center justify-center font-bold">
                 <Mail className="w-5 h-5" />
               </div>
               <div>
@@ -814,24 +785,26 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            <div className="pt-2 border-t border-slate-800/60 grid sm:grid-cols-2 gap-3 text-xs">
+            <div className="pt-3 border-t border-[#3B3456] grid sm:grid-cols-2 gap-3 text-xs">
               <div>
-                <span className="text-slate-400 block">Privacy &amp; Data Contact:</span>
-                <code className="text-purple-400 font-mono font-bold">[CONTACT_EMAIL_PLACEHOLDER]</code>
+                <span className="text-slate-400 block mb-0.5">Privacy Contact Email:</span>
+                <code className="text-purple-300 font-mono font-bold bg-[#1E1B2E] px-2 py-0.5 rounded border border-[#3B3456]">
+                  sainiujvl@gmail.com
+                </code>
               </div>
               <div>
-                <span className="text-slate-400 block">Application Package:</span>
-                <code className="text-purple-400 font-mono">com.uv.reelcounter</code>
+                <span className="text-slate-400 block mb-0.5">Application Package:</span>
+                <code className="text-purple-300 font-mono">com.uv.reelcounter</code>
               </div>
               <div>
-                <span className="text-slate-400 block">Official Website:</span>
-                <a href="https://reelcounter.vercel.app/" className="text-purple-400 hover:underline">
+                <span className="text-slate-400 block mb-0.5">Official Website:</span>
+                <a href="https://reelcounter.vercel.app/" className="text-purple-300 hover:underline">
                   https://reelcounter.vercel.app/
                 </a>
               </div>
               <div>
-                <span className="text-slate-400 block">Policy Permanent URL:</span>
-                <a href="https://reelcounter.vercel.app/privacy-policy" className="text-purple-400 hover:underline">
+                <span className="text-slate-400 block mb-0.5">Permanent Policy URL:</span>
+                <a href="https://reelcounter.vercel.app/privacy-policy" className="text-purple-300 hover:underline">
                   https://reelcounter.vercel.app/privacy-policy
                 </a>
               </div>
@@ -839,38 +812,38 @@ export default function PrivacyPolicy() {
           </div>
 
           {/* DEVELOPER VERIFICATION SUMMARY TABLE */}
-          <div className={`p-5 rounded-3xl border ${calloutWarningClasses} space-y-3 mt-6`}>
-            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wide">
+          <div className="p-5 rounded-2xl border border-amber-600/40 bg-amber-950/20 space-y-3">
+            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wide text-amber-300">
               <AlertTriangle className="w-4 h-4 text-amber-400" />
-              <span>Developer Pre-Publication Action Items</span>
+              <span>Developer Pre-Publication Verification Checklist</span>
             </div>
-            <p className="text-xs leading-relaxed">
-              Before submitting Reel Counter to the Google Play Store or publishing this policy in production, the developer must resolve the following verified checklist items:
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Before submitting Reel Counter to the Google Play Store or publishing this policy in production, the developer must resolve and verify the following items:
             </p>
             <div className="overflow-x-auto">
               <table className="w-full text-xs text-left">
                 <thead>
-                  <tr className="border-b border-amber-800/40 font-bold">
-                    <th className="py-2 pr-3">Item</th>
-                    <th className="py-2 pr-3">Description</th>
-                    <th className="py-2">Required Action</th>
+                  <tr className="border-b border-amber-800/40 font-bold text-amber-200">
+                    <th className="py-2 pr-3">Verification Item</th>
+                    <th className="py-2 pr-3">Current Policy Status</th>
+                    <th className="py-2">Required Developer Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-amber-800/20">
+                <tbody className="divide-y divide-amber-800/20 text-slate-300">
                   <tr>
-                    <td className="py-2 pr-3 font-semibold">1. Contact Email</td>
-                    <td className="py-2 pr-3">Currently using placeholder <code className="font-mono">[CONTACT_EMAIL_PLACEHOLDER]</code></td>
-                    <td className="py-2 font-medium">Replace with official contact email (e.g. <code className="font-mono">sainiujvl@gmail.com</code>)</td>
+                    <td className="py-2.5 pr-3 font-semibold text-white">1. Contact Email</td>
+                    <td className="py-2.5 pr-3"><code className="font-mono text-purple-300">sainiujvl@gmail.com</code></td>
+                    <td className="py-2.5 text-slate-300">Replace placeholder with an active, monitored privacy contact address.</td>
                   </tr>
                   <tr>
-                    <td className="py-2 pr-3 font-semibold">2. Account Deletion</td>
-                    <td className="py-2 pr-3">In-app Delete Account flow flagged by static audit</td>
-                    <td className="py-2 font-medium">Verify or implement the in-app deletion button in Android app settings before Play submission</td>
+                    <td className="py-2.5 pr-3 font-semibold text-white">2. Account Deletion</td>
+                    <td className="py-2.5 pr-3 text-amber-300">Flagged as requiring implementation</td>
+                    <td className="py-2.5 text-slate-300">Implement and verify in-app account deletion before Google Play submission.</td>
                   </tr>
                   <tr>
-                    <td className="py-2 pr-3 font-semibold">3. Children's Age Policy</td>
-                    <td className="py-2 pr-3">Target audience declaration in Google Play Console</td>
-                    <td className="py-2 font-medium">Confirm target age group (e.g. 13+) in Play Console Families Policy declaration</td>
+                    <td className="py-2.5 pr-3 font-semibold text-white">3. Children's Audience</td>
+                    <td className="py-2.5 pr-3 text-amber-300">Marked for developer confirmation</td>
+                    <td className="py-2.5 text-slate-300">Confirm target age group declaration (e.g. 13+) in Google Play Console.</td>
                   </tr>
                 </tbody>
               </table>
@@ -883,7 +856,7 @@ export default function PrivacyPolicy() {
       <div className="pt-8 text-center">
         <a
           href="#toc-heading"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-purple-400 border border-purple-500/30 hover:bg-purple-500/10 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold text-purple-300 border border-[#3B3456] bg-[#262238] hover:bg-[#312B4A] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
         >
           <span>↑ Back to Table of Contents</span>
         </a>
@@ -891,4 +864,3 @@ export default function PrivacyPolicy() {
     </LegalLayout>
   );
 }
-
