@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { 
   Sun, Moon, Menu, X, ArrowRight, ShieldCheck, Flame, Trophy, 
   Swords, BellRing, Sparkles, ChevronDown, Check, Smartphone, 
-  Share2, Compass, BarChart3, Users, Clock, AlertTriangle, Layers,
-  Instagram, Youtube
+  Compass, BarChart3, AlertTriangle
 } from 'lucide-react';
 import { useTheme } from './ThemeContext';
 import { useCurrentPath } from './router';
 import PrivacyPolicy from './pages/PrivacyPolicy';
-import Link from './components/Link';
+import DeleteAccount from './pages/DeleteAccount';
 import Footer from './components/Footer';
 
 export default function App() {
@@ -28,10 +27,13 @@ export default function App() {
 
   const isDark = theme === 'dark';
 
-  // Check if current route is the dedicated Privacy Policy page
-  const isPrivacyPolicy = currentPath.replace(/\/+$/, '') === '/privacy-policy';
-  if (isPrivacyPolicy) {
+  // Check routes
+  const normalizedPath = currentPath.replace(/\/+$/, '');
+  if (normalizedPath === '/privacy-policy') {
     return <PrivacyPolicy />;
+  }
+  if (normalizedPath === '/delete-account') {
+    return <DeleteAccount />;
   }
 
   return (

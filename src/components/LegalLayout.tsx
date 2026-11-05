@@ -6,20 +6,30 @@ import { ChevronRight, ArrowUp, Menu, X, ArrowRight, Shield } from 'lucide-react
 interface LegalLayoutProps {
   title: string;
   description: string;
-  effectiveDate: string;
-  lastUpdated: string;
+  breadcrumb?: string;
+  badgeText?: string;
+  badgeIcon?: React.ReactNode;
+  navExtraLink?: { label: string; href: string };
+  effectiveDate?: string;
+  lastUpdated?: string;
   children: React.ReactNode;
 }
 
 export default function LegalLayout({
   title,
   description,
+  breadcrumb,
+  badgeText = 'Reel Counter Compliance & Privacy',
+  badgeIcon,
+  navExtraLink,
   effectiveDate,
   lastUpdated,
   children,
 }: LegalLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+
+  const displayBreadcrumb = breadcrumb || title;
 
   // Set the document title and meta description for SEO
   useEffect(() => {
@@ -72,13 +82,18 @@ export default function LegalLayout({
             </div>
           </Link>
 
-          <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+          <div className="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-300">
             <Link to="/#features" className="hover:text-purple-400 transition-colors focus:outline-none focus:text-purple-400">Features</Link>
             <Link to="/#preview" className="hover:text-purple-400 transition-colors focus:outline-none focus:text-purple-400">Demo</Link>
             <Link to="/#battle" className="hover:text-purple-400 transition-colors focus:outline-none focus:text-purple-400">Battle Mode</Link>
             <Link to="/#leaderboard" className="hover:text-purple-400 transition-colors focus:outline-none focus:text-purple-400">Leaderboard</Link>
             <Link to="/#faq" className="hover:text-purple-400 transition-colors focus:outline-none focus:text-purple-400">FAQ</Link>
-            <a href="#toc-heading" className="text-[#7C3AED] hover:underline font-bold">Table of Contents</a>
+            <Link to="/privacy-policy" className="hover:text-purple-400 transition-colors focus:outline-none focus:text-purple-400">Privacy Policy</Link>
+            {navExtraLink && (
+              <a href={navExtraLink.href} className="text-[#7C3AED] hover:underline font-bold">
+                {navExtraLink.label}
+              </a>
+            )}
           </div>
 
           <div className="flex items-center gap-4">
@@ -107,7 +122,12 @@ export default function LegalLayout({
             <Link to="/#battle" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base font-semibold text-slate-200">Battle Mode</Link>
             <Link to="/#leaderboard" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base font-semibold text-slate-200">Leaderboard</Link>
             <Link to="/#faq" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base font-semibold text-slate-200">FAQ</Link>
-            <a href="#toc-heading" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base font-semibold text-purple-400">Table of Contents</a>
+            <Link to="/privacy-policy" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base font-semibold text-slate-200">Privacy Policy</Link>
+            {navExtraLink && (
+              <a href={navExtraLink.href} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-base font-semibold text-purple-400">
+                {navExtraLink.label}
+              </a>
+            )}
             <Link to="/#download" onClick={() => setMobileMenuOpen(false)} className="block w-full text-center py-3 rounded-xl font-bold text-white bg-[#7C3AED]">
               Get App
             </Link>
@@ -130,7 +150,7 @@ export default function LegalLayout({
                 <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
               </li>
               <li className="text-purple-400 font-semibold" aria-current="page">
-                Privacy Policy
+                {displayBreadcrumb}
               </li>
             </ol>
           </nav>
@@ -140,8 +160,8 @@ export default function LegalLayout({
             <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-[#7C3AED]/15 rounded-full blur-3xl pointer-events-none" />
             <div className="relative z-10 space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 text-xs font-bold text-purple-300">
-                <Shield className="w-4 h-4 text-purple-400" />
-                <span>Reel Counter Privacy Documentation</span>
+                {badgeIcon || <Shield className="w-4 h-4 text-purple-400" />}
+                <span>{badgeText}</span>
               </div>
               <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
                 {title}
@@ -150,16 +170,20 @@ export default function LegalLayout({
                 {description}
               </p>
               <div className="pt-3 border-t border-[#3B3456] flex flex-wrap items-center gap-y-2 gap-x-5 text-xs font-medium text-slate-400">
-                <div>
-                  <span>Effective Date: </span>
-                  <strong className="text-slate-200">{effectiveDate}</strong>
-                </div>
-                <span>•</span>
-                <div>
-                  <span>Last Updated: </span>
-                  <strong className="text-slate-200">{lastUpdated}</strong>
-                </div>
-                <span>•</span>
+                {effectiveDate && (
+                  <div>
+                    <span>Effective Date: </span>
+                    <strong className="text-slate-200">{effectiveDate}</strong>
+                  </div>
+                )}
+                {effectiveDate && lastUpdated && <span>•</span>}
+                {lastUpdated && (
+                  <div>
+                    <span>Last Updated: </span>
+                    <strong className="text-slate-200">{lastUpdated}</strong>
+                  </div>
+                )}
+                {(effectiveDate || lastUpdated) && <span>•</span>}
                 <div>
                   <span>Package: </span>
                   <code className="text-purple-300 font-mono">com.uv.reelcounter</code>
@@ -168,7 +192,7 @@ export default function LegalLayout({
             </div>
           </header>
 
-          {/* Policy Body */}
+          {/* Policy / Page Body */}
           <article className="space-y-12">
             {children}
           </article>

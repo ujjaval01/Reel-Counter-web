@@ -1,9 +1,9 @@
-import React from 'react';
 import LegalLayout from '../components/LegalLayout';
+import Link from '../components/Link';
 import {
-  Eye, EyeOff, Smartphone, Layers, Database, Lock,
-  CheckCircle2, Info, Mail, Globe, Cloud, UserX, FileText,
-  ExternalLink, Sparkles, Sliders
+  EyeOff, Smartphone, Layers,
+  CheckCircle2, Info, Mail, UserX, FileText,
+  ExternalLink
 } from 'lucide-react';
 
 const SECTIONS = [
@@ -666,7 +666,7 @@ export default function PrivacyPolicy() {
               Account and Cloud Data Deletion
             </h3>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Users can request permanent deletion of their account and all associated cloud data (profile, stats, and battle history) at any time by emailing <a href="mailto:sainiujvl@gmail.com" className="text-purple-300 font-mono hover:underline font-medium">sainiujvl@gmail.com</a> with their registered email address or User ID. All data will be permanently deleted from our servers within 30 days.
+              Users can request permanent deletion of their account and all associated cloud data (profile, stats, and battle history) at any time by submitting our dedicated <Link to="/delete-account" className="text-purple-300 font-semibold underline hover:text-white">Account Deletion Request Page</Link> or by emailing <a href="mailto:sainiujvl@gmail.com" className="text-purple-300 font-mono hover:underline font-medium">sainiujvl@gmail.com</a> with their registered email address or User ID. All data will be permanently deleted from our servers within 30 days.
             </p>
           </div>
         </div>

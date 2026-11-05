@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTheme } from '../ThemeContext';
 import { Menu, X, ArrowRight, Sun, Moon } from 'lucide-react';
 import Link from './Link';

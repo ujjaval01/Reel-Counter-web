@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTheme } from '../ThemeContext';
 import Link from './Link';
 
@@ -33,8 +32,9 @@ export default function Footer() {
           <div>
             &copy; {new Date().getFullYear()} ReelCounter. All rights reserved.
           </div>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-6">
             <Link to="/privacy-policy" className="hover:underline hover:text-purple-400 transition-colors focus:outline-none focus:text-purple-400">Privacy Policy</Link>
+            <Link to="/delete-account" className="hover:underline hover:text-purple-400 transition-colors focus:outline-none focus:text-purple-400">Delete Account</Link>
             <span className="cursor-pointer hover:underline">Terms & Conditions</span>
             <span className="cursor-pointer hover:underline">Contact Support</span>
           </div>
