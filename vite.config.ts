@@ -55,8 +55,13 @@ function vercelApiDevPlugin(): Plugin {
             };
           }
 
-          // Resolve TypeScript route file, e.g. /api/admin/overview -> ./api/admin/overview.ts
-          const filePath = path.resolve(process.cwd(), `.${pathname}.ts`);
+          // Resolve TypeScript route file
+          let filePath = path.resolve(process.cwd(), `.${pathname}.ts`);
+          if (pathname.startsWith('/api/admin/')) {
+            const routeName = pathname.replace('/api/admin/', '').split('?')[0];
+            query.route = routeName;
+            filePath = path.resolve(process.cwd(), './api/admin/[route].ts');
+          }
 
           try {
             const mod = await server.ssrLoadModule(filePath);

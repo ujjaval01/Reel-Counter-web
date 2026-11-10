@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview"
   },
-  
+  "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
     "clsx": "^2.1.1",
     "firebase": "^13.2.0",
