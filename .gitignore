@@ -1,5 +1,69 @@
-node_modules
-dist
-dist-ssr
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Production & Build outputs
+dist/
+dist-ssr/
+build/
+.output/
+
+# Local Environment Variables & Secrets (CRITICAL: NEVER COMMIT)
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
 *.local
+
+# Firebase Service Account Credentials & Keys
+*.pem
+*.key
+service-account*.json
+firebase-admin*.json
+google-services*.json
+
+# Vercel Deployment Artifacts
+.vercel
+
+# Debug & Runtime Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor & IDE Directories
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS Generated Files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.db
+
+# Temporary & Scratch Scripts
+*.tmp
+*.temp
+test-*.cjs
+test-*.js
+inspect-*.cjs
+
+# Package Manager Lockfiles (if preferring npm)
+yarn.lock

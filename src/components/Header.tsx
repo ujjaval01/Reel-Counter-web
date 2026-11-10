@@ -1,6 +1,7 @@
 import { useTheme } from '../ThemeContext';
 import { Menu, X, ArrowRight, Sun, Moon } from 'lucide-react';
 import Link from './Link';
+import { useHiddenAdminTrigger } from '../lib/useHiddenAdminTrigger';
 
 interface HeaderProps {
   mobileMenuOpen: boolean;
@@ -9,6 +10,7 @@ interface HeaderProps {
 
 export default function Header({ mobileMenuOpen, onToggleMobileMenu }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
+  const handleLogoClick = useHiddenAdminTrigger(5, 3000);
   const isDark = theme === 'dark';
 
   return (
@@ -19,24 +21,26 @@ export default function Header({ mobileMenuOpen, onToggleMobileMenu }: HeaderPro
           : 'bg-[#FFFDF9]/90 border-[#F0E5DA] shadow-[0_8px_24px_rgba(37,51,74,0.04),inset_0_1px_1px_rgba(255,255,255,0.9)]'
       }`}>
         {/* LOGO */}
-        <Link to="/" className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-[#FF765E] rounded-xl">
-          <div className="relative">
-            <img
-              src={isDark ? '/icon-dark.png' : '/icon-light.png'}
-              alt="ReelCounter Logo"
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl shadow-sm group-hover:scale-105 transition-transform"
-            />
-            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-[#45BFA8] border-2 border-white dark:border-[#192334]" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-heading font-extrabold text-lg sm:text-xl tracking-tight text-[#25334A] dark:text-[#F5F8FC]">
-              Reel<span className="text-[#FF765E]">Counter</span>
-            </span>
-            <span className="text-[9px] uppercase font-bold tracking-widest text-[#687386] dark:text-[#94A3B8]">
-              MINDFUL SCROLL
-            </span>
-          </div>
-        </Link>
+        <div onClick={handleLogoClick} className="cursor-pointer">
+          <Link to="/" className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-[#FF765E] rounded-xl">
+            <div className="relative">
+              <img
+                src={isDark ? '/icon-dark.png' : '/icon-light.png'}
+                alt="ReelCounter Logo"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl shadow-sm group-hover:scale-105 transition-transform"
+              />
+              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-[#45BFA8] border-2 border-white dark:border-[#192334]" />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-heading font-extrabold text-lg sm:text-xl tracking-tight text-[#25334A] dark:text-[#F5F8FC]">
+                Reel<span className="text-[#FF765E]">Counter</span>
+              </span>
+              <span className="text-[9px] uppercase font-bold tracking-widest text-[#687386] dark:text-[#94A3B8]">
+                MINDFUL SCROLL
+              </span>
+            </div>
+          </Link>
+        </div>
 
         {/* DESKTOP NAV LINKS */}
         <div className={`hidden md:flex items-center gap-6 lg:gap-8 text-sm font-semibold ${

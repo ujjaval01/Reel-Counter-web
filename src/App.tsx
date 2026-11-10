@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { 
   Sun, Moon, Menu, X, ArrowRight, ShieldCheck, 
   Swords, Sparkles, ChevronDown, Check, Smartphone, 
@@ -8,7 +8,10 @@ import { useTheme } from './ThemeContext';
 import { useCurrentPath } from './router';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import DeleteAccount from './pages/DeleteAccount';
+import { useHiddenAdminTrigger } from './lib/useHiddenAdminTrigger';
 import Footer from './components/Footer';
+
+const AdminPage = lazy(() => import('./pages/admin/AdminPage'));
 import {
   ClayTrophy3D,
   ClayCompass3D,
@@ -37,6 +40,7 @@ export default function App() {
   };
 
   const isDark = theme === 'dark';
+  const handleLogoClick = useHiddenAdminTrigger(5, 3000);
 
   // Check routes
   const normalizedPath = currentPath.replace(/\/+$/, '');
@@ -45,6 +49,17 @@ export default function App() {
   }
   if (normalizedPath === '/delete-account') {
     return <DeleteAccount />;
+  }
+  if (normalizedPath === '/admin') {
+    return (
+      <Suspense fallback={
+        <div className="min-h-screen bg-[#0F172A] flex items-center justify-center text-slate-400">
+          <div className="w-8 h-8 border-2 border-[#FF765E] border-t-transparent rounded-full animate-spin" />
+        </div>
+      }>
+        <AdminPage />
+      </Suspense>
+    );
   }
 
   return (
@@ -60,7 +75,7 @@ export default function App() {
             : 'bg-[#FFFDF9]/90 border-[#F0E5DA] shadow-[0_8px_24px_rgba(37,51,74,0.04),inset_0_1px_1px_rgba(255,255,255,0.9)]'
         }`}>
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-[#FF765E] rounded-xl">
+          <a href="#" onClick={handleLogoClick} className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-[#FF765E] rounded-xl">
             <div className="relative">
               <img
                 src={isDark ? '/icon-dark.png' : '/icon-light.png'}
