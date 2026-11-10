@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "engines": {
-    "node": "22.x"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "clsx": "^2.1.1",
