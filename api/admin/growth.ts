@@ -2,12 +2,11 @@ import type { VercelRequest, VercelResponse } from './_lib';
 import { authenticateAdmin, getUsersCollectionName } from './_lib';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const auth = await authenticateAdmin(req, res);
-  if (!auth) return;
-
-  const { db } = auth;
-
   try {
+    const auth = await authenticateAdmin(req, res);
+    if (!auth) return;
+
+    const { db } = auth;
     const usersCol = await getUsersCollectionName(db);
 
     const snap = await db.collection(usersCol)

@@ -2,13 +2,12 @@ import type { VercelRequest, VercelResponse } from './_lib';
 import { authenticateAdmin, getIstDateString, getUsersCollectionName } from './_lib';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const auth = await authenticateAdmin(req, res);
-  if (!auth) return;
-
-  const { db } = auth;
-  const istToday = getIstDateString();
-
   try {
+    const auth = await authenticateAdmin(req, res);
+    if (!auth) return;
+
+    const { db } = auth;
+    const istToday = getIstDateString();
     const usersCol = await getUsersCollectionName(db);
 
     // 1. Total registered users count

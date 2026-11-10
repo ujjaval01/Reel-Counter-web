@@ -2,12 +2,11 @@ import type { VercelRequest, VercelResponse } from './_lib';
 import { authenticateAdmin, getQueryParam, getUsersCollectionName } from './_lib';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const auth = await authenticateAdmin(req, res);
-  if (!auth) return;
-
-  const { db } = auth;
-
   try {
+    const auth = await authenticateAdmin(req, res);
+    if (!auth) return;
+
+    const { db } = auth;
     const usersCol = await getUsersCollectionName(db);
     const rawLimit = parseInt(getQueryParam(req, 'limit', '25'), 10);
     const limit = Math.min(Math.max(isNaN(rawLimit) ? 25 : rawLimit, 1), 50);

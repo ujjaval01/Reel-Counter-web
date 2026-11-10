@@ -2,12 +2,11 @@ import type { VercelRequest, VercelResponse } from './_lib';
 import { authenticateAdmin } from './_lib';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const auth = await authenticateAdmin(req, res);
-  if (!auth) return;
-
-  const { db } = auth;
-
   try {
+    const auth = await authenticateAdmin(req, res);
+    if (!auth) return;
+
+    const { db } = auth;
     let totalBattles = 0;
     let activeBattles = 0;
 

@@ -51,23 +51,38 @@ export function getFirebaseAdmin(): App {
   const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
   let privateKey = process.env.FIREBASE_PRIVATE_KEY;
 
+  const missing: string[] = [];
+  if (!projectId) missing.push('FIREBASE_PROJECT_ID');
+  if (!clientEmail) missing.push('FIREBASE_CLIENT_EMAIL');
+  if (!privateKey) missing.push('FIREBASE_PRIVATE_KEY');
+  if (!process.env.ADMIN_UID) missing.push('ADMIN_UID');
+
+  if (missing.length > 0) {
+    throw new Error(
+      `Missing server environment variables: ${missing.join(', ')}. Please configure them in your Vercel Project Settings (Settings -> Environment Variables).`
+    );
+  }
+
   if (privateKey) {
+    privateKey = privateKey.trim();
+    // Strip wrapping quotes if user pasted with them in Vercel UI
+    if (
+      (privateKey.startsWith('"') && privateKey.endsWith('"')) ||
+      (privateKey.startsWith("'") && privateKey.endsWith("'"))
+    ) {
+      privateKey = privateKey.slice(1, -1);
+    }
     // Handle both raw newlines and escaped \n sequences
     privateKey = privateKey.replace(/\\n/g, '\n');
   }
 
-  if (projectId && clientEmail && privateKey) {
-    return initializeApp({
-      credential: cert({
-        projectId,
-        clientEmail,
-        privateKey,
-      }),
-    });
-  }
-
-  // Fallback to default application credentials if present
-  return initializeApp();
+  return initializeApp({
+    credential: cert({
+      projectId,
+      clientEmail,
+      privateKey,
+    }),
+  });
 }
 
 /**

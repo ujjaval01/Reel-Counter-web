@@ -2,17 +2,16 @@ import type { VercelRequest, VercelResponse } from './_lib';
 import { authenticateAdmin, getQueryParam, getUsersCollectionName } from './_lib';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const auth = await authenticateAdmin(req, res);
-  if (!auth) return;
-
-  const { db } = auth;
-  const uid = getQueryParam(req, 'uid', '').trim();
-
-  if (!uid) {
-    return res.status(400).json({ success: false, error: 'Missing required query parameter: uid' });
-  }
-
   try {
+    const auth = await authenticateAdmin(req, res);
+    if (!auth) return;
+
+    const { db } = auth;
+    const uid = getQueryParam(req, 'uid', '').trim();
+
+    if (!uid) {
+      return res.status(400).json({ success: false, error: 'Missing required query parameter: uid' });
+    }
     const usersCol = await getUsersCollectionName(db);
 
     // 1. Fetch user doc
