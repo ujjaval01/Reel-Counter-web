@@ -35,8 +35,8 @@ export default function PrivacyPolicy() {
     <LegalLayout
       title="Privacy Policy"
       description="Official, audit-based Privacy Policy for Reel Counter (com.uv.reelcounter) by Ujjaval Saini. Transparent disclosures covering our on-device Accessibility Service, floating overlay, local focus mode, guest mode storage, and optional Google Sign-In with Firebase."
-      effectiveDate="March 30, 2026"
-      lastUpdated="March 30, 2026"
+      effectiveDate="November 04, 2026"
+      lastUpdated="November 11, 2026"
     >
       {/* 4 CORE ARCHITECTURE HIGHLIGHT CARDS */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
