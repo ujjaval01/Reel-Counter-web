@@ -60,19 +60,18 @@ export function ClayButton({
       hover:shadow-[0_14px_28px_-4px_rgba(139,53,245,0.5),0_6px_14px_rgba(240,75,170,0.3),inset_0_2px_3px_rgba(255,255,255,0.6),inset_0_-3px_4px_rgba(0,0,0,0.2)]
     `,
     secondary: `
-      text-[#29164D] dark:text-[#F5F0FF]
-      bg-white dark:bg-[#1F1938]
-      border border-[#E6D9FA] dark:border-[#392F5E]
+      text-[#29164D]
+      bg-white
+      border border-[#E6D9FA]
       shadow-[0_8px_20px_rgba(100,65,160,0.08),inset_0_2px_4px_rgba(255,255,255,0.95),inset_0_-2px_4px_rgba(139,53,245,0.05)]
-      dark:shadow-[0_8px_20px_rgba(0,0,0,0.35),inset_0_1px_2px_rgba(255,255,255,0.12),inset_0_-2px_4px_rgba(0,0,0,0.3)]
       hover:-translate-y-0.5
       hover:shadow-[0_12px_24px_rgba(100,65,160,0.12),inset_0_2px_4px_rgba(255,255,255,0.95)]
     `,
     outline: `
-      text-[#8B35F5] dark:text-[#DCC8FF]
+      text-[#8B35F5]
       bg-transparent
-      border-2 border-[#8B35F5] dark:border-[#DCC8FF]
-      hover:bg-[#8B35F5]/10 dark:hover:bg-[#DCC8FF]/10
+      border-2 border-[#8B35F5]
+      hover:bg-[#8B35F5]/10
       hover:-translate-y-0.5
     `,
   };
@@ -113,31 +112,26 @@ export function ClayCard({
 
   const variantStyles = {
     default: `
-      bg-white dark:bg-[#1F1938]
-      border border-[#E6D9FA] dark:border-[#392F5E]
+      bg-white
+      border border-[#E6D9FA]
       shadow-[0_16px_36px_rgba(100,65,160,0.08),0_4px_12px_rgba(139,53,245,0.04),inset_0_2px_4px_rgba(255,255,255,0.95),inset_0_-3px_6px_rgba(139,53,245,0.04)]
-      dark:shadow-[0_16px_36px_rgba(0,0,0,0.4),0_4px_12px_rgba(0,0,0,0.3),inset_0_1px_2px_rgba(255,255,255,0.15),inset_0_-2px_6px_rgba(0,0,0,0.4)]
     `,
     elevated: `
-      bg-white dark:bg-[#1F1938]
-      border border-[#E6D9FA] dark:border-[#392F5E]
+      bg-white
+      border border-[#E6D9FA]
       shadow-[0_24px_48px_rgba(100,65,160,0.12),0_8px_16px_rgba(139,53,245,0.06),inset_0_3px_6px_rgba(255,255,255,0.95),inset_0_-4px_8px_rgba(139,53,245,0.05)]
-      dark:shadow-[0_24px_48px_rgba(0,0,0,0.5),0_8px_16px_rgba(0,0,0,0.4),inset_0_2px_4px_rgba(255,255,255,0.2),inset_0_-3px_8px_rgba(0,0,0,0.5)]
     `,
     flat: `
-      bg-white dark:bg-[#1F1938]
-      border border-[#E6D9FA] dark:border-[#392F5E]
+      bg-white
+      border border-[#E6D9FA]
       shadow-[inset_0_2px_4px_rgba(255,255,255,0.95),inset_0_-2px_4px_rgba(139,53,245,0.04)]
-      dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.15),inset_0_-2px_4px_rgba(0,0,0,0.4)]
     `,
     interactive: `
-      bg-white dark:bg-[#1F1938]
-      border border-[#E6D9FA] dark:border-[#392F5E]
+      bg-white
+      border border-[#E6D9FA]
       shadow-[0_16px_36px_rgba(100,65,160,0.08),0_4px_12px_rgba(139,53,245,0.04),inset_0_2px_4px_rgba(255,255,255,0.95),inset_0_-3px_6px_rgba(139,53,245,0.04)]
-      dark:shadow-[0_16px_36px_rgba(0,0,0,0.4),0_4px_12px_rgba(0,0,0,0.3),inset_0_1px_2px_rgba(255,255,255,0.15),inset_0_-2px_6px_rgba(0,0,0,0.4)]
       hover:-translate-y-1
       hover:shadow-[0_22px_42px_rgba(100,65,160,0.14),0_6px_16px_rgba(139,53,245,0.08),inset_0_2px_4px_rgba(255,255,255,0.95)]
-      dark:hover:shadow-[0_22px_42px_rgba(0,0,0,0.55),0_6px_16px_rgba(0,0,0,0.35),inset_0_1px_2px_rgba(255,255,255,0.18)]
       cursor-pointer
     `,
   };
@@ -199,7 +193,7 @@ export function ThreeDIcon({
     blue: 'bg-blue-500/10',
     amber: 'bg-amber-500/10',
     mint: 'bg-emerald-500/10',
-    lavender: 'bg-purple-200/50 dark:bg-purple-900/20',
+    lavender: 'bg-purple-200/50',
     gradient: 'bg-gradient-to-br from-purple-500/20 to-pink-500/20',
   };
 
@@ -251,7 +245,7 @@ export function SocialPlatformIcon({
   };
 
   const wrapperStyles = outlined
-    ? 'p-2 rounded-2xl bg-white/90 dark:bg-[#1E1838]/90 border shadow-[0_8px_20px_rgba(100,65,160,0.15)] backdrop-blur-md'
+    ? 'p-2 rounded-2xl bg-white/90 border shadow-[0_8px_20px_rgba(100,65,160,0.15)] backdrop-blur-md'
     : '';
 
   const icons = {
@@ -625,13 +619,13 @@ export function FloatingBadge({
   };
 
   const variantStyles = {
-    default: 'bg-white/85 dark:bg-[#1F1938]/85 border border-[#E6D9FA] dark:border-[#392F5E] text-[#29164D] dark:text-[#F5F0FF] shadow-[0_4px_14px_rgba(100,65,160,0.06),inset_0_1.5px_2px_rgba(255,255,255,0.9)]',
-    success: 'bg-emerald-500/15 dark:bg-emerald-950/30 border border-emerald-200/50 dark:border-emerald-800/50 text-emerald-700 dark:text-emerald-300 shadow-[0_4px_14px_rgba(16,185,129,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)]',
-    warning: 'bg-amber-500/15 dark:bg-amber-950/30 border border-amber-200/50 dark:border-amber-800/50 text-amber-700 dark:text-amber-300 shadow-[0_4px_14px_rgba(245,158,11,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)]',
-    info: 'bg-blue-500/15 dark:bg-blue-950/30 border border-blue-200/50 dark:border-blue-800/50 text-blue-700 dark:text-blue-300 shadow-[0_4px_14px_rgba(59,130,246,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)]',
-    danger: 'bg-rose-500/15 dark:bg-rose-950/30 border border-rose-200/50 dark:border-rose-800/50 text-rose-700 dark:text-rose-300 shadow-[0_4px_14px_rgba(244,63,94,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)]',
-    purple: 'bg-purple-500/15 dark:bg-purple-950/30 border border-purple-200/50 dark:border-purple-800/50 text-purple-700 dark:text-purple-300 shadow-[0_4px_14px_rgba(139,53,245,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)]',
-    pink: 'bg-pink-500/15 dark:bg-pink-950/30 border border-pink-200/50 dark:border-pink-800/50 text-pink-700 dark:text-pink-300 shadow-[0_4px_14px_rgba(240,75,170,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)]',
+    default: 'bg-white/85 border border-[#E6D9FA] text-[#29164D] shadow-[0_4px_14px_rgba(100,65,160,0.06),inset_0_1.5px_2px_rgba(255,255,255,0.9)]',
+    success: 'bg-emerald-500/15 border border-emerald-200/50 text-emerald-700 shadow-[0_4px_14px_rgba(16,185,129,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)]',
+    warning: 'bg-amber-500/15 border border-amber-200/50 text-amber-700 shadow-[0_4px_14px_rgba(245,158,11,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)]',
+    info: 'bg-blue-500/15 border border-blue-200/50 text-blue-700 shadow-[0_4px_14px_rgba(59,130,246,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)]',
+    danger: 'bg-rose-500/15 border border-rose-200/50 text-rose-700 shadow-[0_4px_14px_rgba(244,63,94,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)]',
+    purple: 'bg-purple-500/15 border border-purple-200/50 text-purple-700 shadow-[0_4px_14px_rgba(139,53,245,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)]',
+    pink: 'bg-pink-500/15 border border-pink-200/50 text-pink-700 shadow-[0_4px_14px_rgba(240,75,170,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)]',
   };
 
   return (
@@ -681,13 +675,13 @@ export function FeatureCard({
   onClick,
 }: FeatureCardProps) {
   const tagStyles = {
-    purple: 'bg-purple-500/10 text-purple-600 dark:text-purple-300',
-    pink: 'bg-pink-500/10 text-pink-600 dark:text-pink-300',
-    blue: 'bg-blue-500/10 text-blue-600 dark:text-blue-300',
-    amber: 'bg-amber-500/10 text-amber-600 dark:text-amber-300',
-    mint: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-300',
-    emerald: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-300',
-    lavender: 'bg-purple-200/50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300',
+    purple: 'bg-purple-500/10 text-purple-600',
+    pink: 'bg-pink-500/10 text-pink-600',
+    blue: 'bg-blue-500/10 text-blue-600',
+    amber: 'bg-amber-500/10 text-amber-600',
+    mint: 'bg-emerald-500/10 text-emerald-600',
+    emerald: 'bg-emerald-500/10 text-emerald-600',
+    lavender: 'bg-purple-200/50 text-purple-700',
   };
 
   return (
@@ -708,7 +702,7 @@ export function FeatureCard({
         </div>
       )}
       <h3 className="font-heading font-black text-xl mb-3">{title}</h3>
-      <p className="font-sans text-sm leading-relaxed font-medium text-[#75678E] dark:text-[#A79EC0]">
+      <p className="font-sans text-sm leading-relaxed font-medium text-[#75678E]">
         {description}
       </p>
     </ClayCard>
@@ -799,10 +793,10 @@ export function PageSection({
   padding = 'lg',
 }: PageSectionProps) {
   const variantStyles = {
-    default: 'bg-[#FFF4FA]/50 dark:bg-[#120E22] border-t border-[#E6D9FA] dark:border-[#392F5E]',
-    alt: 'bg-[#F6EEFF] dark:bg-[#0E0B1A] border-t border-[#E6D9FA] dark:border-[#392F5E]',
-    dark: 'bg-[#120E22] dark:bg-[#0E0B1A] border-t border-[#392F5E]',
-    gradient: 'bg-gradient-to-b from-purple-500/10 via-pink-500/10 to-transparent dark:from-purple-900/20 dark:via-pink-900/20 dark:to-transparent border-t border-[#E6D9FA] dark:border-[#392F5E]',
+    default: 'bg-[#FFF4FA]/50 border-t border-[#E6D9FA]',
+    alt: 'bg-[#F6EEFF] border-t border-[#E6D9FA]',
+    dark: 'bg-[#FFF8EF] border-t border-[#F0E5DA]',
+    gradient: 'bg-gradient-to-b from-purple-500/10 via-pink-500/10 to-transparent border-t border-[#E6D9FA]',
   };
 
   const paddingStyles = {

@@ -44,76 +44,84 @@ export default function ReelAnalyticsView({ cache, setCache }: ReelAnalyticsView
       {/* Header Refresh */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-base font-bold text-white">Reel Consumption Deep Dive</h3>
-          <p className="text-xs text-slate-400">Analysis of user scroll patterns and volume aggregates</p>
+          <h3 className="text-base font-heading font-extrabold text-[#25334A]">Reel Consumption Deep Dive</h3>
+          <p className="text-xs text-[#687386] font-medium">Analysis of user scroll patterns and volume aggregates</p>
         </div>
         <button
           onClick={fetchReels}
           disabled={loading}
-          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#192334] border border-slate-700/80 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
+          className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white hover:bg-[#FFFDF9] border border-[#F0E5DA] text-xs font-heading font-bold text-[#25334A] shadow-sm transition-all hover:-translate-y-0.5"
         >
-          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#FF765E]' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 text-[#FF765E] ${loading ? 'animate-spin' : ''}`} />
           <span>Refresh</span>
         </button>
       </div>
 
       {error && (
-        <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-3">
-          <AlertCircle className="w-5 h-5 shrink-0" />
-          <span>{error}</span>
+        <div className="p-4 rounded-3xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-3">
+          <AlertCircle className="w-5 h-5 shrink-0 text-rose-600" />
+          <span className="font-sans font-medium">{error}</span>
         </div>
       )}
 
       {/* Metrics Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-5 rounded-3xl bg-[#192334] border border-slate-700/80 shadow-lg">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)]">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Total Tracked Reels</span>
-            <PlaySquare className="w-4 h-4 text-[#FF765E]" />
+            <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Total Tracked Reels</span>
+            <div className="w-8 h-8 rounded-xl bg-[#FFE2D5] text-[#FF765E] flex items-center justify-center">
+              <PlaySquare className="w-4 h-4" />
+            </div>
           </div>
-          <p className="text-3xl font-black text-white">
+          <p className="text-3xl font-heading font-extrabold text-[#25334A]">
             {stats ? stats.totalReels.toLocaleString() : '—'}
           </p>
-          <p className="text-[11px] text-slate-500 mt-1">Across sampled active profiles</p>
+          <p className="text-[11px] text-[#687386] mt-1 font-medium">Across active profiles</p>
         </div>
 
-        <div className="p-5 rounded-3xl bg-[#192334] border border-slate-700/80 shadow-lg">
+        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)]">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Today's Reels (IST)</span>
-            <Flame className="w-4 h-4 text-[#FFB36B]" />
+            <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Today's Reels (IST)</span>
+            <div className="w-8 h-8 rounded-xl bg-[#FFF1E7] text-[#D9631E] flex items-center justify-center">
+              <Flame className="w-4 h-4" />
+            </div>
           </div>
-          <p className="text-3xl font-black text-[#FF765E]">
+          <p className="text-3xl font-heading font-extrabold text-[#FF765E]">
             {stats ? stats.todayReels.toLocaleString() : '—'}
           </p>
-          <p className="text-[11px] text-slate-500 mt-1">From {stats?.activeUsersToday || 0} active users today</p>
+          <p className="text-[11px] text-[#687386] mt-1 font-medium">From {stats?.activeUsersToday || 0} active users today</p>
         </div>
 
-        <div className="p-5 rounded-3xl bg-[#192334] border border-slate-700/80 shadow-lg">
+        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)]">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Weekly Reels</span>
-            <TrendingUp className="w-4 h-4 text-[#45BFA8]" />
+            <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Weekly Reels</span>
+            <div className="w-8 h-8 rounded-xl bg-[#E4F5EE] text-[#2D8A78] flex items-center justify-center">
+              <TrendingUp className="w-4 h-4" />
+            </div>
           </div>
-          <p className="text-3xl font-black text-white">
+          <p className="text-3xl font-heading font-extrabold text-[#25334A]">
             {stats ? stats.weeklyReels.toLocaleString() : '—'}
           </p>
-          <p className="text-[11px] text-slate-500 mt-1">Rolling 7-day cumulative count</p>
+          <p className="text-[11px] text-[#687386] mt-1 font-medium">Rolling 7-day cumulative count</p>
         </div>
 
-        <div className="p-5 rounded-3xl bg-[#192334] border border-slate-700/80 shadow-lg">
+        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)]">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Avg Reels / Active</span>
-            <BarChart3 className="w-4 h-4 text-purple-400" />
+            <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Avg Reels / Active</span>
+            <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+              <BarChart3 className="w-4 h-4" />
+            </div>
           </div>
-          <p className="text-3xl font-black text-white">
+          <p className="text-3xl font-heading font-extrabold text-[#25334A]">
             {stats ? stats.avgTodayReelsPerActive.toLocaleString() : '—'}
           </p>
-          <p className="text-[11px] text-slate-500 mt-1">Average daily scrolls per active user</p>
+          <p className="text-[11px] text-[#687386] mt-1 font-medium">Average daily scrolls per active user</p>
         </div>
       </div>
 
       {/* Visual Platform Share Progress Bars */}
-      <div className="p-6 rounded-3xl bg-[#192334] border border-slate-700/80 shadow-lg space-y-6">
-        <h4 className="text-sm font-bold uppercase tracking-wider text-slate-300">
+      <div className="p-7 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] space-y-6">
+        <h4 className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#25334A]">
           Scroll Volume Share By Platform
         </h4>
 
@@ -122,12 +130,12 @@ export default function ReelAnalyticsView({ cache, setCache }: ReelAnalyticsView
             {/* Instagram */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-rose-400">Instagram Reels</span>
-                <span className="text-slate-300 font-mono">
+                <span className="font-heading font-bold text-rose-600">Instagram Reels</span>
+                <span className="text-[#25334A] font-mono font-bold">
                   {pb.instagram.toLocaleString()} reels ({Math.round((pb.instagram / totalPlatformReels) * 100)}%)
                 </span>
               </div>
-              <div className="h-2.5 rounded-full bg-slate-800 overflow-hidden">
+              <div className="h-3 rounded-full bg-[#FFF1E7] overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-rose-500 to-pink-500 rounded-full transition-all duration-500"
                   style={{ width: `${Math.round((pb.instagram / totalPlatformReels) * 100)}%` }}
@@ -138,12 +146,12 @@ export default function ReelAnalyticsView({ cache, setCache }: ReelAnalyticsView
             {/* YouTube */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-red-400">YouTube Shorts</span>
-                <span className="text-slate-300 font-mono">
+                <span className="font-heading font-bold text-red-600">YouTube Shorts</span>
+                <span className="text-[#25334A] font-mono font-bold">
                   {pb.youtube.toLocaleString()} reels ({Math.round((pb.youtube / totalPlatformReels) * 100)}%)
                 </span>
               </div>
-              <div className="h-2.5 rounded-full bg-slate-800 overflow-hidden">
+              <div className="h-3 rounded-full bg-[#FFF1E7] overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-red-600 to-red-400 rounded-full transition-all duration-500"
                   style={{ width: `${Math.round((pb.youtube / totalPlatformReels) * 100)}%` }}
@@ -154,12 +162,12 @@ export default function ReelAnalyticsView({ cache, setCache }: ReelAnalyticsView
             {/* Facebook */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-blue-400">Facebook Reels</span>
-                <span className="text-slate-300 font-mono">
+                <span className="font-heading font-bold text-blue-600">Facebook Reels</span>
+                <span className="text-[#25334A] font-mono font-bold">
                   {pb.facebook.toLocaleString()} reels ({Math.round((pb.facebook / totalPlatformReels) * 100)}%)
                 </span>
               </div>
-              <div className="h-2.5 rounded-full bg-slate-800 overflow-hidden">
+              <div className="h-3 rounded-full bg-[#FFF1E7] overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-blue-600 to-blue-400 rounded-full transition-all duration-500"
                   style={{ width: `${Math.round((pb.facebook / totalPlatformReels) * 100)}%` }}
@@ -170,14 +178,14 @@ export default function ReelAnalyticsView({ cache, setCache }: ReelAnalyticsView
             {/* Snapchat */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-yellow-300">Snapchat Spotlight</span>
-                <span className="text-slate-300 font-mono">
+                <span className="font-heading font-bold text-amber-700">Snapchat Spotlight</span>
+                <span className="text-[#25334A] font-mono font-bold">
                   {pb.snapchat.toLocaleString()} reels ({Math.round((pb.snapchat / totalPlatformReels) * 100)}%)
                 </span>
               </div>
-              <div className="h-2.5 rounded-full bg-slate-800 overflow-hidden">
+              <div className="h-3 rounded-full bg-[#FFF1E7] overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-yellow-500 to-amber-300 rounded-full transition-all duration-500"
+                  className="h-full bg-gradient-to-r from-amber-500 to-amber-300 rounded-full transition-all duration-500"
                   style={{ width: `${Math.round((pb.snapchat / totalPlatformReels) * 100)}%` }}
                 />
               </div>

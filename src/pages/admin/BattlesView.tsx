@@ -40,112 +40,112 @@ export default function BattlesView({ cache, setCache }: BattlesViewProps) {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h3 className="text-base font-bold text-white flex items-center gap-2">
-            <Swords className="w-5 h-5 text-[#FFB36B]" />
+          <h3 className="text-xl font-heading font-extrabold text-[#25334A] flex items-center gap-2">
+            <Swords className="w-5 h-5 text-[#FF765E]" />
             Friend Battle Arena Monitor
           </h3>
-          <p className="text-xs text-slate-400">PvP reel scroll competitions between friends</p>
+          <p className="text-xs font-sans text-[#687386] mt-0.5">PvP reel scroll competitions between friends</p>
         </div>
         <button
           onClick={fetchBattles}
           disabled={loading}
-          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#192334] border border-slate-700/80 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
+          className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-[#F0E5DA] text-xs font-sans font-bold text-[#25334A] hover:bg-[#FFF8EF] hover:border-[#FF765E]/40 shadow-sm transition-all"
         >
-          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#FF765E]' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#FF765E]' : 'text-[#687386]'}`} />
           <span>Refresh</span>
         </button>
       </div>
 
       {error && (
-        <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-3">
-          <AlertCircle className="w-5 h-5 shrink-0" />
+        <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-sans flex items-center gap-3 shadow-sm">
+          <AlertCircle className="w-5 h-5 shrink-0 text-rose-500" />
           <span>{error}</span>
         </div>
       )}
 
       {/* Battle Stats Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-5 rounded-3xl bg-[#192334] border border-slate-700/80 shadow-lg">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Total Battles Created</span>
-          <p className="text-3xl font-black text-white mt-2">{data?.totalBattles || 0}</p>
-          <p className="text-xs text-slate-500 mt-1">All-time battle duels</p>
+        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)]">
+          <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#687386]">Total Battles Created</span>
+          <p className="text-3xl font-heading font-extrabold text-[#25334A] mt-2">{data?.totalBattles || 0}</p>
+          <p className="text-xs font-sans text-[#8B95A5] mt-1">All-time battle duels</p>
         </div>
 
-        <div className="p-5 rounded-3xl bg-[#192334] border border-slate-700/80 shadow-lg">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#FF765E]">Active Duels Ongoing</span>
-          <p className="text-3xl font-black text-[#FF765E] mt-2">{data?.activeBattles || 0}</p>
-          <p className="text-xs text-slate-500 mt-1">Currently in progress</p>
+        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)]">
+          <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#FF765E]">Active Duels Ongoing</span>
+          <p className="text-3xl font-heading font-extrabold text-[#FF765E] mt-2">{data?.activeBattles || 0}</p>
+          <p className="text-xs font-sans text-[#8B95A5] mt-1">Currently in progress</p>
         </div>
 
-        <div className="p-5 rounded-3xl bg-[#192334] border border-slate-700/80 shadow-lg">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#45BFA8]">Completed Battles</span>
-          <p className="text-3xl font-black text-[#45BFA8] mt-2">{data?.completedBattles || 0}</p>
-          <p className="text-xs text-slate-500 mt-1">Decided winners</p>
+        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)]">
+          <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#2D8A78]">Completed Battles</span>
+          <p className="text-3xl font-heading font-extrabold text-[#2D8A78] mt-2">{data?.completedBattles || 0}</p>
+          <p className="text-xs font-sans text-[#8B95A5] mt-1">Decided winners</p>
         </div>
       </div>
 
       {/* Battles List Table */}
-      <div className="bg-[#192334] border border-slate-700/80 rounded-3xl overflow-hidden shadow-xl">
-        <div className="p-4 border-b border-slate-700/60 flex items-center justify-between">
-          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+      <div className="bg-white border border-[#F0E5DA] rounded-3xl overflow-hidden shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)]">
+        <div className="p-5 border-b border-[#F0E5DA] flex items-center justify-between bg-[#FFF8EF]">
+          <h4 className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#25334A]">
             Recent Battle Matchups
           </h4>
-          <span className="text-xs text-slate-500">{recentBattles.length} matches</span>
+          <span className="text-xs font-sans font-semibold text-[#687386]">{recentBattles.length} matches</span>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-[#131B29] text-slate-400 uppercase tracking-wider text-[11px] border-b border-slate-700/60">
+          <table className="w-full text-left text-xs font-sans">
+            <thead className="bg-[#FAF7F2] text-[#687386] uppercase tracking-wider text-[11px] font-bold border-b border-[#F0E5DA]">
               <tr>
-                <th className="p-4 font-semibold">Matchup</th>
-                <th className="p-4 font-semibold text-center">Target</th>
-                <th className="p-4 font-semibold text-center">Score</th>
-                <th className="p-4 font-semibold text-center">Status</th>
-                <th className="p-4 font-semibold text-right">Initiated</th>
+                <th className="p-4 font-bold">Matchup</th>
+                <th className="p-4 font-bold text-center">Target</th>
+                <th className="p-4 font-bold text-center">Score</th>
+                <th className="p-4 font-bold text-center">Status</th>
+                <th className="p-4 font-bold text-right">Initiated</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800 text-slate-300">
+            <tbody className="divide-y divide-[#F0E5DA] text-[#25334A]">
               {loading && recentBattles.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="p-12 text-center text-slate-400">
+                  <td colSpan={5} className="p-12 text-center text-[#687386]">
                     <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-[#FF765E]" />
                     Loading battle records...
                   </td>
                 </tr>
               ) : recentBattles.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="p-12 text-center text-slate-400">
+                  <td colSpan={5} className="p-12 text-center text-[#687386]">
                     No battles logged in Firestore yet.
                   </td>
                 </tr>
               ) : (
                 recentBattles.map((b) => (
-                  <tr key={b.id} className="hover:bg-slate-800/40 transition-colors">
+                  <tr key={b.id} className="hover:bg-[#FFF8EF]/50 transition-colors">
                     <td className="p-4">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-white">{b.challengerName}</span>
-                        <span className="text-xs font-bold text-[#FF765E]">VS</span>
-                        <span className="font-bold text-white">{b.opponentName}</span>
+                        <span className="font-heading font-bold text-[#25334A]">{b.challengerName}</span>
+                        <span className="text-xs font-heading font-extrabold text-[#FF765E]">VS</span>
+                        <span className="font-heading font-bold text-[#25334A]">{b.opponentName}</span>
                       </div>
                     </td>
-                    <td className="p-4 text-center font-semibold text-slate-300">
+                    <td className="p-4 text-center font-sans font-bold text-[#687386]">
                       {b.targetReels || 0} reels
                     </td>
-                    <td className="p-4 text-center font-mono font-bold text-white">
+                    <td className="p-4 text-center font-heading font-extrabold text-[#25334A]">
                       {b.challengerReels || 0} &mdash; {b.opponentReels || 0}
                     </td>
                     <td className="p-4 text-center">
-                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-heading font-bold ${
                         b.status === 'ACTIVE'
-                          ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                          : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                          ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                          : 'bg-[#E4F5EE] text-[#2D8A78] border border-[#45BFA8]/30'
                       }`}>
                         {b.status}
                       </span>
                     </td>
-                    <td className="p-4 text-right text-slate-400 text-[11px]">
+                    <td className="p-4 text-right text-[#8B95A5] text-[11px] font-mono">
                       {b.createdAt ? new Date(b.createdAt).toLocaleDateString() : 'N/A'}
                     </td>
                   </tr>

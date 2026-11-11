@@ -58,33 +58,33 @@ export default function LeaderboardView({ cache, setCache }: LeaderboardViewProp
       {/* Controls */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
         {/* Timeframe Tabs */}
-        <div className="inline-flex p-1.5 rounded-2xl bg-[#192334] border border-slate-700/80">
+        <div className="inline-flex p-1.5 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm">
           <button
             onClick={() => handleTimeframeChange('all')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+            className={`px-4 py-2 rounded-xl text-xs font-heading font-bold transition-all ${
               timeframe === 'all'
-                ? 'bg-[#FF765E] text-white shadow-md'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-gradient-to-r from-[#FF7E67] to-[#FF6F56] text-white shadow-md'
+                : 'text-[#687386] hover:text-[#25334A] hover:bg-[#FFF1E7]'
             }`}
           >
             All-Time
           </button>
           <button
             onClick={() => handleTimeframeChange('weekly')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+            className={`px-4 py-2 rounded-xl text-xs font-heading font-bold transition-all ${
               timeframe === 'weekly'
-                ? 'bg-[#FF765E] text-white shadow-md'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-gradient-to-r from-[#FF7E67] to-[#FF6F56] text-white shadow-md'
+                : 'text-[#687386] hover:text-[#25334A] hover:bg-[#FFF1E7]'
             }`}
           >
             Weekly
           </button>
           <button
             onClick={() => handleTimeframeChange('today')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+            className={`px-4 py-2 rounded-xl text-xs font-heading font-bold transition-all ${
               timeframe === 'today'
-                ? 'bg-[#FF765E] text-white shadow-md'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-gradient-to-r from-[#FF7E67] to-[#FF6F56] text-white shadow-md'
+                : 'text-[#687386] hover:text-[#25334A] hover:bg-[#FFF1E7]'
             }`}
           >
             Today (IST)
@@ -96,7 +96,7 @@ export default function LeaderboardView({ cache, setCache }: LeaderboardViewProp
           <select
             value={limit}
             onChange={handleLimitChange}
-            className="px-3.5 py-2 rounded-2xl bg-[#192334] border border-slate-700/80 text-white text-xs focus:outline-none focus:ring-2 focus:ring-[#FF765E]"
+            className="px-3.5 py-2.5 rounded-2xl bg-white border border-[#F0E5DA] text-[#25334A] text-xs font-heading font-bold shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FF765E]/20"
           >
             <option value={10}>Top 10</option>
             <option value={50}>Top 50</option>
@@ -106,106 +106,106 @@ export default function LeaderboardView({ cache, setCache }: LeaderboardViewProp
           <button
             onClick={() => fetchLeaderboard(timeframe, limit)}
             disabled={loading}
-            className="p-2.5 rounded-2xl bg-[#192334] border border-slate-700/80 text-slate-300 hover:text-white transition-colors"
+            className="p-2.5 rounded-2xl bg-white border border-[#F0E5DA] text-[#25334A] hover:bg-[#FFFDF9] shadow-sm transition-colors"
             title="Refresh Leaderboard"
           >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#FF765E]' : ''}`} />
+            <RefreshCw className={`w-4 h-4 text-[#FF765E] ${loading ? 'animate-spin' : ''}`} />
           </button>
         </div>
       </div>
 
       {/* Error Notice */}
       {error && (
-        <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs">
+        <div className="p-4 rounded-3xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-sans">
           {error}
         </div>
       )}
 
       {/* Leaderboard Table */}
-      <div className="bg-[#192334] border border-slate-700/80 rounded-3xl overflow-hidden shadow-xl">
+      <div className="bg-white border border-[#F0E5DA] rounded-3xl overflow-hidden shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)]">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#131B29] text-slate-400 uppercase tracking-wider text-[11px] border-b border-slate-700/60">
+            <thead className="bg-[#FFF8EF] text-[#687386] font-heading font-extrabold uppercase tracking-wider text-[11px] border-b border-[#F0E5DA]">
               <tr>
-                <th className="p-4 font-semibold text-center w-16">Rank</th>
-                <th className="p-4 font-semibold">User</th>
-                <th className="p-4 font-semibold text-right">Reels Tracked</th>
-                <th className="p-4 font-semibold text-center">Primary Platform</th>
-                <th className="p-4 font-semibold text-right">All-Time Total</th>
+                <th className="p-4 font-extrabold text-center w-16">Rank</th>
+                <th className="p-4 font-extrabold">User</th>
+                <th className="p-4 font-extrabold text-right">Reels Tracked</th>
+                <th className="p-4 font-extrabold text-center">Primary Platform</th>
+                <th className="p-4 font-extrabold text-right">All-Time Total</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800 text-slate-300">
+            <tbody className="divide-y divide-[#F0E5DA]/60 text-[#25334A]">
               {loading && leaderboard.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="p-12 text-center text-slate-400">
+                  <td colSpan={5} className="p-12 text-center text-[#687386]">
                     <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-[#FF765E]" />
                     Compiling leaderboard ranks...
                   </td>
                 </tr>
               ) : leaderboard.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="p-12 text-center text-slate-400">
+                  <td colSpan={5} className="p-12 text-center text-[#687386] font-medium">
                     No leaderboard data available for this timeframe.
                   </td>
                 </tr>
               ) : (
                 leaderboard.map((item) => {
                   let rankBadge = (
-                    <span className="font-extrabold text-slate-400">{item.rank}</span>
+                    <span className="font-heading font-extrabold text-sm text-[#687386]">{item.rank}</span>
                   );
 
                   if (item.rank === 1) {
                     rankBadge = (
-                      <div className="w-8 h-8 rounded-full bg-amber-400/20 text-amber-400 border border-amber-400/40 flex items-center justify-center mx-auto shadow-sm">
-                        <Crown className="w-4 h-4 fill-amber-400" />
+                      <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-600 border border-amber-300 flex items-center justify-center mx-auto shadow-sm">
+                        <Crown className="w-4 h-4 fill-amber-500 text-amber-500" />
                       </div>
                     );
                   } else if (item.rank === 2) {
                     rankBadge = (
-                      <div className="w-8 h-8 rounded-full bg-slate-300/20 text-slate-200 border border-slate-300/40 flex items-center justify-center mx-auto shadow-sm">
+                      <div className="w-8 h-8 rounded-full bg-slate-100 text-slate-600 border border-slate-300 flex items-center justify-center mx-auto shadow-sm">
                         <Medal className="w-4 h-4" />
                       </div>
                     );
                   } else if (item.rank === 3) {
                     rankBadge = (
-                      <div className="w-8 h-8 rounded-full bg-amber-700/20 text-amber-600 border border-amber-700/40 flex items-center justify-center mx-auto shadow-sm">
+                      <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-700 border border-orange-300 flex items-center justify-center mx-auto shadow-sm">
                         <Trophy className="w-4 h-4" />
                       </div>
                     );
                   }
 
                   return (
-                    <tr key={item.id} className="hover:bg-slate-800/40 transition-colors">
+                    <tr key={item.id} className="hover:bg-[#FFFDF9] transition-colors">
                       <td className="p-4 text-center">{rankBadge}</td>
                       <td className="p-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl bg-slate-800 border border-slate-700/80 flex items-center justify-center overflow-hidden shrink-0">
+                          <div className="w-10 h-10 rounded-2xl bg-[#FFF8EF] border border-[#F0E5DA] flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
                             {item.avatarUrl ? (
                               <img src={item.avatarUrl} alt="" className="w-full h-full object-cover" />
                             ) : (
-                              <span className="text-sm">{item.avatarEmoji || <UserIcon className="w-4 h-4 text-slate-400" />}</span>
+                              <span className="text-sm">{item.avatarEmoji || <UserIcon className="w-4 h-4 text-[#687386]" />}</span>
                             )}
                           </div>
                           <div>
                             <div className="flex items-center gap-2">
-                              <p className="font-bold text-white">{item.displayName}</p>
+                              <p className="font-heading font-bold text-sm text-[#25334A]">{item.displayName}</p>
                               {item.isAnonymous && (
-                                <span className="px-1.5 py-0.2 rounded text-[9px] bg-slate-700 text-slate-400">Anon</span>
+                                <span className="px-1.5 py-0.2 rounded-full text-[9px] bg-slate-100 text-slate-600 font-bold">Anon</span>
                               )}
                             </div>
-                            <p className="text-[11px] text-slate-400">@{item.username}</p>
+                            <p className="text-[11px] text-[#687386] font-mono">@{item.username}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="p-4 text-right font-black text-lg text-white">
+                      <td className="p-4 text-right font-heading font-extrabold text-base text-[#25334A]">
                         {item.reels.toLocaleString()}
                       </td>
                       <td className="p-4 text-center">
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700">
+                        <span className="px-3 py-1 rounded-full text-[10px] font-heading font-bold bg-[#FFF1E7] text-[#D9631E] border border-[#FFB36B]/30">
                           {item.primaryPlatform}
                         </span>
                       </td>
-                      <td className="p-4 text-right font-mono text-slate-400">
+                      <td className="p-4 text-right font-mono font-bold text-[#687386]">
                         {item.totalReels.toLocaleString()}
                       </td>
                     </tr>
@@ -219,4 +219,3 @@ export default function LeaderboardView({ cache, setCache }: LeaderboardViewProp
     </div>
   );
 }
-

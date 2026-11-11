@@ -1,57 +1,36 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 
-export type Theme = 'dark' | 'light';
+export type Theme = 'light';
 
 interface ThemeContextValue {
-  theme: Theme;
+  theme: 'light';
   toggleTheme: () => void;
 }
 
-const ThemeContext = createContext<ThemeContextValue | null>(null);
-
-function setFavicon(mode: Theme) {
-  const link = document.querySelector("link[rel='icon']") as HTMLLinkElement | null;
-  if (link) {
-    link.href = mode === 'dark' ? '/icon-dark.png' : '/icon-light.png';
-  }
-}
+const ThemeContext = createContext<ThemeContextValue>({
+  theme: 'light',
+  toggleTheme: () => {},
+});
 
 export function useTheme() {
-  const ctx = useContext(ThemeContext);
-  if (!ctx) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return ctx;
+  return useContext(ThemeContext);
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('reelcounter-theme');
-      if (saved === 'light' || saved === 'dark') return saved;
-    }
-    return 'dark';
-  });
-
-  const toggleTheme = () => {
-    const next = theme === 'dark' ? 'light' : 'dark';
-    setTheme(next);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('reelcounter-theme', next);
-    }
-  };
-
   useEffect(() => {
-    setFavicon(theme);
-    if (theme === 'light') {
+    // Ensure dark class is removed permanently
+    if (typeof document !== 'undefined') {
       document.documentElement.classList.remove('dark');
-    } else {
-      document.documentElement.classList.add('dark');
+      localStorage.removeItem('reelcounter-theme');
+      const link = document.querySelector("link[rel='icon']") as HTMLLinkElement | null;
+      if (link) {
+        link.href = '/icon-light.png';
+      }
     }
-  }, [theme]);
+  }, []);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme: 'light', toggleTheme: () => {} }}>
       {children}
     </ThemeContext.Provider>
   );

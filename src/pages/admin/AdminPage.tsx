@@ -8,11 +8,11 @@ function AdminGate() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0F172A] flex flex-col items-center justify-center text-slate-400 gap-4 font-sans">
-        <div className="w-12 h-12 rounded-2xl bg-[#FF765E]/10 border border-[#FF765E]/20 flex items-center justify-center">
-          <RefreshCw className="w-6 h-6 animate-spin text-[#FF765E]" />
+      <div className="min-h-screen bg-[#FFF8EF] flex flex-col items-center justify-center text-[#687386] gap-4 font-sans">
+        <div className="w-14 h-14 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_8px_20px_rgba(37,51,74,0.06)] flex items-center justify-center">
+          <RefreshCw className="w-7 h-7 animate-spin text-[#FF765E]" />
         </div>
-        <p className="text-xs uppercase tracking-widest font-bold text-slate-500">
+        <p className="text-xs uppercase tracking-widest font-heading font-extrabold text-[#687386]">
           Verifying Admin Access...
         </p>
       </div>

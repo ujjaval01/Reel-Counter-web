@@ -40,20 +40,20 @@ export default function OverviewView({ cache, setCache }: OverviewViewProps) {
   return (
     <div className="space-y-6">
       {/* Top Banner / System Health Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-2xl bg-[#192334] border border-slate-700/80">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-3xl bg-[#E4F5EE] border border-[#45BFA8]/30 shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-            <ShieldCheck className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-2xl bg-white border border-[#45BFA8]/20 flex items-center justify-center text-[#2D8A78] shadow-sm">
+            <ShieldCheck className="w-5 h-5 text-[#2D8A78]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-white">System Read-Only Guard Active</span>
-              <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+              <span className="text-sm font-heading font-extrabold text-[#25334A]">System Read-Only Guard Active</span>
+              <span className="px-2 py-0.5 text-[10px] font-heading font-extrabold rounded-full bg-[#2D8A78] text-white">
                 LIVE
               </span>
             </div>
-            <p className="text-xs text-slate-400">
-              IST Date: <span className="text-white font-mono">{data?.istDate || 'UTC+5:30'}</span> &bull; Safe read queries only
+            <p className="text-xs text-[#687386] font-medium">
+              IST Date: <span className="text-[#25334A] font-mono font-bold">{data?.istDate || 'UTC+5:30'}</span> &bull; Safe read queries only
             </p>
           </div>
         </div>
@@ -61,87 +61,87 @@ export default function OverviewView({ cache, setCache }: OverviewViewProps) {
         <button
           onClick={fetchOverview}
           disabled={loading}
-          className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white hover:bg-[#FFFDF9] border border-[#F0E5DA] text-[#25334A] text-xs font-heading font-bold shadow-sm transition-all hover:-translate-y-0.5 disabled:opacity-50"
         >
-          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#FF765E]' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 text-[#FF765E] ${loading ? 'animate-spin' : ''}`} />
           <span>Refresh Metrics</span>
         </button>
       </div>
 
       {/* Error Notice */}
       {error && (
-        <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-3">
-          <AlertTriangle className="w-5 h-5 shrink-0" />
-          <span>{error}</span>
+        <div className="p-4 rounded-3xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-3 shadow-sm">
+          <AlertTriangle className="w-5 h-5 shrink-0 text-rose-600" />
+          <span className="font-sans font-medium">{error}</span>
         </div>
       )}
 
       {/* Primary Key Metrics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {/* Total Users */}
-        <div className="p-5 rounded-3xl bg-[#192334] border border-slate-700/80 shadow-lg relative overflow-hidden group">
+        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] relative overflow-hidden group hover:-translate-y-1 transition-all">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Total Users</span>
-            <div className="w-8 h-8 rounded-xl bg-[#FF765E]/10 text-[#FF765E] flex items-center justify-center">
-              <Users className="w-4 h-4" />
+            <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Total Users</span>
+            <div className="w-10 h-10 rounded-2xl bg-[#FFE2D5] text-[#FF765E] flex items-center justify-center shadow-sm">
+              <Users className="w-5 h-5" />
             </div>
           </div>
-          <p className="text-3xl font-black text-white">
+          <p className="text-3xl sm:text-4xl font-heading font-extrabold text-[#25334A]">
             {overview ? overview.totalUsers.toLocaleString() : '—'}
           </p>
-          <p className="text-[11px] text-slate-400 mt-2 flex items-center gap-1.5">
+          <p className="text-xs text-[#687386] mt-2 flex items-center gap-1.5 font-medium">
             <CheckCircle2 className="w-3.5 h-3.5 text-[#45BFA8]" />
-            Firestore publicProfile documents
+            Firestore registered users
           </p>
         </div>
 
         {/* Active Today */}
-        <div className="p-5 rounded-3xl bg-[#192334] border border-slate-700/80 shadow-lg relative overflow-hidden group">
+        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] relative overflow-hidden group hover:-translate-y-1 transition-all">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Active Today (IST)</span>
-            <div className="w-8 h-8 rounded-xl bg-[#45BFA8]/10 text-[#45BFA8] flex items-center justify-center">
-              <Activity className="w-4 h-4" />
+            <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Active Today (IST)</span>
+            <div className="w-10 h-10 rounded-2xl bg-[#E4F5EE] text-[#2D8A78] flex items-center justify-center shadow-sm">
+              <Activity className="w-5 h-5" />
             </div>
           </div>
-          <p className="text-3xl font-black text-[#45BFA8]">
+          <p className="text-3xl sm:text-4xl font-heading font-extrabold text-[#2D8A78]">
             {overview ? overview.activeUsersToday.toLocaleString() : '—'}
           </p>
-          <p className="text-[11px] text-slate-400 mt-2">
+          <p className="text-xs text-[#687386] mt-2 font-medium">
             Users who scrolled today in India timezone
           </p>
         </div>
 
         {/* Total Battles */}
-        <div className="p-5 rounded-3xl bg-[#192334] border border-slate-700/80 shadow-lg relative overflow-hidden group">
+        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] relative overflow-hidden group hover:-translate-y-1 transition-all">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Friend Battles</span>
-            <div className="w-8 h-8 rounded-xl bg-[#FFB36B]/10 text-[#FFB36B] flex items-center justify-center">
-              <Swords className="w-4 h-4" />
+            <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Friend Battles</span>
+            <div className="w-10 h-10 rounded-2xl bg-[#FFF1E7] text-[#D9631E] flex items-center justify-center shadow-sm">
+              <Swords className="w-5 h-5" />
             </div>
           </div>
-          <p className="text-3xl font-black text-white">
+          <p className="text-3xl sm:text-4xl font-heading font-extrabold text-[#25334A]">
             {overview ? overview.totalBattles.toLocaleString() : '—'}
           </p>
-          <p className="text-[11px] text-slate-400 mt-2 flex items-center gap-2">
-            <span className="text-[#FF765E] font-semibold">{overview?.activeBattles || 0} active</span>
+          <p className="text-xs text-[#687386] mt-2 flex items-center gap-2 font-medium">
+            <span className="text-[#FF765E] font-bold">{overview?.activeBattles || 0} active</span>
             &bull;
             <span>{overview?.completedBattles || 0} finished</span>
           </p>
         </div>
 
         {/* Deletion Requests */}
-        <div className="p-5 rounded-3xl bg-[#192334] border border-slate-700/80 shadow-lg relative overflow-hidden group">
+        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] relative overflow-hidden group hover:-translate-y-1 transition-all">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Deletion Requests</span>
-            <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center">
-              <AlertTriangle className="w-4 h-4" />
+            <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Deletion Requests</span>
+            <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shadow-sm">
+              <AlertTriangle className="w-5 h-5" />
             </div>
           </div>
-          <p className="text-3xl font-black text-white">
+          <p className="text-3xl sm:text-4xl font-heading font-extrabold text-[#25334A]">
             {overview ? overview.totalDeletionRequests.toLocaleString() : '—'}
           </p>
-          <p className="text-[11px] text-slate-400 mt-2">
-            <span className="text-amber-400 font-semibold">{overview?.pendingDeletionRequests || 0} Pending</span> review
+          <p className="text-xs text-[#687386] mt-2 font-medium">
+            <span className="text-amber-600 font-bold">{overview?.pendingDeletionRequests || 0} Pending</span> review
           </p>
         </div>
       </div>
@@ -149,27 +149,27 @@ export default function OverviewView({ cache, setCache }: OverviewViewProps) {
       {/* Reel Counts & Platform Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Sample Total Reels Card */}
-        <div className="p-6 rounded-3xl bg-[#192334] border border-slate-700/80 shadow-lg flex flex-col justify-between">
+        <div className="p-7 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+              <h3 className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#25334A] flex items-center gap-2">
                 <PlaySquare className="w-4 h-4 text-[#FF765E]" />
                 Reel Volume
               </h3>
-              <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">
+              <span className="text-[10px] font-heading font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-[#FFF1E7] text-[#D9631E]">
                 Sampled
               </span>
             </div>
-            <p className="text-4xl font-black text-white">
+            <p className="text-4xl sm:text-5xl font-heading font-extrabold text-[#25334A]">
               {overview?.sampleTotalReels ? overview.sampleTotalReels.toLocaleString() : '0'}
             </p>
-            <p className="text-xs text-slate-400 mt-1">Total tracked scrolls</p>
+            <p className="text-xs text-[#687386] font-medium mt-1">Total tracked scrolls</p>
           </div>
 
-          <div className="mt-6 pt-4 border-t border-slate-700/60">
+          <div className="mt-6 pt-4 border-t border-[#F0E5DA]">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-400">Scrolled Today (IST):</span>
-              <span className="font-extrabold text-[#FF765E]">
+              <span className="text-[#687386] font-medium">Scrolled Today (IST):</span>
+              <span className="font-heading font-extrabold text-sm text-[#FF765E]">
                 {overview?.sampleTodayReels ? overview.sampleTodayReels.toLocaleString() : '0'} reels
               </span>
             </div>
@@ -177,61 +177,61 @@ export default function OverviewView({ cache, setCache }: OverviewViewProps) {
         </div>
 
         {/* Platform Share Overview */}
-        <div className="lg:col-span-2 p-6 rounded-3xl bg-[#192334] border border-slate-700/80 shadow-lg space-y-4">
+        <div className="lg:col-span-2 p-7 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] space-y-5">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-300">
+            <h3 className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#25334A]">
               Platform Distribution Overview
             </h3>
-            <span className="text-xs text-slate-400">Cumulative Counts</span>
+            <span className="text-xs text-[#687386] font-medium">Cumulative Counts</span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
             {/* Instagram */}
-            <div className="p-4 rounded-2xl bg-[#131B29] border border-slate-800">
+            <div className="p-4 rounded-2xl bg-[#FFF1F2] border border-[#FFE4E6]">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-bold text-rose-400">Instagram</span>
-                <span className="text-[10px] text-slate-500">Reels</span>
+                <span className="text-xs font-heading font-bold text-rose-600">Instagram</span>
+                <span className="text-[10px] text-rose-400 font-medium">Reels</span>
               </div>
-              <p className="text-xl font-black text-white">
+              <p className="text-2xl font-heading font-extrabold text-[#25334A]">
                 {overview?.platforms?.instagram ? overview.platforms.instagram.toLocaleString() : '0'}
               </p>
             </div>
 
             {/* YouTube */}
-            <div className="p-4 rounded-2xl bg-[#131B29] border border-slate-800">
+            <div className="p-4 rounded-2xl bg-[#FEF2F2] border border-[#FEE2E2]">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-bold text-red-400">YouTube</span>
-                <span className="text-[10px] text-slate-500">Shorts</span>
+                <span className="text-xs font-heading font-bold text-red-600">YouTube</span>
+                <span className="text-[10px] text-red-400 font-medium">Shorts</span>
               </div>
-              <p className="text-xl font-black text-white">
+              <p className="text-2xl font-heading font-extrabold text-[#25334A]">
                 {overview?.platforms?.youtube ? overview.platforms.youtube.toLocaleString() : '0'}
               </p>
             </div>
 
             {/* Facebook */}
-            <div className="p-4 rounded-2xl bg-[#131B29] border border-slate-800">
+            <div className="p-4 rounded-2xl bg-[#EFF6FF] border border-[#DBEAFE]">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-bold text-blue-400">Facebook</span>
-                <span className="text-[10px] text-slate-500">Reels</span>
+                <span className="text-xs font-heading font-bold text-blue-600">Facebook</span>
+                <span className="text-[10px] text-blue-400 font-medium">Reels</span>
               </div>
-              <p className="text-xl font-black text-white">
+              <p className="text-2xl font-heading font-extrabold text-[#25334A]">
                 {overview?.platforms?.facebook ? overview.platforms.facebook.toLocaleString() : '0'}
               </p>
             </div>
 
             {/* Snapchat */}
-            <div className="p-4 rounded-2xl bg-[#131B29] border border-slate-800">
+            <div className="p-4 rounded-2xl bg-[#FEFCE8] border border-[#FEF9C3]">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-bold text-yellow-300">Snapchat</span>
-                <span className="text-[10px] text-slate-500">Spotlight</span>
+                <span className="text-xs font-heading font-bold text-amber-700">Snapchat</span>
+                <span className="text-[10px] text-amber-500 font-medium">Spotlight</span>
               </div>
-              <p className="text-xl font-black text-white">
+              <p className="text-2xl font-heading font-extrabold text-[#25334A]">
                 {overview?.platforms?.snapchat ? overview.platforms.snapchat.toLocaleString() : '0'}
               </p>
             </div>
           </div>
 
-          <p className="text-[11px] text-slate-500 italic">
+          <p className="text-[11px] text-[#687386] italic font-sans font-medium">
             * All counts are derived from direct Firestore aggregation & profiles. Read-only operations ensure zero Firestore quota abuse.
           </p>
         </div>

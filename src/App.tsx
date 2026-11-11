@@ -1,10 +1,10 @@
 import { useState, lazy, Suspense } from 'react';
 import { 
-  Sun, Moon, Menu, X, ArrowRight, ShieldCheck, 
+  Menu, X, ArrowRight, ShieldCheck, 
   Swords, Sparkles, ChevronDown, Check, Smartphone, 
   BarChart3, AlertTriangle, Crown, Copy, Zap
 } from 'lucide-react';
-import { useTheme } from './ThemeContext';
+
 import { useCurrentPath } from './router';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import DeleteAccount from './pages/DeleteAccount';
@@ -23,7 +23,7 @@ import {
 } from './components/Clay3DIcons';
 
 export default function App() {
-  const { theme, toggleTheme } = useTheme();
+  
   const currentPath = useCurrentPath();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'home' | 'battle' | 'leaderboard' | 'dashboard'>('home');
@@ -39,7 +39,7 @@ export default function App() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const isDark = theme === 'dark';
+  
   const handleLogoClick = useHiddenAdminTrigger(5, 3000);
 
   // Check routes
@@ -53,7 +53,7 @@ export default function App() {
   if (normalizedPath === '/admin') {
     return (
       <Suspense fallback={
-        <div className="min-h-screen bg-[#0F172A] flex items-center justify-center text-slate-400">
+        <div className="min-h-screen bg-[#FFF8EF] flex items-center justify-center text-[#687386]">
           <div className="w-8 h-8 border-2 border-[#FF765E] border-t-transparent rounded-full animate-spin" />
         </div>
       }>
@@ -64,31 +64,29 @@ export default function App() {
 
   return (
     <div className={`min-h-screen transition-colors duration-200 font-sans selection:bg-[#FF765E] selection:text-white ${
-      isDark ? 'bg-[#131B29] text-[#F5F8FC]' : 'bg-[#FFF8EF] text-[#25334A]'
+      'bg-[#FFF8EF] text-[#25334A]'
     }`}>
       
       {/* REFINED NAVBAR */}
       <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 pt-3.5 sm:pt-4 transition-all duration-200">
         <nav className={`max-w-7xl mx-auto rounded-2xl sm:rounded-3xl px-5 sm:px-7 h-16 sm:h-18 flex items-center justify-between border backdrop-blur-xl transition-all duration-200 ${
-          isDark 
-            ? 'bg-[#192334]/90 border-[#2E3E56] shadow-[0_8px_24px_rgba(0,0,0,0.35)]' 
-            : 'bg-[#FFFDF9]/90 border-[#F0E5DA] shadow-[0_8px_24px_rgba(37,51,74,0.04),inset_0_1px_1px_rgba(255,255,255,0.9)]'
+          'bg-[#FFFDF9]/90 border-[#F0E5DA] shadow-[0_8px_24px_rgba(37,51,74,0.04),inset_0_1px_1px_rgba(255,255,255,0.9)]'
         }`}>
           {/* Logo */}
           <a href="#" onClick={handleLogoClick} className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-[#FF765E] rounded-xl">
             <div className="relative">
               <img
-                src={isDark ? '/icon-dark.png' : '/icon-light.png'}
+                src={'/icon-light.png'}
                 alt="ReelCounter Logo"
                 className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl shadow-sm group-hover:scale-105 transition-transform"
               />
-              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-[#45BFA8] border-2 border-white dark:border-[#192334]" />
+              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-[#45BFA8] border-2 border-white" />
             </div>
             <div className="flex flex-col">
-              <span className="font-heading font-extrabold text-lg sm:text-xl tracking-tight text-[#25334A] dark:text-[#F5F8FC]">
+              <span className="font-heading font-extrabold text-lg sm:text-xl tracking-tight text-[#25334A]">
                 Reel<span className="text-[#FF765E]">Counter</span>
               </span>
-              <span className="text-[9px] uppercase font-bold tracking-widest text-[#687386] dark:text-[#94A3B8]">
+              <span className="text-[9px] uppercase font-bold tracking-widest text-[#687386]">
                 MINDFUL SCROLL
               </span>
             </div>
@@ -96,7 +94,7 @@ export default function App() {
 
           {/* Desktop Nav Links */}
           <div className={`hidden md:flex items-center gap-6 lg:gap-8 text-sm font-semibold ${
-            isDark ? 'text-[#94A3B8]' : 'text-[#687386]'
+            'text-[#687386]'
           }`}>
             <a href="#features" className="hover:text-[#FF765E] transition-colors">Features</a>
             <a href="#preview" className="hover:text-[#FF765E] transition-colors">Interactive Demo</a>
@@ -108,19 +106,7 @@ export default function App() {
 
           {/* Actions */}
           <div className="flex items-center gap-3">
-            {/* Theme Toggle Button */}
-            <button 
-              onClick={toggleTheme}
-              className={`p-2.5 rounded-full border transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#FF765E] ${
-                isDark 
-                  ? 'border-[#2E3E56] bg-[#1F2C40] hover:bg-[#283750] text-[#FFB36B]' 
-                  : 'border-[#F0E5DA] bg-[#FFF8EF] hover:bg-[#FFF1E7] text-[#25334A] shadow-sm'
-              }`}
-              title="Toggle theme"
-              aria-label="Toggle theme"
-            >
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </button>
+            
 
             {/* Coral CTA Button */}
             <a 
@@ -137,7 +123,7 @@ export default function App() {
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
               className={`md:hidden p-2 rounded-xl border transition-all ${
-                isDark ? 'border-[#2E3E56] bg-[#1F2C40] text-[#F5F8FC]' : 'border-[#F0E5DA] bg-white text-[#25334A]'
+                'border-[#F0E5DA] bg-white text-[#25334A]'
               }`}
               aria-label="Toggle mobile menu"
             >
@@ -149,16 +135,14 @@ export default function App() {
         {/* Mobile menu dropdown */}
         {mobileMenuOpen && (
           <div className={`md:hidden mt-3 max-w-7xl mx-auto rounded-3xl p-6 border shadow-xl space-y-3 backdrop-blur-2xl animate-in fade-in slide-in-from-top-4 duration-200 ${
-            isDark 
-              ? 'bg-[#192334]/95 border-[#2E3E56] text-[#F5F8FC]' 
-              : 'bg-white/95 border-[#F0E5DA] text-[#25334A]'
+            'bg-white/95 border-[#F0E5DA] text-[#25334A]'
           }`}>
-            <a href="#features" onClick={() => setMobileMenuOpen(false)} className="block py-2.5 px-3 rounded-xl font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-colors">Features</a>
-            <a href="#preview" onClick={() => setMobileMenuOpen(false)} className="block py-2.5 px-3 rounded-xl font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-colors">Interactive Demo</a>
-            <a href="#battle" onClick={() => setMobileMenuOpen(false)} className="block py-2.5 px-3 rounded-xl font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-colors">Battle Mode</a>
-            <a href="#leaderboard" onClick={() => setMobileMenuOpen(false)} className="block py-2.5 px-3 rounded-xl font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-colors">Leaderboard</a>
-            <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="block py-2.5 px-3 rounded-xl font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-colors">How It Works</a>
-            <a href="#faq" onClick={() => setMobileMenuOpen(false)} className="block py-2.5 px-3 rounded-xl font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-colors">FAQ</a>
+            <a href="#features" onClick={() => setMobileMenuOpen(false)} className="block py-2.5 px-3 rounded-xl font-bold hover:bg-black/5 transition-colors">Features</a>
+            <a href="#preview" onClick={() => setMobileMenuOpen(false)} className="block py-2.5 px-3 rounded-xl font-bold hover:bg-black/5 transition-colors">Interactive Demo</a>
+            <a href="#battle" onClick={() => setMobileMenuOpen(false)} className="block py-2.5 px-3 rounded-xl font-bold hover:bg-black/5 transition-colors">Battle Mode</a>
+            <a href="#leaderboard" onClick={() => setMobileMenuOpen(false)} className="block py-2.5 px-3 rounded-xl font-bold hover:bg-black/5 transition-colors">Leaderboard</a>
+            <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="block py-2.5 px-3 rounded-xl font-bold hover:bg-black/5 transition-colors">How It Works</a>
+            <a href="#faq" onClick={() => setMobileMenuOpen(false)} className="block py-2.5 px-3 rounded-xl font-bold hover:bg-black/5 transition-colors">FAQ</a>
             <div className="pt-2">
               <a 
                 href={PLAY_STORE_URL}
@@ -177,7 +161,7 @@ export default function App() {
       {/* HERO SECTION – CREAM + CORAL MINIMAL 3D */}
       <section className="relative pt-32 sm:pt-40 pb-20 sm:pb-28 overflow-hidden">
         {/* Subtle Warm Ambient Glow */}
-        <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-[#FFE2D5]/40 dark:bg-[#FF765E]/10 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-[#FFE2D5]/40 blur-[120px] rounded-full pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
@@ -186,16 +170,14 @@ export default function App() {
             <div className="lg:col-span-6 space-y-7 text-center lg:text-left">
               {/* Product Eyebrow Badge */}
               <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-bold ${
-                isDark 
-                  ? 'border-[#2E3E56] bg-[#1F2C40] text-[#FFB36B]' 
-                  : 'border-[#F0E5DA] bg-white text-[#FF765E] shadow-sm'
+                'border-[#F0E5DA] bg-white text-[#FF765E] shadow-sm'
               }`}>
                 <div className="w-2 h-2 rounded-full bg-[#45BFA8]" />
                 <span>Built for Mindful Scrolling • Android Wellbeing</span>
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-5xl sm:text-6xl xl:text-7xl font-extrabold font-heading tracking-tight leading-[1.08] text-[#25334A] dark:text-[#F5F8FC]">
+              <h1 className="text-5xl sm:text-6xl xl:text-7xl font-extrabold font-heading tracking-tight leading-[1.08] text-[#25334A]">
                 Your Scroll. <br />
                 <span className="text-[#FF765E]">
                   Your Rules.
@@ -204,7 +186,7 @@ export default function App() {
 
               {/* Supporting Description */}
               <p className={`text-lg sm:text-xl max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed ${
-                isDark ? 'text-[#94A3B8]' : 'text-[#687386]'
+                'text-[#687386]'
               }`}>
                 Track every scroll across Instagram Reels, YouTube Shorts and Facebook Reels. Set realistic limits, battle friends, and reclaim your attention.
               </p>
@@ -223,9 +205,7 @@ export default function App() {
                 <a 
                   href="#preview" 
                   className={`w-full sm:w-auto px-8 py-4 rounded-full font-heading font-bold text-base border transition-all text-center ${
-                    isDark 
-                      ? 'border-[#2E3E56] bg-[#1F2C40] hover:bg-[#283750] text-[#F5F8FC] shadow-sm' 
-                      : 'border-[#F0E5DA] bg-white hover:bg-[#FFFDF9] text-[#25334A] shadow-sm'
+                    'border-[#F0E5DA] bg-white hover:bg-[#FFFDF9] text-[#25334A] shadow-sm'
                   } hover:-translate-y-0.5 active:translate-y-0.5`}
                 >
                   Explore Features
@@ -235,19 +215,19 @@ export default function App() {
               {/* 3 Compact Benefit Labels */}
               <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
                 <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-semibold ${
-                  isDark ? 'border-[#2E3E56] bg-[#192334] text-[#94A3B8]' : 'border-[#F0E5DA] bg-white text-[#25334A] shadow-sm'
+                  'border-[#F0E5DA] bg-white text-[#25334A] shadow-sm'
                 }`}>
                   <span className="w-1.5 h-1.5 rounded-full bg-[#FF765E]" />
                   <span>Daily Limit Tracking</span>
                 </div>
                 <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-semibold ${
-                  isDark ? 'border-[#2E3E56] bg-[#192334] text-[#94A3B8]' : 'border-[#F0E5DA] bg-white text-[#25334A] shadow-sm'
+                  'border-[#F0E5DA] bg-white text-[#25334A] shadow-sm'
                 }`}>
                   <span className="w-1.5 h-1.5 rounded-full bg-[#45BFA8]" />
                   <span>Friend Battle Mode</span>
                 </div>
                 <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-semibold ${
-                  isDark ? 'border-[#2E3E56] bg-[#192334] text-[#94A3B8]' : 'border-[#F0E5DA] bg-white text-[#25334A] shadow-sm'
+                  'border-[#F0E5DA] bg-white text-[#25334A] shadow-sm'
                 }`}>
                   <span className="w-1.5 h-1.5 rounded-full bg-[#FFB36B]" />
                   <span>No Mandatory Sign-Up</span>
@@ -259,20 +239,18 @@ export default function App() {
             <div className="lg:col-span-6 relative flex justify-center items-center">
               
               {/* Subtle Ambient Ring behind Phone */}
-              <div className="absolute w-[340px] sm:w-[400px] h-[340px] sm:h-[400px] rounded-full bg-gradient-to-tr from-[#FFE2D5]/50 to-[#E4F5EE]/40 dark:from-[#3D2627]/40 dark:to-[#153235]/40 blur-2xl pointer-events-none" />
+              <div className="absolute w-[340px] sm:w-[400px] h-[340px] sm:h-[400px] rounded-full bg-gradient-to-tr from-[#FFE2D5]/50 to-[#E4F5EE]/40 blur-2xl pointer-events-none" />
 
               {/* Minimalist Benefit Badge 1 (Teal) */}
               <div className="absolute -left-4 sm:-left-8 top-20 z-20">
                 <div className={`px-4 py-2.5 rounded-2xl border flex items-center gap-2.5 backdrop-blur-md transition-all shadow-md ${
-                  isDark 
-                    ? 'bg-[#1F2C40]/95 border-[#2E3E56] text-[#F5F8FC]' 
-                    : 'bg-white/95 border-[#F0E5DA] text-[#25334A]'
+                  'bg-white/95 border-[#F0E5DA] text-[#25334A]'
                 }`}>
-                  <div className="w-7 h-7 rounded-lg bg-[#E4F5EE] dark:bg-[#153235] text-[#45BFA8] flex items-center justify-center font-bold text-xs">
+                  <div className="w-7 h-7 rounded-lg bg-[#E4F5EE] text-[#45BFA8] flex items-center justify-center font-bold text-xs">
                     ✓
                   </div>
                   <div>
-                    <div className="text-[10px] uppercase font-bold text-[#687386] dark:text-[#94A3B8]">Auto Track</div>
+                    <div className="text-[10px] uppercase font-bold text-[#687386]">Auto Track</div>
                     <div className="text-xs font-bold text-[#45BFA8]">3 Platforms Live</div>
                   </div>
                 </div>
@@ -281,15 +259,13 @@ export default function App() {
               {/* Minimalist Benefit Badge 2 (Coral) */}
               <div className="absolute -right-2 sm:-right-6 bottom-16 z-20">
                 <div className={`px-4 py-2.5 rounded-2xl border flex items-center gap-2.5 backdrop-blur-md transition-all shadow-md ${
-                  isDark 
-                    ? 'bg-[#1F2C40]/95 border-[#2E3E56] text-[#F5F8FC]' 
-                    : 'bg-white/95 border-[#F0E5DA] text-[#25334A]'
+                  'bg-white/95 border-[#F0E5DA] text-[#25334A]'
                 }`}>
-                  <div className="w-7 h-7 rounded-lg bg-[#FFE2D5] dark:bg-[#3D2627] text-[#FF765E] flex items-center justify-center font-bold text-xs">
+                  <div className="w-7 h-7 rounded-lg bg-[#FFE2D5] text-[#FF765E] flex items-center justify-center font-bold text-xs">
                     ⚔️
                   </div>
                   <div>
-                    <div className="text-[10px] uppercase font-bold text-[#687386] dark:text-[#94A3B8]">Duel Active</div>
+                    <div className="text-[10px] uppercase font-bold text-[#687386]">Duel Active</div>
                     <div className="text-xs font-bold text-[#FF765E]">Leading by 67</div>
                   </div>
                 </div>
@@ -298,10 +274,10 @@ export default function App() {
               {/* Realistic Smartphone Mockup */}
               <div className="relative w-full max-w-[320px] sm:max-w-[340px] z-10">
                 {/* Outer Phone Bezel */}
-                <div className="relative rounded-[48px] p-3 border border-[#E2D2C3] dark:border-[#2E3E56] bg-white dark:bg-[#192334] shadow-[0_24px_50px_-12px_rgba(37,51,74,0.15)] dark:shadow-[0_24px_50px_-12px_rgba(0,0,0,0.6)]">
+                <div className="relative rounded-[48px] p-3 border border-[#E2D2C3] bg-white shadow-[0_24px_50px_-12px_rgba(37,51,74,0.15)]">
                   
                   {/* Phone Screen Container */}
-                  <div className="rounded-[38px] overflow-hidden bg-[#FFFDF9] dark:bg-[#131B29] text-[#25334A] dark:text-[#F5F8FC] p-4.5 space-y-3.5 border border-[#F0E5DA] dark:border-[#1F2C40]">
+                  <div className="rounded-[38px] overflow-hidden bg-[#FFFDF9] text-[#25334A] p-4.5 space-y-3.5 border border-[#F0E5DA]">
                     
                     {/* Top Status Bar & App Identity */}
                     <div className="flex items-center justify-between pb-1">
@@ -311,7 +287,7 @@ export default function App() {
                         </div>
                         <div>
                           <div className="text-xs font-heading font-bold leading-tight">ReelCounter</div>
-                          <div className="text-[8px] font-semibold text-[#687386] dark:text-[#94A3B8]">Daily Screen Wellbeing</div>
+                          <div className="text-[8px] font-semibold text-[#687386]">Daily Screen Wellbeing</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-1.5 text-xs">
@@ -321,28 +297,28 @@ export default function App() {
                     </div>
 
                     {/* Daily Limit Card */}
-                    <div className="p-3.5 rounded-2xl bg-white dark:bg-[#1F2C40] border border-[#F0E5DA] dark:border-[#2E3E56] space-y-2 shadow-sm">
+                    <div className="p-3.5 rounded-2xl bg-white border border-[#F0E5DA] space-y-2 shadow-sm">
                       <div className="flex justify-between items-center">
                         <div>
                           <div className="text-xs font-heading font-bold">Daily Limit Meter</div>
-                          <div className="text-[10px] text-[#687386] dark:text-[#94A3B8]">253 / 600 Reels</div>
+                          <div className="text-[10px] text-[#687386]">253 / 600 Reels</div>
                         </div>
-                        <span className="text-xs font-bold bg-[#FFE2D5] text-[#FF765E] dark:bg-[#3D2627] dark:text-[#FF765E] px-2 py-0.5 rounded-full">
+                        <span className="text-xs font-bold bg-[#FFE2D5] text-[#FF765E] px-2 py-0.5 rounded-full">
                           42%
                         </span>
                       </div>
                       
                       {/* Coral Progress Bar */}
-                      <div className="w-full bg-[#FFF1E7] dark:bg-[#192334] h-2.5 rounded-full overflow-hidden">
+                      <div className="w-full bg-[#FFF1E7] h-2.5 rounded-full overflow-hidden">
                         <div className="bg-[#FF765E] h-full w-[42%] rounded-full" />
                       </div>
                     </div>
 
                     {/* Positive Encouragement Pill */}
-                    <div className="p-2.5 rounded-xl bg-[#E4F5EE] dark:bg-[#153235] border border-[#45BFA8]/20 flex items-center justify-between">
+                    <div className="p-2.5 rounded-xl bg-[#E4F5EE] border border-[#45BFA8]/20 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="text-sm">🎯</span>
-                        <div className="text-[10px] font-bold text-[#2D8A78] dark:text-[#5CD6BF]">
+                        <div className="text-[10px] font-bold text-[#2D8A78]">
                           347 reels remaining before alert threshold
                         </div>
                       </div>
@@ -355,32 +331,32 @@ export default function App() {
                         <span className="text-[#FF765E]">253 total</span>
                       </div>
                       <div className="grid grid-cols-2 gap-2 text-center">
-                        <div className="p-2.5 bg-white dark:bg-[#1F2C40] rounded-xl border border-[#F0E5DA] dark:border-[#2E3E56]">
+                        <div className="p-2.5 bg-white rounded-xl border border-[#F0E5DA]">
                           <div className="text-[#E1306C] font-bold text-[10px]">Instagram</div>
                           <div className="text-sm font-heading font-bold">126</div>
-                          <div className="text-[8px] text-[#687386] dark:text-[#94A3B8]">Reels</div>
+                          <div className="text-[8px] text-[#687386]">Reels</div>
                         </div>
-                        <div className="p-2.5 bg-white dark:bg-[#1F2C40] rounded-xl border border-[#F0E5DA] dark:border-[#2E3E56]">
+                        <div className="p-2.5 bg-white rounded-xl border border-[#F0E5DA]">
                           <div className="text-[#FF0000] font-bold text-[10px]">YouTube</div>
                           <div className="text-sm font-heading font-bold">72</div>
-                          <div className="text-[8px] text-[#687386] dark:text-[#94A3B8]">Shorts</div>
+                          <div className="text-[8px] text-[#687386]">Shorts</div>
                         </div>
-                        <div className="p-2.5 bg-white dark:bg-[#1F2C40] rounded-xl border border-[#F0E5DA] dark:border-[#2E3E56]">
+                        <div className="p-2.5 bg-white rounded-xl border border-[#F0E5DA]">
                           <div className="text-[#1877F2] font-bold text-[10px]">Facebook</div>
                           <div className="text-sm font-heading font-bold">17</div>
-                          <div className="text-[8px] text-[#687386] dark:text-[#94A3B8]">Reels</div>
+                          <div className="text-[8px] text-[#687386]">Reels</div>
                         </div>
-                        <div className="p-2.5 bg-white dark:bg-[#1F2C40] rounded-xl border border-[#F0E5DA] dark:border-[#2E3E56]">
+                        <div className="p-2.5 bg-white rounded-xl border border-[#F0E5DA]">
                           <div className="text-[#45BFA8] font-bold text-[10px]">Snapchat</div>
                           <div className="text-sm font-heading font-bold">38</div>
-                          <div className="text-[8px] text-[#687386] dark:text-[#94A3B8]">Spotlight</div>
+                          <div className="text-[8px] text-[#687386]">Spotlight</div>
                         </div>
                       </div>
                     </div>
 
                     {/* Battle Activity Row */}
-                    <div className="p-2.5 rounded-xl bg-white dark:bg-[#1F2C40] border border-[#F0E5DA] dark:border-[#2E3E56] text-[10px] flex items-center justify-between font-bold">
-                      <span className="flex items-center gap-1.5 text-[#25334A] dark:text-[#F5F8FC]">
+                    <div className="p-2.5 rounded-xl bg-white border border-[#F0E5DA] text-[10px] flex items-center justify-between font-bold">
+                      <span className="flex items-center gap-1.5 text-[#25334A]">
                         <span>⚔️</span>
                         <span>Duel with Vanshika</span>
                       </span>
@@ -399,25 +375,25 @@ export default function App() {
 
       {/* FEATURES SECTION – CLEAN BALANCED GRID */}
       <section id="features" className={`py-24 border-t transition-colors duration-200 ${
-        isDark ? 'border-[#2E3E56] bg-[#192334]' : 'border-[#F0E5DA] bg-[#FFF1E7]/50'
+        'border-[#F0E5DA] bg-[#FFF1E7]/50'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
           
           {/* Section Header */}
           <div className="text-center max-w-2xl mx-auto space-y-3.5">
             <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-bold ${
-              isDark ? 'border-[#2E3E56] bg-[#1F2C40] text-[#FFB36B]' : 'border-[#F0E5DA] bg-white text-[#FF765E] shadow-sm'
+              'border-[#F0E5DA] bg-white text-[#FF765E] shadow-sm'
             }`}>
               <Sparkles className="w-3.5 h-3.5 text-[#FF765E]" />
               <span>Digital Wellbeing Tools</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-extrabold font-heading tracking-tight text-[#25334A] dark:text-[#F5F8FC]">
+            <h2 className="text-3xl sm:text-5xl font-extrabold font-heading tracking-tight text-[#25334A]">
               Everything You Need to <br />
               <span className="text-[#FF765E]">
                 Scroll Smarter
               </span>
             </h2>
-            <p className={`text-base font-normal ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>
+            <p className={`text-base font-normal ${'text-[#687386]'}`}>
               Precision tracking, personalized boundary setting, and friendly accountability challenges designed to restore balance to your screen time.
             </p>
           </div>
@@ -427,108 +403,96 @@ export default function App() {
             
             {/* Feature 1 */}
             <div className={`p-8 rounded-3xl border transition-all hover:-translate-y-1 hover:shadow-lg ${
-              isDark 
-                ? 'bg-[#1F2C40] border-[#2E3E56]' 
-                : 'bg-white border-[#F0E5DA] shadow-[0_10px_24px_rgba(37,51,74,0.04)]'
+              'bg-white border-[#F0E5DA] shadow-[0_10px_24px_rgba(37,51,74,0.04)]'
             }`}>
-              <div className="w-14 h-14 rounded-2xl bg-[#E4F5EE] dark:bg-[#153235] flex items-center justify-center mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-[#E4F5EE] flex items-center justify-center mb-6">
                 <ClayCompass3D className="w-10 h-10" />
               </div>
-              <div className="inline-block px-3 py-1 rounded-full bg-[#E4F5EE] text-[#2D8A78] dark:bg-[#153235] dark:text-[#5CD6BF] font-bold text-[10px] uppercase tracking-wider mb-2">
+              <div className="inline-block px-3 py-1 rounded-full bg-[#E4F5EE] text-[#2D8A78] font-bold text-[10px] uppercase tracking-wider mb-2">
                 Automatic Tracking
               </div>
-              <h3 className="text-xl font-bold font-heading mb-2 text-[#25334A] dark:text-[#F5F8FC]">1. Smart Scroll Tracking</h3>
-              <p className={`text-sm leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>
+              <h3 className="text-xl font-bold font-heading mb-2 text-[#25334A]">1. Smart Scroll Tracking</h3>
+              <p className={`text-sm leading-relaxed ${'text-[#687386]'}`}>
                 Accurately track your scrolling frequency across supported platforms including Instagram Reels, YouTube Shorts, and Facebook Reels.
               </p>
             </div>
 
             {/* Feature 2 */}
             <div className={`p-8 rounded-3xl border transition-all hover:-translate-y-1 hover:shadow-lg ${
-              isDark 
-                ? 'bg-[#1F2C40] border-[#2E3E56]' 
-                : 'bg-white border-[#F0E5DA] shadow-[0_10px_24px_rgba(37,51,74,0.04)]'
+              'bg-white border-[#F0E5DA] shadow-[0_10px_24px_rgba(37,51,74,0.04)]'
             }`}>
-              <div className="w-14 h-14 rounded-2xl bg-[#FFE2D5] dark:bg-[#3D2627] flex items-center justify-center mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-[#FFE2D5] flex items-center justify-center mb-6">
                 <ClayTarget3D className="w-10 h-10" />
               </div>
-              <div className="inline-block px-3 py-1 rounded-full bg-[#FFE2D5] text-[#FF765E] dark:bg-[#3D2627] dark:text-[#FF9A85] font-bold text-[10px] uppercase tracking-wider mb-2">
+              <div className="inline-block px-3 py-1 rounded-full bg-[#FFE2D5] text-[#FF765E] font-bold text-[10px] uppercase tracking-wider mb-2">
                 Custom Targets
               </div>
-              <h3 className="text-xl font-bold font-heading mb-2 text-[#25334A] dark:text-[#F5F8FC]">2. Daily Scrolling Limits</h3>
-              <p className={`text-sm leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>
+              <h3 className="text-xl font-bold font-heading mb-2 text-[#25334A]">2. Daily Scrolling Limits</h3>
+              <p className={`text-sm leading-relaxed ${'text-[#687386]'}`}>
                 Configure your custom daily scrolling thresholds. Follow your real-time consumption with dynamic circular and linear meters.
               </p>
             </div>
 
             {/* Feature 3 */}
             <div className={`p-8 rounded-3xl border transition-all hover:-translate-y-1 hover:shadow-lg ${
-              isDark 
-                ? 'bg-[#1F2C40] border-[#2E3E56]' 
-                : 'bg-white border-[#F0E5DA] shadow-[0_10px_24px_rgba(37,51,74,0.04)]'
+              'bg-white border-[#F0E5DA] shadow-[0_10px_24px_rgba(37,51,74,0.04)]'
             }`}>
-              <div className="w-14 h-14 rounded-2xl bg-[#FFF1E7] dark:bg-[#283750] flex items-center justify-center mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-[#FFF1E7] flex items-center justify-center mb-6">
                 <ClayBell3D className="w-10 h-10" />
               </div>
-              <div className="inline-block px-3 py-1 rounded-full bg-[#FFF1E7] text-[#D9631E] dark:bg-[#283750] dark:text-[#FFB36B] font-bold text-[10px] uppercase tracking-wider mb-2">
+              <div className="inline-block px-3 py-1 rounded-full bg-[#FFF1E7] text-[#D9631E] font-bold text-[10px] uppercase tracking-wider mb-2">
                 Real-Time Alerts
               </div>
-              <h3 className="text-xl font-bold font-heading mb-2 text-[#25334A] dark:text-[#F5F8FC]">3. Usage Boundary Alerts</h3>
-              <p className={`text-sm leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>
+              <h3 className="text-xl font-bold font-heading mb-2 text-[#25334A]">3. Usage Boundary Alerts</h3>
+              <p className={`text-sm leading-relaxed ${'text-[#687386]'}`}>
                 Receive timely system alerts and overlays whenever configured boundaries are reached, with clear choices to quit or wrap up.
               </p>
             </div>
 
             {/* Feature 4 */}
             <div className={`p-8 rounded-3xl border transition-all hover:-translate-y-1 hover:shadow-lg ${
-              isDark 
-                ? 'bg-[#1F2C40] border-[#2E3E56]' 
-                : 'bg-white border-[#F0E5DA] shadow-[0_10px_24px_rgba(37,51,74,0.04)]'
+              'bg-white border-[#F0E5DA] shadow-[0_10px_24px_rgba(37,51,74,0.04)]'
             }`}>
-              <div className="w-14 h-14 rounded-2xl bg-[#FFE2D5] dark:bg-[#3D2627] flex items-center justify-center mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-[#FFE2D5] flex items-center justify-center mb-6">
                 <ClaySwords3D className="w-10 h-10" />
               </div>
-              <div className="inline-block px-3 py-1 rounded-full bg-[#FFE2D5] text-[#FF765E] dark:bg-[#3D2627] dark:text-[#FF9A85] font-bold text-[10px] uppercase tracking-wider mb-2">
+              <div className="inline-block px-3 py-1 rounded-full bg-[#FFE2D5] text-[#FF765E] font-bold text-[10px] uppercase tracking-wider mb-2">
                 Social Duels
               </div>
-              <h3 className="text-xl font-bold font-heading mb-2 text-[#25334A] dark:text-[#F5F8FC]">4. Friend Battle Mode</h3>
-              <p className={`text-sm leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>
+              <h3 className="text-xl font-bold font-heading mb-2 text-[#25334A]">4. Friend Battle Mode</h3>
+              <p className={`text-sm leading-relaxed ${'text-[#687386]'}`}>
                 Turn digital wellness into a friendly challenge. Share custom invite codes, pair up with peers, and see who keeps their reel count lowest.
               </p>
             </div>
 
             {/* Feature 5 */}
             <div className={`p-8 rounded-3xl border transition-all hover:-translate-y-1 hover:shadow-lg ${
-              isDark 
-                ? 'bg-[#1F2C40] border-[#2E3E56]' 
-                : 'bg-white border-[#F0E5DA] shadow-[0_10px_24px_rgba(37,51,74,0.04)]'
+              'bg-white border-[#F0E5DA] shadow-[0_10px_24px_rgba(37,51,74,0.04)]'
             }`}>
-              <div className="w-14 h-14 rounded-2xl bg-[#FFF8EF] dark:bg-[#283750] flex items-center justify-center mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-[#FFF8EF] flex items-center justify-center mb-6">
                 <ClayTrophy3D className="w-10 h-10" />
               </div>
-              <div className="inline-block px-3 py-1 rounded-full bg-[#FFF8EF] text-[#D9631E] dark:bg-[#283750] dark:text-[#FFB36B] font-bold text-[10px] uppercase tracking-wider mb-2">
+              <div className="inline-block px-3 py-1 rounded-full bg-[#FFF8EF] text-[#D9631E] font-bold text-[10px] uppercase tracking-wider mb-2">
                 Rankings
               </div>
-              <h3 className="text-xl font-bold font-heading mb-2 text-[#25334A] dark:text-[#F5F8FC]">5. Global Leaderboard</h3>
-              <p className={`text-sm leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>
+              <h3 className="text-xl font-bold font-heading mb-2 text-[#25334A]">5. Global Leaderboard</h3>
+              <p className={`text-sm leading-relaxed ${'text-[#687386]'}`}>
                 Compare your mindful scrolling discipline against your friend circle, regional peers, or global users on daily and weekly ranking tiers.
               </p>
             </div>
 
             {/* Feature 6 */}
             <div className={`p-8 rounded-3xl border transition-all hover:-translate-y-1 hover:shadow-lg ${
-              isDark 
-                ? 'bg-[#1F2C40] border-[#2E3E56]' 
-                : 'bg-white border-[#F0E5DA] shadow-[0_10px_24px_rgba(37,51,74,0.04)]'
+              'bg-white border-[#F0E5DA] shadow-[0_10px_24px_rgba(37,51,74,0.04)]'
             }`}>
-              <div className="w-14 h-14 rounded-2xl bg-[#E4F5EE] dark:bg-[#153235] flex items-center justify-center mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-[#E4F5EE] flex items-center justify-center mb-6">
                 <ClayChart3D className="w-10 h-10" />
               </div>
-              <div className="inline-block px-3 py-1 rounded-full bg-[#E4F5EE] text-[#2D8A78] dark:bg-[#153235] dark:text-[#5CD6BF] font-bold text-[10px] uppercase tracking-wider mb-2">
+              <div className="inline-block px-3 py-1 rounded-full bg-[#E4F5EE] text-[#2D8A78] font-bold text-[10px] uppercase tracking-wider mb-2">
                 Weekly Insights
               </div>
-              <h3 className="text-xl font-bold font-heading mb-2 text-[#25334A] dark:text-[#F5F8FC]">6. Smart Screen Time Insights</h3>
-              <p className={`text-sm leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>
+              <h3 className="text-xl font-bold font-heading mb-2 text-[#25334A]">6. Smart Screen Time Insights</h3>
+              <p className={`text-sm leading-relaxed ${'text-[#687386]'}`}>
                 Unpack detailed 7-day breakdowns, spot high-consumption peak hours, and set gradual goals to reduce doomscrolling week by week.
               </p>
             </div>
@@ -540,7 +504,7 @@ export default function App() {
 
       {/* INTERACTIVE APP PREVIEW */}
       <section id="preview" className={`py-24 border-t transition-colors duration-200 ${
-        isDark ? 'border-[#2E3E56] bg-[#131B29]' : 'border-[#F0E5DA] bg-[#FFF8EF]'
+        'border-[#F0E5DA] bg-[#FFF8EF]'
       }`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
@@ -548,10 +512,10 @@ export default function App() {
             <div className="text-xs uppercase font-bold tracking-widest text-[#FF765E]">
               Interactive Experience
             </div>
-            <h2 className="text-3xl sm:text-5xl font-extrabold font-heading tracking-tight text-[#25334A] dark:text-[#F5F8FC]">
+            <h2 className="text-3xl sm:text-5xl font-extrabold font-heading tracking-tight text-[#25334A]">
               Explore the Live App UI
             </h2>
-            <p className={`font-normal ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>
+            <p className={`font-normal ${'text-[#687386]'}`}>
               Select tabs below to preview actual Android app views with working sample data.
             </p>
           </div>
@@ -570,9 +534,7 @@ export default function App() {
                 className={`px-5 py-2.5 rounded-full font-heading font-bold text-sm flex items-center gap-2 transition-all active:scale-95 ${
                   activeTab === tab.id
                     ? 'bg-[#FF765E] text-white shadow-md shadow-[#FF765E]/30 -translate-y-0.5'
-                    : isDark 
-                      ? 'bg-[#1F2C40] border border-[#2E3E56] text-[#94A3B8] hover:bg-[#283750]' 
-                      : 'bg-white border border-[#F0E5DA] text-[#25334A] shadow-sm hover:bg-[#FFF1E7]'
+                    : 'bg-white border border-[#F0E5DA] text-[#25334A] shadow-sm hover:bg-[#FFF1E7]'
                 }`}
               >
                 <span>{tab.icon}</span>
@@ -583,8 +545,8 @@ export default function App() {
 
           {/* Interactive Mockup Container */}
           <div className="flex justify-center">
-            <div className="w-full max-w-[380px] rounded-[44px] p-3 border border-[#E2D2C3] dark:border-[#2E3E56] bg-white dark:bg-[#192334] shadow-[0_20px_45px_rgba(37,51,74,0.1)]">
-              <div className="rounded-[34px] overflow-hidden bg-[#FFFDF9] dark:bg-[#131B29] text-[#25334A] dark:text-[#F5F8FC] min-h-[560px] flex flex-col justify-between border border-[#F0E5DA] dark:border-[#1F2C40]">
+            <div className="w-full max-w-[380px] rounded-[44px] p-3 border border-[#E2D2C3] bg-white shadow-[0_20px_45px_rgba(37,51,74,0.1)]">
+              <div className="rounded-[34px] overflow-hidden bg-[#FFFDF9] text-[#25334A] min-h-[560px] flex flex-col justify-between border border-[#F0E5DA]">
                 
                 {/* PREVIEW TAB 1: HOME */}
                 {activeTab === 'home' && (
@@ -596,7 +558,7 @@ export default function App() {
                         </div>
                         <div>
                           <div className="text-xs font-heading font-bold">ReelCounter</div>
-                          <div className="text-[8px] text-[#687386] dark:text-[#94A3B8]">Scroll Less. Score More.</div>
+                          <div className="text-[8px] text-[#687386]">Scroll Less. Score More.</div>
                         </div>
                       </div>
                       <div className="flex gap-1.5 text-xs">
@@ -605,25 +567,25 @@ export default function App() {
                       </div>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-white dark:bg-[#1F2C40] border border-[#F0E5DA] dark:border-[#2E3E56] space-y-2.5 shadow-sm">
+                    <div className="p-4 rounded-2xl bg-white border border-[#F0E5DA] space-y-2.5 shadow-sm">
                       <div className="flex justify-between items-center">
                         <div>
                           <div className="text-xs font-heading font-bold">Daily Limit</div>
-                          <div className="text-[10px] text-[#687386] dark:text-[#94A3B8]">600 reels threshold</div>
+                          <div className="text-[10px] text-[#687386]">600 reels threshold</div>
                         </div>
                         <span className="text-xs font-bold bg-[#FFE2D5] text-[#FF765E] px-2.5 py-0.5 rounded-full">42%</span>
                       </div>
-                      <div className="w-full bg-[#FFF1E7] dark:bg-[#192334] h-2.5 rounded-full overflow-hidden">
+                      <div className="w-full bg-[#FFF1E7] h-2.5 rounded-full overflow-hidden">
                         <div className="bg-[#FF765E] h-full w-[42%] rounded-full" />
                       </div>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-[#E4F5EE] dark:bg-[#153235] border border-[#45BFA8]/20 flex items-center justify-between">
+                    <div className="p-3 rounded-xl bg-[#E4F5EE] border border-[#45BFA8]/20 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="text-base">🔥</span>
                         <div>
-                          <div className="text-xs font-bold text-[#2D8A78] dark:text-[#5CD6BF]">7-Day Mindful Streak!</div>
-                          <div className="text-[9px] text-[#687386] dark:text-[#94A3B8]">347 reels away from limit</div>
+                          <div className="text-xs font-bold text-[#2D8A78]">7-Day Mindful Streak!</div>
+                          <div className="text-[9px] text-[#687386]">347 reels away from limit</div>
                         </div>
                       </div>
                       <span className="text-xs text-[#45BFA8] font-bold">›</span>
@@ -635,20 +597,20 @@ export default function App() {
                         <span className="text-[#FF765E]">253 reels</span>
                       </div>
                       <div className="grid grid-cols-2 gap-2 text-center text-xs">
-                        <div className="p-3 bg-white dark:bg-[#1F2C40] rounded-xl border border-[#F0E5DA] dark:border-[#2E3E56]">
+                        <div className="p-3 bg-white rounded-xl border border-[#F0E5DA]">
                           <div className="text-[#E1306C] font-bold text-[10px]">Instagram</div>
                           <div className="text-base font-heading font-bold">126</div>
-                          <div className="text-[9px] text-[#687386] dark:text-[#94A3B8]">Reels</div>
+                          <div className="text-[9px] text-[#687386]">Reels</div>
                         </div>
-                        <div className="p-3 bg-white dark:bg-[#1F2C40] rounded-xl border border-[#F0E5DA] dark:border-[#2E3E56]">
+                        <div className="p-3 bg-white rounded-xl border border-[#F0E5DA]">
                           <div className="text-[#FF0000] font-bold text-[10px]">YouTube</div>
                           <div className="text-base font-heading font-bold">72</div>
-                          <div className="text-[9px] text-[#687386] dark:text-[#94A3B8]">Shorts</div>
+                          <div className="text-[9px] text-[#687386]">Shorts</div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="p-2.5 rounded-xl bg-white dark:bg-[#1F2C40] border border-[#F0E5DA] dark:border-[#2E3E56] text-[10px] text-[#25334A] dark:text-[#F5F8FC] flex items-center justify-between font-bold">
+                    <div className="p-2.5 rounded-xl bg-white border border-[#F0E5DA] text-[10px] text-[#25334A] flex items-center justify-between font-bold">
                       <span className="flex items-center gap-1.5">
                         <Zap className="w-3.5 h-3.5 text-[#45BFA8] fill-[#45BFA8]" />
                         Tracking Active & Standing By
@@ -673,7 +635,7 @@ export default function App() {
                       </div>
                     </div>
 
-                    <div className="p-3.5 rounded-2xl bg-white dark:bg-[#1F2C40] border border-[#F0E5DA] dark:border-[#2E3E56] space-y-3">
+                    <div className="p-3.5 rounded-2xl bg-white border border-[#F0E5DA] space-y-3">
                       <div className="flex items-center justify-between text-xs">
                         <span className="font-bold">You vs Vanshika</span>
                         <span className="px-2 py-0.5 rounded-full bg-[#E4F5EE] text-[#2D8A78] text-[10px] font-bold">● Live</span>
@@ -693,11 +655,11 @@ export default function App() {
                         </div>
                       </div>
 
-                      <div className="w-full bg-[#FFF1E7] dark:bg-[#192334] h-2 rounded-full overflow-hidden flex">
+                      <div className="w-full bg-[#FFF1E7] h-2 rounded-full overflow-hidden flex">
                         <div className="bg-[#FF765E] h-full w-[58%]" />
                         <div className="bg-[#45BFA8] h-full w-[42%]" />
                       </div>
-                      <div className="text-[10px] text-center text-[#687386] dark:text-[#94A3B8]">Cap: 500 Reels each</div>
+                      <div className="text-[10px] text-center text-[#687386]">Cap: 500 Reels each</div>
                     </div>
                   </div>
                 )}
@@ -709,34 +671,34 @@ export default function App() {
                     
                     {/* Podium */}
                     <div className="grid grid-cols-3 gap-2 items-end pt-1 pb-1 text-center">
-                      <div className="p-2.5 rounded-xl bg-white dark:bg-[#1F2C40] border border-[#F0E5DA] dark:border-[#2E3E56]">
+                      <div className="p-2.5 rounded-xl bg-white border border-[#F0E5DA]">
                         <div className="text-xl">🥈</div>
                         <div className="text-[11px] font-bold truncate mt-1">Rahul</div>
-                        <div className="text-xs text-[#25334A] dark:text-[#F5F8FC] font-bold">142</div>
+                        <div className="text-xs text-[#25334A] font-bold">142</div>
                       </div>
-                      <div className="p-3 rounded-xl bg-[#FFF8EF] dark:bg-[#283750] border-2 border-[#FFB36B] shadow-sm transform -translate-y-1.5">
+                      <div className="p-3 rounded-xl bg-[#FFF8EF] border-2 border-[#FFB36B] shadow-sm transform -translate-y-1.5">
                         <div className="text-2xl">🥇</div>
                         <div className="text-xs font-heading font-bold truncate mt-1">Arjun</div>
                         <div className="text-xs text-[#FF765E] font-bold">98</div>
                       </div>
-                      <div className="p-2.5 rounded-xl bg-white dark:bg-[#1F2C40] border border-[#F0E5DA] dark:border-[#2E3E56]">
+                      <div className="p-2.5 rounded-xl bg-white border border-[#F0E5DA]">
                         <div className="text-xl">🥉</div>
                         <div className="text-[11px] font-bold truncate mt-1">Priya</div>
-                        <div className="text-xs text-[#25334A] dark:text-[#F5F8FC] font-bold">189</div>
+                        <div className="text-xs text-[#25334A] font-bold">189</div>
                       </div>
                     </div>
 
                     {/* Ranked List */}
                     <div className="space-y-1.5">
-                      <div className="p-2.5 rounded-xl bg-white dark:bg-[#1F2C40] border border-[#F0E5DA] dark:border-[#2E3E56] flex items-center justify-between text-xs">
-                        <span className="text-[#687386] dark:text-[#94A3B8]">#4 Aman V.</span>
+                      <div className="p-2.5 rounded-xl bg-white border border-[#F0E5DA] flex items-center justify-between text-xs">
+                        <span className="text-[#687386]">#4 Aman V.</span>
                         <span className="font-bold">210 reels</span>
                       </div>
-                      <div className="p-2.5 rounded-xl bg-white dark:bg-[#1F2C40] border border-[#F0E5DA] dark:border-[#2E3E56] flex items-center justify-between text-xs">
-                        <span className="text-[#687386] dark:text-[#94A3B8]">#5 Ritu S.</span>
+                      <div className="p-2.5 rounded-xl bg-white border border-[#F0E5DA] flex items-center justify-between text-xs">
+                        <span className="text-[#687386]">#5 Ritu S.</span>
                         <span className="font-bold">230 reels</span>
                       </div>
-                      <div className="p-2.5 rounded-xl bg-[#FFE2D5] dark:bg-[#3D2627] border border-[#FF765E]/40 flex items-center justify-between text-xs font-bold text-[#FF765E]">
+                      <div className="p-2.5 rounded-xl bg-[#FFE2D5] border border-[#FF765E]/40 flex items-center justify-between text-xs font-bold text-[#FF765E]">
                         <span>#14 You</span>
                         <span>253 reels</span>
                       </div>
@@ -749,26 +711,26 @@ export default function App() {
                   <div className="p-5 space-y-3 animate-in fade-in duration-200">
                     <div className="flex justify-between items-center">
                       <span className="font-heading font-bold text-xs">📊 Weekly Summary</span>
-                      <span className="text-[10px] font-bold bg-[#E4F5EE] text-[#2D8A78] dark:bg-[#153235] dark:text-[#5CD6BF] px-2.5 py-0.5 rounded-full">This Week</span>
+                      <span className="text-[10px] font-bold bg-[#E4F5EE] text-[#2D8A78] px-2.5 py-0.5 rounded-full">This Week</span>
                     </div>
 
                     <div className="grid grid-cols-3 gap-2 text-center">
-                      <div className="p-2 bg-white dark:bg-[#1F2C40] rounded-xl border border-[#F0E5DA] dark:border-[#2E3E56]">
-                        <div className="text-[8px] text-[#687386] dark:text-[#94A3B8]">Total</div>
+                      <div className="p-2 bg-white rounded-xl border border-[#F0E5DA]">
+                        <div className="text-[8px] text-[#687386]">Total</div>
                         <div className="text-xs font-heading font-bold">2,303</div>
                       </div>
-                      <div className="p-2 bg-white dark:bg-[#1F2C40] rounded-xl border border-[#F0E5DA] dark:border-[#2E3E56]">
-                        <div className="text-[8px] text-[#687386] dark:text-[#94A3B8]">Daily Avg</div>
+                      <div className="p-2 bg-white rounded-xl border border-[#F0E5DA]">
+                        <div className="text-[8px] text-[#687386]">Daily Avg</div>
                         <div className="text-xs font-heading font-bold">327</div>
                       </div>
-                      <div className="p-2 bg-white dark:bg-[#1F2C40] rounded-xl border border-[#F0E5DA] dark:border-[#2E3E56]">
-                        <div className="text-[8px] text-[#687386] dark:text-[#94A3B8]">Streak</div>
+                      <div className="p-2 bg-white rounded-xl border border-[#F0E5DA]">
+                        <div className="text-[8px] text-[#687386]">Streak</div>
                         <div className="text-xs font-heading font-bold text-[#45BFA8]">7 Days</div>
                       </div>
                     </div>
 
                     {/* Minimal Bar Chart */}
-                    <div className="p-3 bg-white dark:bg-[#1F2C40] rounded-xl border border-[#F0E5DA] dark:border-[#2E3E56] space-y-1.5">
+                    <div className="p-3 bg-white rounded-xl border border-[#F0E5DA] space-y-1.5">
                       <div className="text-[10px] font-bold">Daily Activity Breakdown</div>
                       <div className="flex items-end justify-between h-20 pt-1 gap-1.5 px-1">
                         {[
@@ -785,20 +747,20 @@ export default function App() {
                               className={`w-full rounded-t-sm ${idx === 5 ? 'bg-[#FF765E]' : 'bg-[#FFB36B]'}`}
                               style={{ height: `${item.val}%` }}
                             />
-                            <span className="text-[8px] font-semibold text-[#687386] dark:text-[#94A3B8]">{item.day}</span>
+                            <span className="text-[8px] font-semibold text-[#687386]">{item.day}</span>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <div className="p-2.5 rounded-xl bg-[#E4F5EE] dark:bg-[#153235] text-[10px] text-[#2D8A78] dark:text-[#5CD6BF] font-semibold">
+                    <div className="p-2.5 rounded-xl bg-[#E4F5EE] text-[10px] text-[#2D8A78] font-semibold">
                       💡 <strong>Insight:</strong> Scrolling dropped 30% after 9:00 PM with daily limits active.
                     </div>
                   </div>
                 )}
 
                 {/* Bottom App Navigation */}
-                <div className="border-t border-[#F0E5DA] dark:border-[#2E3E56] bg-white dark:bg-[#192334] p-3 flex justify-around text-center text-[10px]">
+                <div className="border-t border-[#F0E5DA] bg-white p-3 flex justify-around text-center text-[10px]">
                   <button onClick={() => setActiveTab('home')} className={activeTab === 'home' ? 'text-[#FF765E] font-bold' : 'text-[#687386]'}>
                     <Smartphone className="w-4 h-4 mx-auto mb-0.5" />
                     Home
@@ -826,24 +788,24 @@ export default function App() {
 
       {/* BATTLE MODE SECTION – REFINED GAMING PRESENTATION */}
       <section id="battle" className={`py-24 border-t transition-colors duration-200 relative overflow-hidden ${
-        isDark ? 'border-[#2E3E56] bg-[#192334]' : 'border-[#F0E5DA] bg-white'
+        'border-[#F0E5DA] bg-white'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 relative z-10">
           
           <div className="text-center max-w-2xl mx-auto space-y-3.5">
             <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-bold ${
-              isDark ? 'border-[#2E3E56] bg-[#1F2C40] text-[#FFB36B]' : 'border-[#F0E5DA] bg-[#FFE2D5] text-[#FF765E] shadow-sm'
+              'border-[#F0E5DA] bg-[#FFE2D5] text-[#FF765E] shadow-sm'
             }`}>
               <Swords className="w-3.5 h-3.5 text-[#FF765E]" />
               <span>Friendly Accountability</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-extrabold font-heading tracking-tight text-[#25334A] dark:text-[#F5F8FC]">
+            <h2 className="text-3xl sm:text-5xl font-extrabold font-heading tracking-tight text-[#25334A]">
               Challenge Your Friends. <br />
               <span className="text-[#FF765E]">
                 Change Your Habits.
               </span>
             </h2>
-            <p className={`text-base font-normal ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>
+            <p className={`text-base font-normal ${'text-[#687386]'}`}>
               Turn mindless doomscrolling into a collaborative game. Challenge peers to see who scrolls less during study sessions, work hours, or weekends.
             </p>
           </div>
@@ -853,37 +815,35 @@ export default function App() {
             {/* Visual Duel Card */}
             <div className="lg:col-span-7">
               <div className={`p-8 sm:p-10 rounded-3xl border relative overflow-hidden ${
-                isDark 
-                  ? 'bg-[#1F2C40] border-[#2E3E56] shadow-md' 
-                  : 'bg-[#FFF8EF] border-[#F0E5DA] shadow-[0_12px_30px_rgba(37,51,74,0.05)]'
+                'bg-[#FFF8EF] border-[#F0E5DA] shadow-[0_12px_30px_rgba(37,51,74,0.05)]'
               }`}>
                 
                 <div className="grid sm:grid-cols-2 gap-6 relative z-10 items-center">
                   
                   {/* Player 1 Card (Coral) */}
-                  <div className="p-6 rounded-2xl bg-white dark:bg-[#192334] border border-[#F0E5DA] dark:border-[#2E3E56] text-center space-y-2.5 shadow-sm">
-                    <div className="w-16 h-16 rounded-full bg-[#FFE2D5] dark:bg-[#3D2627] text-[#FF765E] mx-auto flex items-center justify-center text-3xl font-bold">
+                  <div className="p-6 rounded-2xl bg-white border border-[#F0E5DA] text-center space-y-2.5 shadow-sm">
+                    <div className="w-16 h-16 rounded-full bg-[#FFE2D5] text-[#FF765E] mx-auto flex items-center justify-center text-3xl font-bold">
                       👦
                     </div>
                     <div>
-                      <div className="font-heading font-bold text-base text-[#25334A] dark:text-[#F5F8FC]">You (Player 1)</div>
+                      <div className="font-heading font-bold text-base text-[#25334A]">You (Player 1)</div>
                       <div className="text-xs text-[#FF765E] font-bold">253 Scrolls Today</div>
                     </div>
-                    <div className="text-xs font-semibold px-3 py-1 bg-[#FFF1E7] dark:bg-[#1F2C40] rounded-full inline-block text-[#D9631E] dark:text-[#FFB36B]">
+                    <div className="text-xs font-semibold px-3 py-1 bg-[#FFF1E7] rounded-full inline-block text-[#D9631E]">
                       Cap: 600 Reels
                     </div>
                   </div>
 
                   {/* Player 2 Card (Teal) */}
-                  <div className="p-6 rounded-2xl bg-white dark:bg-[#192334] border border-[#F0E5DA] dark:border-[#2E3E56] text-center space-y-2.5 shadow-sm">
-                    <div className="w-16 h-16 rounded-full bg-[#E4F5EE] dark:bg-[#153235] text-[#45BFA8] mx-auto flex items-center justify-center text-3xl font-bold">
+                  <div className="p-6 rounded-2xl bg-white border border-[#F0E5DA] text-center space-y-2.5 shadow-sm">
+                    <div className="w-16 h-16 rounded-full bg-[#E4F5EE] text-[#45BFA8] mx-auto flex items-center justify-center text-3xl font-bold">
                       👧
                     </div>
                     <div>
-                      <div className="font-heading font-bold text-base text-[#25334A] dark:text-[#F5F8FC]">Vanshika</div>
+                      <div className="font-heading font-bold text-base text-[#25334A]">Vanshika</div>
                       <div className="text-xs text-[#45BFA8] font-bold">186 Scrolls Today</div>
                     </div>
-                    <div className="text-xs font-semibold px-3 py-1 bg-[#E4F5EE] dark:bg-[#1F2C40] rounded-full inline-block text-[#2D8A78] dark:text-[#5CD6BF]">
+                    <div className="text-xs font-semibold px-3 py-1 bg-[#E4F5EE] rounded-full inline-block text-[#2D8A78]">
                       Cap: 500 Reels
                     </div>
                   </div>
@@ -896,7 +856,7 @@ export default function App() {
                     <span className="text-[#FF765E]">You (58%)</span>
                     <span className="text-[#45BFA8]">Vanshika (42%) • Leading</span>
                   </div>
-                  <div className="w-full bg-[#F0E5DA] dark:bg-[#131B29] h-2.5 rounded-full overflow-hidden flex">
+                  <div className="w-full bg-[#F0E5DA] h-2.5 rounded-full overflow-hidden flex">
                     <div className="bg-[#FF765E] h-full w-[58%]" />
                     <div className="bg-[#45BFA8] h-full w-[42%]" />
                   </div>
@@ -904,13 +864,13 @@ export default function App() {
 
                 {/* Invite Code Box */}
                 <div className="mt-8 text-center space-y-2.5">
-                  <div className={`text-xs font-semibold ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>
+                  <div className={`text-xs font-semibold ${'text-[#687386]'}`}>
                     Share your battle invite code:
                   </div>
                   <div className={`inline-flex items-center gap-3 px-5 py-2.5 rounded-full border shadow-sm ${
-                    isDark ? 'bg-[#192334] border-[#2E3E56]' : 'bg-white border-[#F0E5DA]'
+                    'bg-white border-[#F0E5DA]'
                   }`}>
-                    <span className="font-mono text-lg font-bold tracking-wider text-[#25334A] dark:text-[#F5F8FC]">
+                    <span className="font-mono text-lg font-bold tracking-wider text-[#25334A]">
                       SC2025
                     </span>
                     <button 
@@ -935,14 +895,14 @@ export default function App() {
                 { step: '04', title: 'Crown the Winner', desc: 'Review who showed higher discipline and stayed furthest beneath their threshold.' }
               ].map((item, idx) => (
                 <div key={idx} className={`p-4 rounded-2xl border flex gap-4 items-center transition-all hover:translate-x-1 ${
-                  isDark ? 'bg-[#1F2C40] border-[#2E3E56]' : 'bg-white border-[#F0E5DA] shadow-sm'
+                  'bg-white border-[#F0E5DA] shadow-sm'
                 }`}>
                   <span className="font-mono text-xs font-bold text-white bg-[#FF765E] w-9 h-9 rounded-xl flex items-center justify-center shadow-sm flex-shrink-0">
                     {item.step}
                   </span>
                   <div>
-                    <h4 className="font-heading font-bold text-sm mb-0.5 text-[#25334A] dark:text-[#F5F8FC]">{item.title}</h4>
-                    <p className={`text-xs ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>{item.desc}</p>
+                    <h4 className="font-heading font-bold text-sm mb-0.5 text-[#25334A]">{item.title}</h4>
+                    <p className={`text-xs ${'text-[#687386]'}`}>{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -955,21 +915,21 @@ export default function App() {
 
       {/* LEADERBOARD SECTION */}
       <section id="leaderboard" className={`py-24 border-t transition-colors duration-200 ${
-        isDark ? 'border-[#2E3E56] bg-[#131B29]' : 'border-[#F0E5DA] bg-[#FFF8EF]'
+        'border-[#F0E5DA] bg-[#FFF8EF]'
       }`}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
           <div className="text-center space-y-3.5">
             <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-bold ${
-              isDark ? 'border-[#2E3E56] bg-[#1F2C40] text-[#FFB36B]' : 'border-[#F0E5DA] bg-white text-[#D9631E] shadow-sm'
+              'border-[#F0E5DA] bg-white text-[#D9631E] shadow-sm'
             }`}>
               <Crown className="w-3.5 h-3.5 text-[#FFB36B]" />
               <span>Rankings & Milestones</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-extrabold font-heading tracking-tight text-[#25334A] dark:text-[#F5F8FC]">
+            <h2 className="text-3xl sm:text-5xl font-extrabold font-heading tracking-tight text-[#25334A]">
               Every Reel Counts. Every Rank Matters.
             </h2>
-            <p className={`font-normal ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>
+            <p className={`font-normal ${'text-[#687386]'}`}>
               See how your discipline stacks up. Mindful digital habits rewarded daily.
             </p>
           </div>
@@ -983,7 +943,7 @@ export default function App() {
                 className={`px-4 py-2 rounded-full text-xs font-heading font-bold uppercase tracking-wider transition-all active:scale-95 ${
                   lbFilter === tab 
                     ? 'bg-[#FF765E] text-white shadow-sm' 
-                    : isDark ? 'bg-[#1F2C40] border border-[#2E3E56] text-[#94A3B8]' : 'bg-white border border-[#F0E5DA] text-[#687386]'
+                    : 'bg-white border border-[#F0E5DA] text-[#687386]'
                 }`}
               >
                 {tab}
@@ -996,22 +956,22 @@ export default function App() {
             
             {/* 2nd Place: Silver */}
             <div className={`p-4 rounded-2xl border transition-all ${
-              isDark ? 'bg-[#1F2C40] border-[#2E3E56]' : 'bg-white border-[#F0E5DA] shadow-sm'
+              'bg-white border-[#F0E5DA] shadow-sm'
             }`}>
               <div className="text-2xl mb-1">🥈</div>
-              <div className="font-heading font-bold text-sm truncate text-[#25334A] dark:text-[#F5F8FC]">Rahul S.</div>
+              <div className="font-heading font-bold text-sm truncate text-[#25334A]">Rahul S.</div>
               <div className="text-xs text-[#FF765E] font-bold">142 reels</div>
-              <div className="mt-2 py-0.5 rounded-lg bg-[#FFF1E7] dark:bg-[#192334] text-[10px] font-bold text-[#D9631E] dark:text-[#FFB36B]">
+              <div className="mt-2 py-0.5 rounded-lg bg-[#FFF1E7] text-[10px] font-bold text-[#D9631E]">
                 #2 Rank
               </div>
             </div>
 
             {/* 1st Place: Gold Podium */}
-            <div className="p-5 rounded-3xl border-2 border-[#FFB36B] bg-white dark:bg-[#1F2C40] shadow-md transform -translate-y-3">
+            <div className="p-5 rounded-3xl border-2 border-[#FFB36B] bg-white shadow-md transform -translate-y-3">
               <div className="w-10 h-10 mx-auto mb-1">
                 <ClayTrophy3D className="w-full h-full" />
               </div>
-              <div className="font-heading font-extrabold text-base truncate mt-1 text-[#25334A] dark:text-[#F5F8FC]">Arjun K.</div>
+              <div className="font-heading font-extrabold text-base truncate mt-1 text-[#25334A]">Arjun K.</div>
               <div className="text-sm text-[#FF765E] font-bold">98 reels</div>
               <div className="mt-2 py-1 px-3 rounded-full bg-[#FF765E] text-white text-[10px] font-bold uppercase tracking-wider shadow-sm">
                 🥇 Champion
@@ -1020,12 +980,12 @@ export default function App() {
 
             {/* 3rd Place: Bronze */}
             <div className={`p-4 rounded-2xl border transition-all ${
-              isDark ? 'bg-[#1F2C40] border-[#2E3E56]' : 'bg-white border-[#F0E5DA] shadow-sm'
+              'bg-white border-[#F0E5DA] shadow-sm'
             }`}>
               <div className="text-2xl mb-1">🥉</div>
-              <div className="font-heading font-bold text-sm truncate text-[#25334A] dark:text-[#F5F8FC]">Priya P.</div>
+              <div className="font-heading font-bold text-sm truncate text-[#25334A]">Priya P.</div>
               <div className="text-xs text-[#FF765E] font-bold">189 reels</div>
-              <div className="mt-2 py-0.5 rounded-lg bg-[#FFF1E7] dark:bg-[#192334] text-[10px] font-bold text-[#D9631E] dark:text-[#FFB36B]">
+              <div className="mt-2 py-0.5 rounded-lg bg-[#FFF1E7] text-[10px] font-bold text-[#D9631E]">
                 #3 Rank
               </div>
             </div>
@@ -1034,9 +994,7 @@ export default function App() {
 
           {/* Ranked List & Current User Card */}
           <div className={`rounded-3xl border overflow-hidden ${
-            isDark 
-              ? 'bg-[#1F2C40] border-[#2E3E56]' 
-              : 'bg-white border-[#F0E5DA] shadow-sm'
+            'bg-white border-[#F0E5DA] shadow-sm'
           }`}>
             <div className="p-5 sm:p-6 space-y-2">
               {[
@@ -1044,18 +1002,18 @@ export default function App() {
                 { rank: 5, name: 'Ritu Sen', tag: 'Balanced Habit', count: '230 reels' },
               ].map(user => (
                 <div key={user.rank} className={`flex items-center justify-between p-3 rounded-xl transition-colors ${
-                  isDark ? 'hover:bg-[#192334]' : 'hover:bg-[#FFF8EF]'
+                  'hover:bg-[#FFF8EF]'
                 }`}>
                   <div className="flex items-center gap-3">
-                    <span className="w-7 text-center font-bold text-sm text-[#687386] dark:text-[#94A3B8]">
+                    <span className="w-7 text-center font-bold text-sm text-[#687386]">
                       #{user.rank}
                     </span>
                     <div className="w-9 h-9 rounded-full bg-[#FFE2D5] text-[#FF765E] flex items-center justify-center font-bold text-xs">
                       {user.name.slice(0, 2).toUpperCase()}
                     </div>
                     <div>
-                      <div className="font-heading font-bold text-sm text-[#25334A] dark:text-[#F5F8FC]">{user.name}</div>
-                      <div className={`text-[10px] ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>{user.tag}</div>
+                      <div className="font-heading font-bold text-sm text-[#25334A]">{user.name}</div>
+                      <div className={`text-[10px] ${'text-[#687386]'}`}>{user.tag}</div>
                     </div>
                   </div>
                   <div className="font-mono font-bold text-sm text-[#FF765E]">{user.count}</div>
@@ -1063,15 +1021,15 @@ export default function App() {
               ))}
 
               {/* Current User Pinned Card */}
-              <div className="mt-3 pt-3 border-t border-[#F0E5DA] dark:border-[#2E3E56]">
-                <div className="p-3.5 rounded-xl bg-[#FFE2D5]/70 dark:bg-[#3D2627]/60 border border-[#FF765E]/40 flex items-center justify-between">
+              <div className="mt-3 pt-3 border-t border-[#F0E5DA]">
+                <div className="p-3.5 rounded-xl bg-[#FFE2D5]/70 border border-[#FF765E]/40 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <span className="w-7 text-center font-bold text-sm text-[#FF765E]">#14</span>
                     <div className="w-9 h-9 rounded-full bg-[#FF765E] flex items-center justify-center text-white font-bold text-xs shadow-sm">
                       YOU
                     </div>
                     <div>
-                      <div className="font-heading font-bold text-sm text-[#25334A] dark:text-[#F5F8FC]">Your Current Rank</div>
+                      <div className="font-heading font-bold text-sm text-[#25334A]">Your Current Rank</div>
                       <div className="text-[10px] font-bold text-[#FF765E]">Top 15% mindful scrollers this week</div>
                     </div>
                   </div>
@@ -1082,7 +1040,7 @@ export default function App() {
             </div>
           </div>
 
-          <p className="text-center text-xs text-[#687386] dark:text-[#94A3B8]">
+          <p className="text-center text-xs text-[#687386]">
             *Demo data shown for illustration. Real rankings sync dynamically upon logging into ReelCounter.
           </p>
 
@@ -1091,15 +1049,15 @@ export default function App() {
 
       {/* HOW IT WORKS – CLEAN STEPS */}
       <section id="how-it-works" className={`py-24 border-t transition-colors duration-200 ${
-        isDark ? 'border-[#2E3E56] bg-[#192334]' : 'border-[#F0E5DA] bg-white'
+        'border-[#F0E5DA] bg-white'
       }`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
           
           <div className="text-center max-w-2xl mx-auto space-y-3.5">
-            <h2 className="text-3xl sm:text-5xl font-extrabold font-heading tracking-tight text-[#25334A] dark:text-[#F5F8FC]">
+            <h2 className="text-3xl sm:text-5xl font-extrabold font-heading tracking-tight text-[#25334A]">
               How ReelCounter Works
             </h2>
-            <p className={`font-normal ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>
+            <p className={`font-normal ${'text-[#687386]'}`}>
               Simple setup in under 60 seconds with full user privacy and control.
             </p>
           </div>
@@ -1112,28 +1070,24 @@ export default function App() {
               { num: '4', title: 'Track & Compete', desc: 'Watch your meters progress in real-time or challenge your friends in 1-on-1 battles.' }
             ].map(step => (
               <div key={step.num} className={`p-7 rounded-3xl border transition-all hover:-translate-y-1 ${
-                isDark 
-                  ? 'bg-[#1F2C40] border-[#2E3E56]' 
-                  : 'bg-[#FFF8EF] border-[#F0E5DA] shadow-sm'
+                'bg-[#FFF8EF] border-[#F0E5DA] shadow-sm'
               } space-y-3`}>
                 <div className="w-10 h-10 rounded-xl bg-[#FF765E] text-white font-heading font-bold text-base flex items-center justify-center shadow-sm">
                   {step.num}
                 </div>
-                <h3 className="font-heading font-bold text-base text-[#25334A] dark:text-[#F5F8FC]">{step.title}</h3>
-                <p className={`text-xs leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>{step.desc}</p>
+                <h3 className="font-heading font-bold text-base text-[#25334A]">{step.title}</h3>
+                <p className={`text-xs leading-relaxed ${'text-[#687386]'}`}>{step.desc}</p>
               </div>
             ))}
           </div>
 
           {/* Android Permission Transparency Note Card */}
           <div className={`p-5 rounded-2xl border flex items-start gap-3.5 max-w-3xl mx-auto ${
-            isDark 
-              ? 'bg-[#1F2C40] border-[#2E3E56] text-[#94A3B8]' 
-              : 'bg-[#FFF1E7] border-[#F0E5DA] text-[#687386]'
+            'bg-[#FFF1E7] border-[#F0E5DA] text-[#687386]'
           }`}>
             <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5 text-[#FF765E]" />
             <div className="text-xs leading-relaxed">
-              <strong className="text-[#25334A] dark:text-[#F5F8FC]">Transparent System Note:</strong> ReelCounter uses Android Accessibility and Display Overlay services solely to detect swipe gestures on supported short-video apps. It does not read private chat messages, passwords, or personal media.
+              <strong className="text-[#25334A]">Transparent System Note:</strong> ReelCounter uses Android Accessibility and Display Overlay services solely to detect swipe gestures on supported short-video apps. It does not read private chat messages, passwords, or personal media.
             </div>
           </div>
 
@@ -1142,13 +1096,11 @@ export default function App() {
 
       {/* PRIVACY & USER CONTROL */}
       <section className={`py-24 border-t transition-colors duration-200 ${
-        isDark ? 'border-[#2E3E56] bg-[#131B29]' : 'border-[#F0E5DA] bg-[#FFF8EF]'
+        'border-[#F0E5DA] bg-[#FFF8EF]'
       }`}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`p-8 sm:p-12 rounded-3xl border relative overflow-hidden ${
-            isDark 
-              ? 'bg-[#1F2C40] border-[#2E3E56]' 
-              : 'bg-white border-[#F0E5DA] shadow-[0_10px_25px_rgba(37,51,74,0.04)]'
+            'bg-white border-[#F0E5DA] shadow-[0_10px_25px_rgba(37,51,74,0.04)]'
           }`}>
             <div className="grid md:grid-cols-12 gap-8 items-center">
               
@@ -1157,10 +1109,10 @@ export default function App() {
                   <ShieldCheck className="w-4 h-4" />
                   <span>Privacy-First Architecture</span>
                 </div>
-                <h2 className="text-3xl sm:text-4xl font-extrabold font-heading tracking-tight text-[#25334A] dark:text-[#F5F8FC]">
+                <h2 className="text-3xl sm:text-4xl font-extrabold font-heading tracking-tight text-[#25334A]">
                   Your Habits. Your Control.
                 </h2>
-                <p className={`text-sm leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>
+                <p className={`text-sm leading-relaxed ${'text-[#687386]'}`}>
                   We believe digital wellbeing tools should never compromise privacy. Use core tracking locally without mandatory accounts. Only connect an account when you want to join multiplayer Battle Mode or sync across devices.
                 </p>
                 <div className="pt-2 flex flex-wrap gap-4 text-xs font-bold">
@@ -1177,7 +1129,7 @@ export default function App() {
               </div>
 
               <div className="md:col-span-4 flex justify-center">
-                <div className="w-28 h-28 rounded-3xl bg-[#E4F5EE] dark:bg-[#153235] flex items-center justify-center p-4">
+                <div className="w-28 h-28 rounded-3xl bg-[#E4F5EE] flex items-center justify-center p-4">
                   <ClayShield3D className="w-20 h-20" />
                 </div>
               </div>
@@ -1189,15 +1141,15 @@ export default function App() {
 
       {/* FAQ SECTION */}
       <section id="faq" className={`py-24 border-t transition-colors duration-200 ${
-        isDark ? 'border-[#2E3E56] bg-[#192334]' : 'border-[#F0E5DA] bg-white'
+        'border-[#F0E5DA] bg-white'
       }`}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
           <div className="text-center space-y-3.5">
-            <h2 className="text-3xl sm:text-5xl font-extrabold font-heading tracking-tight text-[#25334A] dark:text-[#F5F8FC]">
+            <h2 className="text-3xl sm:text-5xl font-extrabold font-heading tracking-tight text-[#25334A]">
               Frequently Asked Questions
             </h2>
-            <p className={`font-normal ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>
+            <p className={`font-normal ${'text-[#687386]'}`}>
               Direct answers to common questions about permissions, platform support, and battle rules.
             </p>
           </div>
@@ -1248,21 +1200,19 @@ export default function App() {
               <div 
                 key={idx} 
                 className={`rounded-2xl border transition-all overflow-hidden ${
-                  isDark 
-                    ? 'bg-[#1F2C40] border-[#2E3E56]' 
-                    : 'bg-[#FFF8EF] border-[#F0E5DA]'
+                  'bg-[#FFF8EF] border-[#F0E5DA]'
                 }`}
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full p-5 sm:p-6 text-left flex items-center justify-between font-heading font-bold text-sm sm:text-base focus:outline-none text-[#25334A] dark:text-[#F5F8FC]"
+                  className="w-full p-5 sm:p-6 text-left flex items-center justify-between font-heading font-bold text-sm sm:text-base focus:outline-none text-[#25334A]"
                 >
                   <span>{faq.q}</span>
                   <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${openFaq === idx ? 'rotate-180 text-[#FF765E]' : 'text-[#687386]'}`} />
                 </button>
                 {openFaq === idx && (
                   <div className={`px-5 sm:px-6 pb-6 text-xs sm:text-sm leading-relaxed border-t pt-3 ${
-                    isDark ? 'text-[#94A3B8] border-[#2E3E56]' : 'text-[#687386] border-[#F0E5DA]'
+                    'text-[#687386] border-[#F0E5DA]'
                   }`}>
                     {faq.a}
                   </div>
@@ -1282,13 +1232,13 @@ export default function App() {
             <ClayTrophy3D className="w-full h-full" />
           </div>
 
-          <h2 className="text-4xl sm:text-6xl font-extrabold font-heading tracking-tight leading-tight text-[#25334A] dark:text-[#F5F8FC]">
+          <h2 className="text-4xl sm:text-6xl font-extrabold font-heading tracking-tight leading-tight text-[#25334A]">
             Take Back Control of <br />
             <span className="text-[#FF765E]">
               Your Scroll.
             </span>
           </h2>
-          <p className={`text-base sm:text-lg max-w-xl mx-auto font-normal ${isDark ? 'text-[#94A3B8]' : 'text-[#687386]'}`}>
+          <p className={`text-base sm:text-lg max-w-xl mx-auto font-normal ${'text-[#687386]'}`}>
             Track smarter. Scroll mindfully. Challenge your friends. Start building better digital habits with ReelCounter today.
           </p>
 
@@ -1305,16 +1255,14 @@ export default function App() {
             <a 
               href="#preview"
               className={`px-8 py-4 rounded-full font-heading font-bold text-base border transition-all ${
-                isDark 
-                  ? 'border-[#2E3E56] bg-[#1F2C40] hover:bg-[#283750] text-[#F5F8FC]' 
-                  : 'border-[#F0E5DA] bg-white hover:bg-[#FFFDF9] text-[#25334A] shadow-sm'
+                'border-[#F0E5DA] bg-white hover:bg-[#FFFDF9] text-[#25334A] shadow-sm'
               }`}
             >
               Explore App Demo
             </a>
           </div>
 
-          <div className="text-xs text-[#687386] dark:text-[#94A3B8] font-medium">
+          <div className="text-xs text-[#687386] font-medium">
             Requires Android 8.0 or later • 100% Free to use
           </div>
 

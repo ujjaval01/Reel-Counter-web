@@ -57,10 +57,10 @@ function vercelApiDevPlugin(): Plugin {
 
           // Resolve TypeScript route file
           let filePath = path.resolve(process.cwd(), `.${pathname}.ts`);
-          if (pathname.startsWith('/api/admin/')) {
-            const routeName = pathname.replace('/api/admin/', '').split('?')[0];
-            query.route = routeName;
-            filePath = path.resolve(process.cwd(), './api/admin/[route].ts');
+          if (pathname === '/api/admin' || pathname.startsWith('/api/admin/')) {
+            const routeName = pathname.replace(/^\/api\/admin\/?/, '').split('?')[0];
+            query.route = routeName || 'overview';
+            filePath = path.resolve(process.cwd(), './api/admin.ts');
           }
 
           try {
