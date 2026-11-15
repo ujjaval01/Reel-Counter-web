@@ -86,7 +86,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Check if Firestore environment is configured
     const projectId = process.env.FIREBASE_PROJECT_ID;
-    if (projectId && process.env.FIREBASE_API_KEY) {
+    const apiKey = process.env.FIREBASE_API_KEY || process.env.VITE_FIREBASE_API_KEY;
+    if (projectId && apiKey) {
       try {
         const firestoreUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/account_deletion_requests/${normalizedId}`;
         const response = await fetch(firestoreUrl);
@@ -218,7 +219,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Attempt to store in Firebase Firestore if configured via environment variables
     const projectId = process.env.FIREBASE_PROJECT_ID;
-    const apiKey = process.env.FIREBASE_API_KEY;
+    const apiKey = process.env.FIREBASE_API_KEY || process.env.VITE_FIREBASE_API_KEY;
 
     let storedInFirestore = false;
     if (projectId && apiKey) {
