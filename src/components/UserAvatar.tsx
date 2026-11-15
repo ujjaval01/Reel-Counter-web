@@ -30,41 +30,46 @@ export function resolveUserAvatar(user?: AvatarUser | null): {
   }
 
   const isHttpUrl = (val: any): boolean =>
-    typeof val === 'string' && /^https?:\/\//i.test(val.trim());
+    typeof val === 'string' && (/^https?:\/\//i.test(val.trim()) || val.trim().startsWith('/avatars/'));
 
-  // 1. Google photo URL
+  // 1. In-app character drawable (ch_1 ... ch_24)
+  const charKey = (user.avatarId || user.avatarUrl || '').trim().toLowerCase();
+  if (/^ch_([1-9]|1[0-9]|2[0-4])$/.test(charKey)) {
+    return { type: 'image', value: `/avatars/${charKey}.png` };
+  }
+
+  // 2. Google photo URL
   if (user.avatarType === 'GOOGLE_PHOTO') {
     if (isHttpUrl(user.avatarUrl)) return { type: 'image', value: user.avatarUrl!.trim() };
     if (isHttpUrl(user.googlePhotoUrl)) return { type: 'image', value: user.googlePhotoUrl!.trim() };
   }
 
-  // 2. Any direct valid HTTP URL in avatarUrl
+  // 3. Direct valid image URL in avatarUrl
   if (isHttpUrl(user.avatarUrl)) {
     return { type: 'image', value: user.avatarUrl!.trim() };
   }
 
-  // 3. User configured explicit emoji
+  // 4. User configured explicit emoji
   if (user.avatarEmoji && typeof user.avatarEmoji === 'string' && user.avatarEmoji.trim()) {
     return { type: 'emoji', value: user.avatarEmoji.trim() };
   }
 
-  // 4. avatarUrl itself is an emoji (e.g. "🐼", "🔥")
+  // 5. avatarUrl itself is an emoji (e.g. "🐼", "🔥")
   if (user.avatarUrl && typeof user.avatarUrl === 'string' && !isHttpUrl(user.avatarUrl) && !user.avatarUrl.startsWith('ch_')) {
     return { type: 'emoji', value: user.avatarUrl.trim() };
   }
 
-  // 5. In-app character drawable (ch_1 ... ch_8)
-  const charKey = (user.avatarId || user.avatarUrl || '').trim().toLowerCase();
+  // 6. Character map emoji fallback
   if (CHARACTER_DRAWABLE_MAP[charKey]) {
     return { type: 'emoji', value: CHARACTER_DRAWABLE_MAP[charKey] };
   }
 
-  // 6. Fallback to Google photo if available
+  // 7. Fallback to Google photo if available
   if (isHttpUrl(user.googlePhotoUrl)) {
     return { type: 'image', value: user.googlePhotoUrl!.trim() };
   }
 
-  // 7. Fallback to Initials
+  // 8. Fallback to Initials
   const name = (user.displayName || user.username || 'RC').trim();
   const initials = name
     .split(/\s+/)
@@ -106,8 +111,10 @@ export function UserAvatar({
     );
   }
 
-  const isEmoji = avatar.type === 'emoji';
-  const displayVal = isEmoji ? avatar.value : (avatar.value || defaultInitials);
+  const charKey = (user?.avatarId || user?.avatarUrl || '').trim().toLowerCase();
+  const fallbackEmoji = user?.avatarEmoji || CHARACTER_DRAWABLE_MAP[charKey] || null;
+  const isEmoji = avatar.type === 'emoji' || Boolean(fallbackEmoji);
+  const displayVal = fallbackEmoji || (avatar.type === 'emoji' ? avatar.value : (avatar.value || defaultInitials));
 
   return (
     <div className={`flex items-center justify-center select-none shrink-0 ${className}`}>

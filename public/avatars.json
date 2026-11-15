@@ -1,0 +1,149 @@
+{
+  "version": 1,
+  "characters": [
+    {
+      "key": "ch_1",
+      "name": "Character 1",
+      "url": "https://reelcounter.vercel.app/avatars/ch_1.png",
+      "preview": "/avatars/ch_1.png"
+    },
+    {
+      "key": "ch_2",
+      "name": "Character 2",
+      "url": "https://reelcounter.vercel.app/avatars/ch_2.png",
+      "preview": "/avatars/ch_2.png"
+    },
+    {
+      "key": "ch_3",
+      "name": "Character 3",
+      "url": "https://reelcounter.vercel.app/avatars/ch_3.png",
+      "preview": "/avatars/ch_3.png"
+    },
+    {
+      "key": "ch_4",
+      "name": "Character 4",
+      "url": "https://reelcounter.vercel.app/avatars/ch_4.png",
+      "preview": "/avatars/ch_4.png"
+    },
+    {
+      "key": "ch_5",
+      "name": "Character 5",
+      "url": "https://reelcounter.vercel.app/avatars/ch_5.png",
+      "preview": "/avatars/ch_5.png"
+    },
+    {
+      "key": "ch_6",
+      "name": "Character 6",
+      "url": "https://reelcounter.vercel.app/avatars/ch_6.png",
+      "preview": "/avatars/ch_6.png"
+    },
+    {
+      "key": "ch_7",
+      "name": "Character 7",
+      "url": "https://reelcounter.vercel.app/avatars/ch_7.png",
+      "preview": "/avatars/ch_7.png"
+    },
+    {
+      "key": "ch_8",
+      "name": "Character 8",
+      "url": "https://reelcounter.vercel.app/avatars/ch_8.png",
+      "preview": "/avatars/ch_8.png"
+    },
+    {
+      "key": "ch_9",
+      "name": "Character 9",
+      "url": "https://reelcounter.vercel.app/avatars/ch_9.png",
+      "preview": "/avatars/ch_9.png"
+    },
+    {
+      "key": "ch_10",
+      "name": "Character 10",
+      "url": "https://reelcounter.vercel.app/avatars/ch_10.png",
+      "preview": "/avatars/ch_10.png"
+    },
+    {
+      "key": "ch_11",
+      "name": "Character 11",
+      "url": "https://reelcounter.vercel.app/avatars/ch_11.png",
+      "preview": "/avatars/ch_11.png"
+    },
+    {
+      "key": "ch_12",
+      "name": "Character 12",
+      "url": "https://reelcounter.vercel.app/avatars/ch_12.png",
+      "preview": "/avatars/ch_12.png"
+    },
+    {
+      "key": "ch_13",
+      "name": "Character 13",
+      "url": "https://reelcounter.vercel.app/avatars/ch_13.png",
+      "preview": "/avatars/ch_13.png"
+    },
+    {
+      "key": "ch_14",
+      "name": "Character 14",
+      "url": "https://reelcounter.vercel.app/avatars/ch_14.png",
+      "preview": "/avatars/ch_14.png"
+    },
+    {
+      "key": "ch_15",
+      "name": "Character 15",
+      "url": "https://reelcounter.vercel.app/avatars/ch_15.png",
+      "preview": "/avatars/ch_15.png"
+    },
+    {
+      "key": "ch_16",
+      "name": "Character 16",
+      "url": "https://reelcounter.vercel.app/avatars/ch_16.png",
+      "preview": "/avatars/ch_16.png"
+    },
+    {
+      "key": "ch_17",
+      "name": "Character 17",
+      "url": "https://reelcounter.vercel.app/avatars/ch_17.png",
+      "preview": "/avatars/ch_17.png"
+    },
+    {
+      "key": "ch_18",
+      "name": "Character 18",
+      "url": "https://reelcounter.vercel.app/avatars/ch_18.png",
+      "preview": "/avatars/ch_18.png"
+    },
+    {
+      "key": "ch_19",
+      "name": "Character 19",
+      "url": "https://reelcounter.vercel.app/avatars/ch_19.png",
+      "preview": "/avatars/ch_19.png"
+    },
+    {
+      "key": "ch_20",
+      "name": "Character 20",
+      "url": "https://reelcounter.vercel.app/avatars/ch_20.png",
+      "preview": "/avatars/ch_20.png"
+    },
+    {
+      "key": "ch_21",
+      "name": "Character 21",
+      "url": "https://reelcounter.vercel.app/avatars/ch_21.png",
+      "preview": "/avatars/ch_21.png"
+    },
+    {
+      "key": "ch_22",
+      "name": "Character 22",
+      "url": "https://reelcounter.vercel.app/avatars/ch_22.png",
+      "preview": "/avatars/ch_22.png"
+    },
+    {
+      "key": "ch_23",
+      "name": "Character 23",
+      "url": "https://reelcounter.vercel.app/avatars/ch_23.png",
+      "preview": "/avatars/ch_23.png"
+    },
+    {
+      "key": "ch_24",
+      "name": "Character 24",
+      "url": "https://reelcounter.vercel.app/avatars/ch_24.png",
+      "preview": "/avatars/ch_24.png"
+    }
+  ]
+}

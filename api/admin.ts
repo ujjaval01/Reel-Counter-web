@@ -76,7 +76,12 @@ function sanitizeAvatar(d: any) {
   let avatarUrl: string | null = null;
   let avatarEmoji: string | null = null;
 
-  if (isHttp(d.avatarUrl)) {
+  const charKey = (d.avatarId || d.avatarUrl || '').trim().toLowerCase();
+
+  if (/^ch_([1-9]|1[0-9]|2[0-4])$/.test(charKey)) {
+    avatarUrl = `https://reelcounter.vercel.app/avatars/${charKey}.png`;
+    avatarEmoji = CHARACTER_DRAWABLE_MAP[charKey] || null;
+  } else if (isHttp(d.avatarUrl)) {
     avatarUrl = d.avatarUrl.trim();
   } else if (isHttp(d.googlePhotoUrl)) {
     avatarUrl = d.googlePhotoUrl.trim();
@@ -86,14 +91,11 @@ function sanitizeAvatar(d: any) {
     avatarEmoji = d.avatarEmoji.trim();
   } else if (d.avatarUrl && typeof d.avatarUrl === 'string' && !isHttp(d.avatarUrl) && !d.avatarUrl.startsWith('ch_')) {
     avatarEmoji = d.avatarUrl.trim();
-  } else {
-    const charKey = (d.avatarId || d.avatarUrl || '').trim().toLowerCase();
-    if (CHARACTER_DRAWABLE_MAP[charKey]) {
-      avatarEmoji = CHARACTER_DRAWABLE_MAP[charKey];
-    }
+  } else if (!avatarEmoji && CHARACTER_DRAWABLE_MAP[charKey]) {
+    avatarEmoji = CHARACTER_DRAWABLE_MAP[charKey];
   }
 
-  if (d.avatarType === 'EMOJI' || d.avatarType === 'CHARACTER_DRAWABLE' || d.avatarType === 'DEFAULT') {
+  if (d.avatarType === 'EMOJI') {
     avatarUrl = null;
   }
 
