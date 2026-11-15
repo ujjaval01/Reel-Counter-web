@@ -135,7 +135,7 @@ export default function AdminLayout() {
   const currentTabItem = TABS.find((t) => t.id === activeTab) || TABS[0];
 
   return (
-    <div className="min-h-screen bg-[#FFF8EF] text-[#25334A] font-sans flex antialiased">
+    <div className="h-screen w-full overflow-hidden bg-[#FFF8EF] text-[#25334A] font-sans flex antialiased">
       {/* Sidebar Overlay for Mobile */}
       {sidebarOpen && (
         <div 
@@ -144,12 +144,12 @@ export default function AdminLayout() {
         />
       )}
 
-      {/* Sidebar */}
-      <aside className={`fixed lg:sticky top-0 bottom-0 left-0 z-50 w-72 bg-white border-r border-[#F0E5DA] shadow-[0_4px_24px_rgba(37,51,74,0.03)] flex flex-col justify-between transition-transform duration-200 ${
+      {/* Sidebar (Permanently fixed on desktop, slide-over on mobile) */}
+      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-72 shrink-0 h-screen bg-white border-r border-[#F0E5DA] shadow-[0_4px_24px_rgba(37,51,74,0.03)] flex flex-col justify-between transition-transform duration-200 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       }`}>
         {/* Brand Lockup */}
-        <div className="p-5 border-b border-[#F0E5DA] flex items-center justify-between">
+        <div className="p-5 border-b border-[#F0E5DA] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#FF765E] to-[#FFB36B] p-0.5 shadow-sm">
               <div className="w-full h-full bg-[#FFF8EF] rounded-[14px] flex items-center justify-center">
@@ -174,8 +174,8 @@ export default function AdminLayout() {
           </button>
         </div>
 
-        {/* Navigation Tabs */}
-        <nav className="flex-1 overflow-y-auto p-3.5 space-y-1.5">
+        {/* Navigation Tabs - Scrolls independently if viewport height is compact */}
+        <nav className="flex-1 overflow-y-auto p-3.5 space-y-1.5 min-h-0">
           {TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -199,8 +199,8 @@ export default function AdminLayout() {
           })}
         </nav>
 
-        {/* Footer User Info & Logout */}
-        <div className="p-4 border-t border-[#F0E5DA] bg-[#FFFDF9] space-y-3">
+        {/* Footer User Info & Logout - Fixed at bottom of sidebar */}
+        <div className="p-4 border-t border-[#F0E5DA] bg-[#FFFDF9] space-y-3 shrink-0">
           {/* Admin User Chip */}
           <div className="flex items-center gap-2.5 px-2">
             <div className="w-9 h-9 rounded-full bg-[#FFE2D5] border border-[#FF765E]/30 flex items-center justify-center text-xs font-heading font-extrabold text-[#FF765E] shrink-0 overflow-hidden shadow-sm">
@@ -236,10 +236,10 @@ export default function AdminLayout() {
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Top Header Bar */}
-        <header className="h-20 bg-white/80 border-b border-[#F0E5DA] px-4 sm:px-8 flex items-center justify-between backdrop-blur-md sticky top-0 z-30">
+      {/* Main Content Area - Only this container scrolls */}
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+        {/* Top Header Bar - Fixed at top */}
+        <header className="h-20 shrink-0 bg-white/80 border-b border-[#F0E5DA] px-4 sm:px-8 flex items-center justify-between backdrop-blur-md sticky top-0 z-30">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -284,15 +284,15 @@ export default function AdminLayout() {
         </header>
 
         {/* View Sub-Header Freshness Indicator */}
-        <div className="px-4 sm:px-8 pt-4 pb-2 flex items-center justify-between text-xs text-[#687386] font-medium">
+        <div className="shrink-0 px-4 sm:px-8 pt-4 pb-2 flex items-center justify-between text-xs text-[#687386] font-medium">
           <span>Viewing data in India Standard Time (IST, UTC+5:30)</span>
           {lastRefreshedAt && (
             <span className="font-mono">Last refreshed at {lastRefreshedAt} IST</span>
           )}
         </div>
 
-        {/* Dynamic Section Views */}
-        <main className="flex-1 p-4 sm:p-8 overflow-y-auto">
+        {/* Dynamic Section Views - Vertical scrolling right side content */}
+        <main className="flex-1 p-4 sm:p-8 overflow-y-auto min-h-0">
           <TabErrorBoundary fallbackKey={activeTab}>
             {activeTab === 'overview' && (
               <OverviewView 
