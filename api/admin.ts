@@ -60,6 +60,51 @@ function formatTime(val: any): string | null {
   return String(val);
 }
 
+const CHARACTER_DRAWABLE_MAP: Record<string, string> = {
+  ch_1: '👧',
+  ch_2: '👩',
+  ch_3: '🧔',
+  ch_4: '👦',
+  ch_5: '🧑‍🦱',
+  ch_6: '🧒',
+  ch_7: '🧑‍🦰',
+  ch_8: '🥷',
+};
+
+function sanitizeAvatar(d: any) {
+  const isHttp = (url: any) => typeof url === 'string' && /^https?:\/\//i.test(url.trim());
+  let avatarUrl: string | null = null;
+  let avatarEmoji: string | null = null;
+
+  if (isHttp(d.avatarUrl)) {
+    avatarUrl = d.avatarUrl.trim();
+  } else if (isHttp(d.googlePhotoUrl)) {
+    avatarUrl = d.googlePhotoUrl.trim();
+  }
+
+  if (d.avatarEmoji && typeof d.avatarEmoji === 'string' && d.avatarEmoji.trim()) {
+    avatarEmoji = d.avatarEmoji.trim();
+  } else if (d.avatarUrl && typeof d.avatarUrl === 'string' && !isHttp(d.avatarUrl) && !d.avatarUrl.startsWith('ch_')) {
+    avatarEmoji = d.avatarUrl.trim();
+  } else {
+    const charKey = (d.avatarId || d.avatarUrl || '').trim().toLowerCase();
+    if (CHARACTER_DRAWABLE_MAP[charKey]) {
+      avatarEmoji = CHARACTER_DRAWABLE_MAP[charKey];
+    }
+  }
+
+  if (d.avatarType === 'EMOJI' || d.avatarType === 'CHARACTER_DRAWABLE' || d.avatarType === 'DEFAULT') {
+    avatarUrl = null;
+  }
+
+  return {
+    avatarUrl,
+    avatarEmoji,
+    avatarType: d.avatarType || null,
+    avatarId: d.avatarId || null,
+  };
+}
+
 function getFirebaseAdmin(): App {
   const apps = getApps();
   if (apps.length > 0 && apps[0]) {
@@ -406,16 +451,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           const email = String(d.email || '').toLowerCase();
 
           if (username.includes(search) || displayName.includes(search) || email.includes(search)) {
+            const avatarInfo = sanitizeAvatar(d);
             allMatched.push({
               id: doc.id,
               uid: d.uid || doc.id,
               username: d.username || d.searchKey || doc.id.slice(0, 8),
               displayName: d.displayName || d.username || 'User',
               email: d.email || null,
-              avatarId: d.avatarId || null,
-              avatarType: d.avatarType || null,
-              avatarEmoji: d.avatarEmoji || null,
-              avatarUrl: d.avatarUrl || d.googlePhotoUrl || null,
+              avatarId: avatarInfo.avatarId,
+              avatarType: avatarInfo.avatarType,
+              avatarEmoji: avatarInfo.avatarEmoji,
+              avatarUrl: avatarInfo.avatarUrl,
               totalReels: Number(d.totalReels) || 0,
               todayReels: Number(d.todayReels) || 0,
               weeklyReels: Number(d.weeklyReels) || 0,
@@ -450,16 +496,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       snap.forEach((doc) => {
         const d = doc.data();
+        const avatarInfo = sanitizeAvatar(d);
         users.push({
           id: doc.id,
           uid: d.uid || doc.id,
           username: d.username || d.searchKey || doc.id.slice(0, 8),
           displayName: d.displayName || d.username || 'User',
           email: d.email || null,
-          avatarId: d.avatarId || null,
-          avatarType: d.avatarType || null,
-          avatarEmoji: d.avatarEmoji || null,
-          avatarUrl: d.avatarUrl || d.googlePhotoUrl || null,
+          avatarId: avatarInfo.avatarId,
+          avatarType: avatarInfo.avatarType,
+          avatarEmoji: avatarInfo.avatarEmoji,
+          avatarUrl: avatarInfo.avatarUrl,
           totalReels: Number(d.totalReels) || 0,
           todayReels: Number(d.todayReels) || 0,
           weeklyReels: Number(d.weeklyReels) || 0,
@@ -539,6 +586,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
       } catch {}
 
+      const avatarInfo = sanitizeAvatar(d);
       return res.status(200).json({
         success: true,
         user: {
@@ -547,7 +595,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           username: d.username || d.searchKey || profileDoc.id.slice(0, 8),
           displayName: d.displayName || d.username || 'User',
           email: d.email || null,
-          avatarUrl: d.avatarUrl || d.googlePhotoUrl || null,
+          avatarId: avatarInfo.avatarId,
+          avatarType: avatarInfo.avatarType,
+          avatarEmoji: avatarInfo.avatarEmoji,
+          avatarUrl: avatarInfo.avatarUrl,
           totalReels: Number(d.totalReels) || 0,
           todayReels: Number(d.todayReels) || 0,
           weeklyReels: Number(d.weeklyReels) || 0,
@@ -593,13 +644,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (fb > maxCount) { primaryPlatform = 'Facebook'; maxCount = fb; }
         if (sc > maxCount) { primaryPlatform = 'Snapchat'; }
 
+        const avatarInfo = sanitizeAvatar(d);
         leaderboard.push({
           rank: rank++,
           id: doc.id,
           uid: d.uid || doc.id,
           username: d.username || d.searchKey || doc.id.slice(0, 8),
           displayName: d.displayName || d.username || 'User',
-          avatarUrl: d.avatarUrl || d.googlePhotoUrl || null,
+          avatarId: avatarInfo.avatarId,
+          avatarType: avatarInfo.avatarType,
+          avatarEmoji: avatarInfo.avatarEmoji,
+          avatarUrl: avatarInfo.avatarUrl,
           reels: Number(d[sortField]) || 0,
           totalReels: Number(d.totalReels) || 0,
           todayReels: Number(d.todayReels) || 0,

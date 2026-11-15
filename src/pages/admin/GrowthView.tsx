@@ -42,7 +42,30 @@ export default function GrowthView({ cache, setCache }: GrowthViewProps) {
   const authTypes = data?.authTypes;
   const timeline: any[] = data?.timeline || [];
   const versions: any[] = data?.versions || [];
-  const peakHoursList: any[] = Array.isArray(data?.peakHours) ? data.peakHours : [];
+  const rawPeakHours = data?.peakHours;
+  let peakHoursList: { interval: string; count: number; percentage: number }[] = [];
+  if (Array.isArray(rawPeakHours)) {
+    peakHoursList = rawPeakHours.map((item: any) => ({
+      interval: typeof item?.interval === 'string' ? item.interval : String(item?.interval || 'General Hours'),
+      count: Number(item?.count) || 0,
+      percentage: Number(item?.percentage) || 0,
+    }));
+  } else if (rawPeakHours && typeof rawPeakHours === 'object') {
+    peakHoursList = Object.entries(rawPeakHours).map(([key, val]: [string, any]) => {
+      if (typeof val === 'object' && val !== null) {
+        return {
+          interval: typeof val.interval === 'string' ? val.interval : key,
+          count: Number(val.count) || 0,
+          percentage: Number(val.percentage) || 0,
+        };
+      }
+      return {
+        interval: key,
+        count: Number(val) || 0,
+        percentage: 0,
+      };
+    });
+  }
   const totalSampled = data?.totalSampled || 1;
 
   const googlePct = authTypes ? Math.round((authTypes.google / totalSampled) * 100) : 0;

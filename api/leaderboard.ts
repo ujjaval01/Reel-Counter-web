@@ -30,6 +30,51 @@ function getIstDateString(date: Date = new Date()): string {
   }).format(date);
 }
 
+const CHARACTER_DRAWABLE_MAP: Record<string, string> = {
+  ch_1: '👧',
+  ch_2: '👩',
+  ch_3: '🧔',
+  ch_4: '👦',
+  ch_5: '🧑‍🦱',
+  ch_6: '🧒',
+  ch_7: '🧑‍🦰',
+  ch_8: '🥷',
+};
+
+function sanitizeAvatar(d: any) {
+  const isHttp = (url: any) => typeof url === 'string' && /^https?:\/\//i.test(url.trim());
+  let avatarUrl: string | null = null;
+  let avatarEmoji: string | null = null;
+
+  if (isHttp(d.avatarUrl)) {
+    avatarUrl = d.avatarUrl.trim();
+  } else if (isHttp(d.googlePhotoUrl)) {
+    avatarUrl = d.googlePhotoUrl.trim();
+  }
+
+  if (d.avatarEmoji && typeof d.avatarEmoji === 'string' && d.avatarEmoji.trim()) {
+    avatarEmoji = d.avatarEmoji.trim();
+  } else if (d.avatarUrl && typeof d.avatarUrl === 'string' && !isHttp(d.avatarUrl) && !d.avatarUrl.startsWith('ch_')) {
+    avatarEmoji = d.avatarUrl.trim();
+  } else {
+    const charKey = (d.avatarId || d.avatarUrl || '').trim().toLowerCase();
+    if (CHARACTER_DRAWABLE_MAP[charKey]) {
+      avatarEmoji = CHARACTER_DRAWABLE_MAP[charKey];
+    }
+  }
+
+  if (d.avatarType === 'EMOJI' || d.avatarType === 'CHARACTER_DRAWABLE' || d.avatarType === 'DEFAULT') {
+    avatarUrl = null;
+  }
+
+  return {
+    avatarUrl,
+    avatarEmoji,
+    avatarType: d.avatarType || null,
+    avatarId: d.avatarId || null,
+  };
+}
+
 function getFirebaseAdmin(): App {
   const apps = getApps();
   if (apps.length > 0 && apps[0]) {
@@ -154,14 +199,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (sc > maxCount) { primaryPlatform = 'Snapchat'; }
 
       const reelsCount = Number(d[sortField]) || 0;
+      const avatarInfo = sanitizeAvatar(d);
 
       leaderboard.push({
         rank: rank++,
         id: doc.id,
         displayName: d.displayName || d.username || `Scroller #${rank}`,
         username: d.username || d.searchKey || '',
-        avatarUrl: d.avatarUrl || d.googlePhotoUrl || null,
-        avatarEmoji: d.avatarEmoji || null,
+        avatarUrl: avatarInfo.avatarUrl,
+        avatarEmoji: avatarInfo.avatarEmoji,
+        avatarType: avatarInfo.avatarType,
+        avatarId: avatarInfo.avatarId,
         reels: reelsCount,
         totalReels: Number(d.totalReels) || 0,
         todayReels: Number(d.todayReels) || 0,

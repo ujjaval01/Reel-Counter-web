@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Search, ChevronLeft, ChevronRight, User as UserIcon, RefreshCw, Eye, Sparkles, Users, CheckCircle, Trash2, XCircle } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, RefreshCw, Eye, Sparkles, Users, CheckCircle, Trash2, XCircle } from 'lucide-react';
 import { useAdminAuth } from './AdminAuthContext';
 import UserDetailsModal from './UserDetailsModal';
 import { TableSkeletonRows } from './AdminSkeleton';
+import { UserAvatar } from '../../components/UserAvatar';
 
 interface UsersViewProps {
   cache: any;
@@ -228,13 +229,11 @@ export default function UsersView({ cache, setCache }: UsersViewProps) {
                         <tr key={u.id} className="hover:bg-[#FFFDF9] transition-colors">
                           <td className="p-4">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-2xl bg-[#FFF8EF] border border-[#F0E5DA] flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
-                                {u.avatarUrl ? (
-                                  <img src={u.avatarUrl} alt="" className="w-full h-full object-cover" />
-                                ) : (
-                                  <span className="text-sm">{u.avatarEmoji || <UserIcon className="w-4 h-4 text-[#687386]" />}</span>
-                                )}
-                              </div>
+                              <UserAvatar
+                                user={u}
+                                className="w-10 h-10 rounded-2xl bg-[#FFF8EF] border border-[#F0E5DA] shadow-sm"
+                                textClassName="text-sm font-bold text-[#687386]"
+                              />
                               <div className="min-w-0">
                                 <div className="flex items-center gap-1.5">
                                   <p className="font-heading font-bold text-sm text-[#25334A] truncate max-w-[140px] sm:max-w-xs">{u.displayName}</p>

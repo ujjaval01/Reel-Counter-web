@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Trophy, Medal, Crown, RefreshCw, User as UserIcon, EyeOff, Eye } from 'lucide-react';
+import { Trophy, Medal, Crown, RefreshCw, EyeOff, Eye } from 'lucide-react';
 import { useAdminAuth } from './AdminAuthContext';
 import { TableSkeletonRows } from './AdminSkeleton';
+import { UserAvatar } from '../../components/UserAvatar';
 
 interface LeaderboardViewProps {
   cache: any;
@@ -195,13 +196,11 @@ export default function LeaderboardView({ cache, setCache }: LeaderboardViewProp
                       <td className="p-4 text-center">{rankBadge}</td>
                       <td className="p-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-2xl bg-[#FFF8EF] border border-[#F0E5DA] flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
-                            {item.avatarUrl ? (
-                              <img src={item.avatarUrl} alt="" className="w-full h-full object-cover" />
-                            ) : (
-                              <span className="text-sm">{item.avatarEmoji || <UserIcon className="w-4 h-4 text-[#687386]" />}</span>
-                            )}
-                          </div>
+                          <UserAvatar
+                            user={item}
+                            className="w-10 h-10 rounded-2xl bg-[#FFF8EF] border border-[#F0E5DA] shadow-sm"
+                            textClassName="text-sm font-bold text-[#687386]"
+                          />
                           <div>
                             <div className="flex items-center gap-2">
                               <p className="font-heading font-bold text-sm text-[#25334A]">{item.displayName}</p>

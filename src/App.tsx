@@ -10,6 +10,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import DeleteAccount from './pages/DeleteAccount';
 import { useHiddenAdminTrigger } from './lib/useHiddenAdminTrigger';
 import Footer from './components/Footer';
+import { UserAvatar } from './components/UserAvatar';
 
 const AdminPage = lazy(() => import('./pages/admin/AdminPage'));
 import {
@@ -1012,13 +1013,12 @@ export default function App() {
             {/* 2nd Place: Silver */}
             <div className="p-4 rounded-2xl border transition-all bg-white border-[#F0E5DA] shadow-sm">
               <div className="text-2xl mb-1">🥈</div>
-              <div className="w-10 h-10 rounded-full bg-[#E4F5EE] mx-auto flex items-center justify-center font-bold text-xs overflow-hidden border border-[#45BFA8]/30 mb-1">
-                {realLeaderboard[1]?.avatarUrl ? (
-                  <img src={realLeaderboard[1].avatarUrl} alt="" className="w-full h-full object-cover" />
-                ) : (
-                  <span>{realLeaderboard[1]?.avatarEmoji || (realLeaderboard[1]?.displayName ? realLeaderboard[1].displayName.slice(0, 2).toUpperCase() : 'AS')}</span>
-                )}
-              </div>
+              <UserAvatar
+                user={realLeaderboard[1]}
+                className="w-10 h-10 rounded-full bg-[#E4F5EE] mx-auto border border-[#45BFA8]/30 mb-1"
+                textClassName="text-xs font-bold text-[#2D8A78]"
+                defaultInitials="AS"
+              />
               <div className="font-heading font-bold text-sm truncate text-[#25334A]">{realLeaderboard[1]?.displayName || 'Scroller #2'}</div>
               <div className="text-xs text-[#FF765E] font-bold">{realLeaderboard[1]?.reels?.toLocaleString() || 0} reels</div>
               <div className="mt-2 py-0.5 rounded-lg bg-[#FFF1E7] text-[10px] font-bold text-[#D9631E]">
@@ -1031,13 +1031,12 @@ export default function App() {
               <div className="w-10 h-10 mx-auto mb-1">
                 <ClayTrophy3D className="w-full h-full" />
               </div>
-              <div className="w-12 h-12 rounded-full bg-[#FFE2D5] mx-auto flex items-center justify-center font-bold text-sm overflow-hidden border-2 border-[#FF765E]/40 mb-1">
-                {realLeaderboard[0]?.avatarUrl ? (
-                  <img src={realLeaderboard[0].avatarUrl} alt="" className="w-full h-full object-cover" />
-                ) : (
-                  <span>{realLeaderboard[0]?.avatarEmoji || (realLeaderboard[0]?.displayName ? realLeaderboard[0].displayName.slice(0, 2).toUpperCase() : 'VS')}</span>
-                )}
-              </div>
+              <UserAvatar
+                user={realLeaderboard[0]}
+                className="w-12 h-12 rounded-full bg-[#FFE2D5] mx-auto border-2 border-[#FF765E]/40 mb-1 shadow-sm"
+                textClassName="text-sm font-bold text-[#FF765E]"
+                defaultInitials="VS"
+              />
               <div className="font-heading font-extrabold text-base truncate mt-1 text-[#25334A]">{realLeaderboard[0]?.displayName || 'Scroller #1'}</div>
               <div className="text-sm text-[#FF765E] font-bold">{realLeaderboard[0]?.reels?.toLocaleString() || 0} reels</div>
               <div className="mt-2 py-1 px-3 rounded-full bg-[#FF765E] text-white text-[10px] font-bold uppercase tracking-wider shadow-sm">
@@ -1048,13 +1047,12 @@ export default function App() {
             {/* 3rd Place: Bronze */}
             <div className="p-4 rounded-2xl border transition-all bg-white border-[#F0E5DA] shadow-sm">
               <div className="text-2xl mb-1">🥉</div>
-              <div className="w-10 h-10 rounded-full bg-[#FFF1E7] mx-auto flex items-center justify-center font-bold text-xs overflow-hidden border border-[#FFB36B]/30 mb-1">
-                {realLeaderboard[2]?.avatarUrl ? (
-                  <img src={realLeaderboard[2].avatarUrl} alt="" className="w-full h-full object-cover" />
-                ) : (
-                  <span>{realLeaderboard[2]?.avatarEmoji || (realLeaderboard[2]?.displayName ? realLeaderboard[2].displayName.slice(0, 2).toUpperCase() : 'SJ')}</span>
-                )}
-              </div>
+              <UserAvatar
+                user={realLeaderboard[2]}
+                className="w-10 h-10 rounded-full bg-[#FFF1E7] mx-auto border border-[#FFB36B]/30 mb-1"
+                textClassName="text-xs font-bold text-[#D9631E]"
+                defaultInitials="SJ"
+              />
               <div className="font-heading font-bold text-sm truncate text-[#25334A]">{realLeaderboard[2]?.displayName || 'Scroller #3'}</div>
               <div className="text-xs text-[#FF765E] font-bold">{realLeaderboard[2]?.reels?.toLocaleString() || 0} reels</div>
               <div className="mt-2 py-0.5 rounded-lg bg-[#FFF1E7] text-[10px] font-bold text-[#D9631E]">
@@ -1073,13 +1071,12 @@ export default function App() {
                     <span className="w-7 text-center font-bold text-sm text-[#687386] shrink-0">
                       #{user.rank}
                     </span>
-                    <div className="w-9 h-9 rounded-full bg-[#FFE2D5] text-[#FF765E] flex items-center justify-center font-bold text-xs overflow-hidden border border-[#FF765E]/20 shrink-0">
-                      {user.avatarUrl ? (
-                        <img src={user.avatarUrl} alt="" className="w-full h-full object-cover" />
-                      ) : (
-                        <span>{user.avatarEmoji || (user.displayName ? user.displayName.slice(0, 2).toUpperCase() : 'RC')}</span>
-                      )}
-                    </div>
+                    <UserAvatar
+                      user={user}
+                      className="w-9 h-9 rounded-full bg-[#FFE2D5] text-[#FF765E] border border-[#FF765E]/20 shrink-0"
+                      textClassName="text-xs font-bold"
+                      defaultInitials="RC"
+                    />
                     <div className="min-w-0">
                       <div className="font-heading font-bold text-sm text-[#25334A] truncate">{user.displayName}</div>
                       <div className="text-[10px] text-[#687386] font-mono truncate">

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { X, Copy, Check, Calendar, Swords, AlertCircle, RefreshCw, EyeOff, Eye, Ban, ShieldCheck } from 'lucide-react';
 import { useAdminAuth } from './AdminAuthContext';
+import { UserAvatar } from '../../components/UserAvatar';
 
 interface UserDetailsModalProps {
   uid: string | null;
@@ -76,14 +77,12 @@ export default function UserDetailsModal({ uid, onClose, onUserUpdated }: UserDe
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-[#F0E5DA] bg-[#FFF8EF]">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#FF7E67] to-[#FF6F56] p-0.5 shadow-md">
-              <div className="w-full h-full bg-white rounded-[14px] flex items-center justify-center overflow-hidden">
-                {userData?.avatarUrl ? (
-                  <img src={userData.avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
-                ) : (
-                  <span className="text-2xl">{userData?.avatarEmoji || '👤'}</span>
-                )}
-              </div>
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#FF7E67] to-[#FF6F56] p-0.5 shadow-md shrink-0">
+              <UserAvatar
+                user={userData}
+                className="w-full h-full bg-white rounded-[14px]"
+                textClassName="text-2xl font-bold"
+              />
             </div>
             <div>
               <div className="flex items-center gap-2">
