@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FileText, Printer, RefreshCw, AlertCircle, CheckCircle } from 'lucide-react';
 import { useAdminAuth } from './AdminAuthContext';
+import { Skeleton, PlatformCardSkeleton } from './AdminSkeleton';
 
 interface ReportsViewProps {
   cache: any;
@@ -106,37 +107,51 @@ export default function ReportsView({ cache, setCache }: ReportsViewProps) {
 
         {/* Executive Summary Metrics Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="p-5 rounded-2xl bg-[#FFF8EF] border border-[#F0E5DA] print:border-slate-300 print:bg-slate-50">
-            <p className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#687386]">Total Registered</p>
-            <p className="text-3xl font-heading font-extrabold text-[#25334A] print:text-black mt-1">
-              {summary ? summary.totalUsers.toLocaleString() : '—'}
-            </p>
-            <p className="text-[10px] font-sans text-[#8B95A5] mt-1">User accounts</p>
-          </div>
+          {loading && !data ? (
+            <>
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="p-5 rounded-2xl bg-[#FFF8EF] border border-[#F0E5DA] space-y-2">
+                  <Skeleton className="h-3 w-20 rounded" />
+                  <Skeleton className="h-8 w-24 rounded-lg" />
+                  <Skeleton className="h-2.5 w-16 rounded" />
+                </div>
+              ))}
+            </>
+          ) : (
+            <>
+              <div className="p-5 rounded-2xl bg-[#FFF8EF] border border-[#F0E5DA] print:border-slate-300 print:bg-slate-50">
+                <p className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#687386]">Total Registered</p>
+                <p className="text-3xl font-heading font-extrabold text-[#25334A] print:text-black mt-1">
+                  {summary ? summary.totalUsers.toLocaleString() : '—'}
+                </p>
+                <p className="text-[10px] font-sans text-[#8B95A5] mt-1">User accounts</p>
+              </div>
 
-          <div className="p-5 rounded-2xl bg-[#FFF8EF] border border-[#F0E5DA] print:border-slate-300 print:bg-slate-50">
-            <p className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#687386]">Today's Active Users</p>
-            <p className="text-3xl font-heading font-extrabold text-[#2D8A78] mt-1">
-              {summary ? summary.todayActiveUsers.toLocaleString() : '—'}
-            </p>
-            <p className="text-[10px] font-sans text-[#8B95A5] mt-1">Scrolled in IST today</p>
-          </div>
+              <div className="p-5 rounded-2xl bg-[#FFF8EF] border border-[#F0E5DA] print:border-slate-300 print:bg-slate-50">
+                <p className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#687386]">Today's Active Users</p>
+                <p className="text-3xl font-heading font-extrabold text-[#2D8A78] mt-1">
+                  {summary ? summary.todayActiveUsers.toLocaleString() : '—'}
+                </p>
+                <p className="text-[10px] font-sans text-[#8B95A5] mt-1">Scrolled in IST today</p>
+              </div>
 
-          <div className="p-5 rounded-2xl bg-[#FFF8EF] border border-[#F0E5DA] print:border-slate-300 print:bg-slate-50">
-            <p className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#687386]">Today's Total Reels</p>
-            <p className="text-3xl font-heading font-extrabold text-[#FF765E] mt-1">
-              {summary ? summary.todayTotalReels.toLocaleString() : '—'}
-            </p>
-            <p className="text-[10px] font-sans text-[#8B95A5] mt-1">Reels logged today</p>
-          </div>
+              <div className="p-5 rounded-2xl bg-[#FFF8EF] border border-[#F0E5DA] print:border-slate-300 print:bg-slate-50">
+                <p className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#687386]">Today's Total Reels</p>
+                <p className="text-3xl font-heading font-extrabold text-[#FF765E] mt-1">
+                  {summary ? summary.todayTotalReels.toLocaleString() : '—'}
+                </p>
+                <p className="text-[10px] font-sans text-[#8B95A5] mt-1">Reels logged today</p>
+              </div>
 
-          <div className="p-5 rounded-2xl bg-[#FFF8EF] border border-[#F0E5DA] print:border-slate-300 print:bg-slate-50">
-            <p className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#687386]">Weekly Total Reels</p>
-            <p className="text-3xl font-heading font-extrabold text-[#F7931A] mt-1">
-              {summary ? summary.weeklyTotalReels.toLocaleString() : '—'}
-            </p>
-            <p className="text-[10px] font-sans text-[#8B95A5] mt-1">Rolling 7 days</p>
-          </div>
+              <div className="p-5 rounded-2xl bg-[#FFF8EF] border border-[#F0E5DA] print:border-slate-300 print:bg-slate-50">
+                <p className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#687386]">Weekly Total Reels</p>
+                <p className="text-3xl font-heading font-extrabold text-[#F7931A] mt-1">
+                  {summary ? summary.weeklyTotalReels.toLocaleString() : '—'}
+                </p>
+                <p className="text-[10px] font-sans text-[#8B95A5] mt-1">Rolling 7 days</p>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Platform Breakdown Section */}
@@ -146,30 +161,41 @@ export default function ReportsView({ cache, setCache }: ReportsViewProps) {
           </h4>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
-            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA] print:bg-white print:border-slate-300">
-              <span className="font-heading font-bold text-rose-500">Instagram Reels</span>
-              <p className="text-2xl font-heading font-extrabold text-[#25334A] print:text-black mt-1">
-                {platforms?.instagram ? platforms.instagram.toLocaleString() : 0}
-              </p>
-            </div>
-            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA] print:bg-white print:border-slate-300">
-              <span className="font-heading font-bold text-red-500">YouTube Shorts</span>
-              <p className="text-2xl font-heading font-extrabold text-[#25334A] print:text-black mt-1">
-                {platforms?.youtube ? platforms.youtube.toLocaleString() : 0}
-              </p>
-            </div>
-            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA] print:bg-white print:border-slate-300">
-              <span className="font-heading font-bold text-blue-500">Facebook Reels</span>
-              <p className="text-2xl font-heading font-extrabold text-[#25334A] print:text-black mt-1">
-                {platforms?.facebook ? platforms.facebook.toLocaleString() : 0}
-              </p>
-            </div>
-            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA] print:bg-white print:border-slate-300">
-              <span className="font-heading font-bold text-amber-500 print:text-amber-600">Snapchat Spotlight</span>
-              <p className="text-2xl font-heading font-extrabold text-[#25334A] print:text-black mt-1">
-                {platforms?.snapchat ? platforms.snapchat.toLocaleString() : 0}
-              </p>
-            </div>
+            {loading && !data ? (
+              <>
+                <PlatformCardSkeleton />
+                <PlatformCardSkeleton />
+                <PlatformCardSkeleton />
+                <PlatformCardSkeleton />
+              </>
+            ) : (
+              <>
+                <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA] print:bg-white print:border-slate-300">
+                  <span className="font-heading font-bold text-rose-500">Instagram Reels</span>
+                  <p className="text-2xl font-heading font-extrabold text-[#25334A] print:text-black mt-1">
+                    {platforms?.instagram ? platforms.instagram.toLocaleString() : 0}
+                  </p>
+                </div>
+                <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA] print:bg-white print:border-slate-300">
+                  <span className="font-heading font-bold text-red-500">YouTube Shorts</span>
+                  <p className="text-2xl font-heading font-extrabold text-[#25334A] print:text-black mt-1">
+                    {platforms?.youtube ? platforms.youtube.toLocaleString() : 0}
+                  </p>
+                </div>
+                <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA] print:bg-white print:border-slate-300">
+                  <span className="font-heading font-bold text-blue-500">Facebook Reels</span>
+                  <p className="text-2xl font-heading font-extrabold text-[#25334A] print:text-black mt-1">
+                    {platforms?.facebook ? platforms.facebook.toLocaleString() : 0}
+                  </p>
+                </div>
+                <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA] print:bg-white print:border-slate-300">
+                  <span className="font-heading font-bold text-amber-500 print:text-amber-600">Snapchat Spotlight</span>
+                  <p className="text-2xl font-heading font-extrabold text-[#25334A] print:text-black mt-1">
+                    {platforms?.snapchat ? platforms.snapchat.toLocaleString() : 0}
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         </div>
 

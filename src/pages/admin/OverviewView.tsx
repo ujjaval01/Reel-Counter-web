@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Users, Activity, Swords, ShieldCheck, RefreshCw, AlertTriangle, PlaySquare, CheckCircle2 } from 'lucide-react';
 import { useAdminAuth } from './AdminAuthContext';
+import { Skeleton, MetricCardSkeleton } from './AdminSkeleton';
 
 interface OverviewViewProps {
   cache: any;
@@ -78,72 +79,83 @@ export default function OverviewView({ cache, setCache }: OverviewViewProps) {
 
       {/* Primary Key Metrics Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {/* Total Users */}
-        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] relative overflow-hidden group hover:-translate-y-1 transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Total Users</span>
-            <div className="w-10 h-10 rounded-2xl bg-[#FFE2D5] text-[#FF765E] flex items-center justify-center shadow-sm">
-              <Users className="w-5 h-5" />
+        {loading && !overview ? (
+          <>
+            <MetricCardSkeleton />
+            <MetricCardSkeleton />
+            <MetricCardSkeleton />
+            <MetricCardSkeleton />
+          </>
+        ) : (
+          <>
+            {/* Total Users */}
+            <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] relative overflow-hidden group hover:-translate-y-1 transition-all">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Total Users</span>
+                <div className="w-10 h-10 rounded-2xl bg-[#FFE2D5] text-[#FF765E] flex items-center justify-center shadow-sm">
+                  <Users className="w-5 h-5" />
+                </div>
+              </div>
+              <p className="text-3xl sm:text-4xl font-heading font-extrabold text-[#25334A]">
+                {overview ? overview.totalUsers.toLocaleString() : '0'}
+              </p>
+              <p className="text-xs text-[#687386] mt-2 flex items-center gap-1.5 font-medium">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#45BFA8]" />
+                Firestore registered users
+              </p>
             </div>
-          </div>
-          <p className="text-3xl sm:text-4xl font-heading font-extrabold text-[#25334A]">
-            {overview ? overview.totalUsers.toLocaleString() : '—'}
-          </p>
-          <p className="text-xs text-[#687386] mt-2 flex items-center gap-1.5 font-medium">
-            <CheckCircle2 className="w-3.5 h-3.5 text-[#45BFA8]" />
-            Firestore registered users
-          </p>
-        </div>
 
-        {/* Active Today */}
-        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] relative overflow-hidden group hover:-translate-y-1 transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Active Today (IST)</span>
-            <div className="w-10 h-10 rounded-2xl bg-[#E4F5EE] text-[#2D8A78] flex items-center justify-center shadow-sm">
-              <Activity className="w-5 h-5" />
+            {/* Active Today */}
+            <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] relative overflow-hidden group hover:-translate-y-1 transition-all">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Active Today (IST)</span>
+                <div className="w-10 h-10 rounded-2xl bg-[#E4F5EE] text-[#2D8A78] flex items-center justify-center shadow-sm">
+                  <Activity className="w-5 h-5" />
+                </div>
+              </div>
+              <p className="text-3xl sm:text-4xl font-heading font-extrabold text-[#2D8A78]">
+                {overview ? overview.activeUsersToday.toLocaleString() : '0'}
+              </p>
+              <p className="text-xs text-[#687386] mt-2 font-medium">
+                Users who scrolled today in India timezone
+              </p>
             </div>
-          </div>
-          <p className="text-3xl sm:text-4xl font-heading font-extrabold text-[#2D8A78]">
-            {overview ? overview.activeUsersToday.toLocaleString() : '—'}
-          </p>
-          <p className="text-xs text-[#687386] mt-2 font-medium">
-            Users who scrolled today in India timezone
-          </p>
-        </div>
 
-        {/* Total Battles */}
-        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] relative overflow-hidden group hover:-translate-y-1 transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Friend Battles</span>
-            <div className="w-10 h-10 rounded-2xl bg-[#FFF1E7] text-[#D9631E] flex items-center justify-center shadow-sm">
-              <Swords className="w-5 h-5" />
+            {/* Total Battles */}
+            <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] relative overflow-hidden group hover:-translate-y-1 transition-all">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Friend Battles</span>
+                <div className="w-10 h-10 rounded-2xl bg-[#FFF1E7] text-[#D9631E] flex items-center justify-center shadow-sm">
+                  <Swords className="w-5 h-5" />
+                </div>
+              </div>
+              <p className="text-3xl sm:text-4xl font-heading font-extrabold text-[#25334A]">
+                {overview ? overview.totalBattles.toLocaleString() : '0'}
+              </p>
+              <p className="text-xs text-[#687386] mt-2 flex items-center gap-2 font-medium">
+                <span className="text-[#FF765E] font-bold">{overview?.activeBattles || 0} active</span>
+                &bull;
+                <span>{overview?.completedBattles || 0} finished</span>
+              </p>
             </div>
-          </div>
-          <p className="text-3xl sm:text-4xl font-heading font-extrabold text-[#25334A]">
-            {overview ? overview.totalBattles.toLocaleString() : '—'}
-          </p>
-          <p className="text-xs text-[#687386] mt-2 flex items-center gap-2 font-medium">
-            <span className="text-[#FF765E] font-bold">{overview?.activeBattles || 0} active</span>
-            &bull;
-            <span>{overview?.completedBattles || 0} finished</span>
-          </p>
-        </div>
 
-        {/* Deletion Requests */}
-        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] relative overflow-hidden group hover:-translate-y-1 transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Deletion Requests</span>
-            <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shadow-sm">
-              <AlertTriangle className="w-5 h-5" />
+            {/* Deletion Requests */}
+            <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] relative overflow-hidden group hover:-translate-y-1 transition-all">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Deletion Requests</span>
+                <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shadow-sm">
+                  <AlertTriangle className="w-5 h-5" />
+                </div>
+              </div>
+              <p className="text-3xl sm:text-4xl font-heading font-extrabold text-[#25334A]">
+                {overview ? overview.totalDeletionRequests.toLocaleString() : '0'}
+              </p>
+              <p className="text-xs text-[#687386] mt-2 font-medium">
+                <span className="text-amber-600 font-bold">{overview?.pendingDeletionRequests || 0} Pending</span> review
+              </p>
             </div>
-          </div>
-          <p className="text-3xl sm:text-4xl font-heading font-extrabold text-[#25334A]">
-            {overview ? overview.totalDeletionRequests.toLocaleString() : '—'}
-          </p>
-          <p className="text-xs text-[#687386] mt-2 font-medium">
-            <span className="text-amber-600 font-bold">{overview?.pendingDeletionRequests || 0} Pending</span> review
-          </p>
-        </div>
+          </>
+        )}
       </div>
 
       {/* Reel Counts & Platform Breakdown */}
@@ -160,18 +172,31 @@ export default function OverviewView({ cache, setCache }: OverviewViewProps) {
                 Sampled
               </span>
             </div>
-            <p className="text-4xl sm:text-5xl font-heading font-extrabold text-[#25334A]">
-              {overview?.sampleTotalReels ? overview.sampleTotalReels.toLocaleString() : '0'}
-            </p>
-            <p className="text-xs text-[#687386] font-medium mt-1">Total tracked scrolls</p>
+            {loading && !overview ? (
+              <div className="space-y-2 py-1">
+                <Skeleton className="h-12 w-36 rounded-2xl" />
+                <Skeleton className="h-4 w-28 rounded-lg" />
+              </div>
+            ) : (
+              <>
+                <p className="text-4xl sm:text-5xl font-heading font-extrabold text-[#25334A]">
+                  {overview?.sampleTotalReels ? overview.sampleTotalReels.toLocaleString() : '0'}
+                </p>
+                <p className="text-xs text-[#687386] font-medium mt-1">Total tracked scrolls</p>
+              </>
+            )}
           </div>
 
           <div className="mt-6 pt-4 border-t border-[#F0E5DA]">
             <div className="flex items-center justify-between text-xs">
               <span className="text-[#687386] font-medium">Scrolled Today (IST):</span>
-              <span className="font-heading font-extrabold text-sm text-[#FF765E]">
-                {overview?.sampleTodayReels ? overview.sampleTodayReels.toLocaleString() : '0'} reels
-              </span>
+              {loading && !overview ? (
+                <Skeleton className="h-5 w-20 rounded-lg" />
+              ) : (
+                <span className="font-heading font-extrabold text-sm text-[#FF765E]">
+                  {overview?.sampleTodayReels ? overview.sampleTodayReels.toLocaleString() : '0'} reels
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -192,9 +217,13 @@ export default function OverviewView({ cache, setCache }: OverviewViewProps) {
                 <span className="text-xs font-heading font-bold text-rose-600">Instagram</span>
                 <span className="text-[10px] text-rose-400 font-medium">Reels</span>
               </div>
-              <p className="text-2xl font-heading font-extrabold text-[#25334A]">
-                {overview?.platforms?.instagram ? overview.platforms.instagram.toLocaleString() : '0'}
-              </p>
+              {loading && !overview ? (
+                <Skeleton className="h-7 w-16 rounded-lg mt-1" />
+              ) : (
+                <p className="text-2xl font-heading font-extrabold text-[#25334A]">
+                  {overview?.platforms?.instagram ? overview.platforms.instagram.toLocaleString() : '0'}
+                </p>
+              )}
             </div>
 
             {/* YouTube */}
@@ -203,9 +232,13 @@ export default function OverviewView({ cache, setCache }: OverviewViewProps) {
                 <span className="text-xs font-heading font-bold text-red-600">YouTube</span>
                 <span className="text-[10px] text-red-400 font-medium">Shorts</span>
               </div>
-              <p className="text-2xl font-heading font-extrabold text-[#25334A]">
-                {overview?.platforms?.youtube ? overview.platforms.youtube.toLocaleString() : '0'}
-              </p>
+              {loading && !overview ? (
+                <Skeleton className="h-7 w-16 rounded-lg mt-1" />
+              ) : (
+                <p className="text-2xl font-heading font-extrabold text-[#25334A]">
+                  {overview?.platforms?.youtube ? overview.platforms.youtube.toLocaleString() : '0'}
+                </p>
+              )}
             </div>
 
             {/* Facebook */}
@@ -214,9 +247,13 @@ export default function OverviewView({ cache, setCache }: OverviewViewProps) {
                 <span className="text-xs font-heading font-bold text-blue-600">Facebook</span>
                 <span className="text-[10px] text-blue-400 font-medium">Reels</span>
               </div>
-              <p className="text-2xl font-heading font-extrabold text-[#25334A]">
-                {overview?.platforms?.facebook ? overview.platforms.facebook.toLocaleString() : '0'}
-              </p>
+              {loading && !overview ? (
+                <Skeleton className="h-7 w-16 rounded-lg mt-1" />
+              ) : (
+                <p className="text-2xl font-heading font-extrabold text-[#25334A]">
+                  {overview?.platforms?.facebook ? overview.platforms.facebook.toLocaleString() : '0'}
+                </p>
+              )}
             </div>
 
             {/* Snapchat */}
@@ -225,9 +262,13 @@ export default function OverviewView({ cache, setCache }: OverviewViewProps) {
                 <span className="text-xs font-heading font-bold text-amber-700">Snapchat</span>
                 <span className="text-[10px] text-amber-500 font-medium">Spotlight</span>
               </div>
-              <p className="text-2xl font-heading font-extrabold text-[#25334A]">
-                {overview?.platforms?.snapchat ? overview.platforms.snapchat.toLocaleString() : '0'}
-              </p>
+              {loading && !overview ? (
+                <Skeleton className="h-7 w-16 rounded-lg mt-1" />
+              ) : (
+                <p className="text-2xl font-heading font-extrabold text-[#25334A]">
+                  {overview?.platforms?.snapchat ? overview.platforms.snapchat.toLocaleString() : '0'}
+                </p>
+              )}
             </div>
           </div>
 

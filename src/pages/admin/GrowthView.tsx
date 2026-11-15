@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { TrendingUp, RefreshCw, AlertCircle, ShieldCheck, UserX, Calendar } from 'lucide-react';
 import { useAdminAuth } from './AdminAuthContext';
+import { Skeleton } from './AdminSkeleton';
 
 interface GrowthViewProps {
   cache: any;
@@ -72,35 +73,58 @@ export default function GrowthView({ cache, setCache }: GrowthViewProps) {
 
       {/* Auth Breakdown Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        {/* Google Users */}
-        <div className="p-7 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] flex items-center justify-between">
-          <div>
-            <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#2D8A78] flex items-center gap-1.5 mb-1">
-              <ShieldCheck className="w-4 h-4 text-[#2D8A78]" />
-              Google Verified Accounts
-            </span>
-            <p className="text-3xl font-heading font-extrabold text-[#25334A]">{authTypes?.google || 0}</p>
-            <p className="text-xs text-[#687386] font-medium mt-1">{googlePct}% of total accounts</p>
-          </div>
-          <div className="w-16 h-16 rounded-full border-4 border-[#E4F5EE] border-t-[#2D8A78] flex items-center justify-center font-heading font-extrabold text-sm text-[#25334A] shadow-sm">
-            {googlePct}%
-          </div>
-        </div>
+        {loading && !data ? (
+          <>
+            <div className="p-7 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] flex items-center justify-between">
+              <div className="space-y-2">
+                <Skeleton className="h-3.5 w-40 rounded-md" />
+                <Skeleton className="h-8 w-24 rounded-xl" />
+                <Skeleton className="h-3 w-32 rounded-md" />
+              </div>
+              <Skeleton className="w-16 h-16 rounded-full" />
+            </div>
+            <div className="p-7 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] flex items-center justify-between">
+              <div className="space-y-2">
+                <Skeleton className="h-3.5 w-40 rounded-md" />
+                <Skeleton className="h-8 w-24 rounded-xl" />
+                <Skeleton className="h-3 w-32 rounded-md" />
+              </div>
+              <Skeleton className="w-16 h-16 rounded-full" />
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Google Users */}
+            <div className="p-7 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] flex items-center justify-between">
+              <div>
+                <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#2D8A78] flex items-center gap-1.5 mb-1">
+                  <ShieldCheck className="w-4 h-4 text-[#2D8A78]" />
+                  Google Verified Accounts
+                </span>
+                <p className="text-3xl font-heading font-extrabold text-[#25334A]">{authTypes?.google || 0}</p>
+                <p className="text-xs text-[#687386] font-medium mt-1">{googlePct}% of total accounts</p>
+              </div>
+              <div className="w-16 h-16 rounded-full border-4 border-[#E4F5EE] border-t-[#2D8A78] flex items-center justify-center font-heading font-extrabold text-sm text-[#25334A] shadow-sm">
+                {googlePct}%
+              </div>
+            </div>
 
-        {/* Anonymous Users */}
-        <div className="p-7 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] flex items-center justify-between">
-          <div>
-            <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#D9631E] flex items-center gap-1.5 mb-1">
-              <UserX className="w-4 h-4 text-[#D9631E]" />
-              Anonymous Guest Accounts
-            </span>
-            <p className="text-3xl font-heading font-extrabold text-[#25334A]">{authTypes?.anonymous || 0}</p>
-            <p className="text-xs text-[#687386] font-medium mt-1">{anonPct}% of total accounts</p>
-          </div>
-          <div className="w-16 h-16 rounded-full border-4 border-[#FFF1E7] border-t-[#D9631E] flex items-center justify-center font-heading font-extrabold text-sm text-[#25334A] shadow-sm">
-            {anonPct}%
-          </div>
-        </div>
+            {/* Anonymous Users */}
+            <div className="p-7 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] flex items-center justify-between">
+              <div>
+                <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#D9631E] flex items-center gap-1.5 mb-1">
+                  <UserX className="w-4 h-4 text-[#D9631E]" />
+                  Anonymous Guest Accounts
+                </span>
+                <p className="text-3xl font-heading font-extrabold text-[#25334A]">{authTypes?.anonymous || 0}</p>
+                <p className="text-xs text-[#687386] font-medium mt-1">{anonPct}% of total accounts</p>
+              </div>
+              <div className="w-16 h-16 rounded-full border-4 border-[#FFF1E7] border-t-[#D9631E] flex items-center justify-center font-heading font-extrabold text-sm text-[#25334A] shadow-sm">
+                {anonPct}%
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Signups Timeline Table */}
@@ -110,7 +134,26 @@ export default function GrowthView({ cache, setCache }: GrowthViewProps) {
           Recent Daily Registration Log
         </h4>
 
-        {timeline.length > 0 ? (
+        {loading && !data ? (
+          <div className="max-h-64 overflow-y-auto rounded-2xl border border-[#F0E5DA]">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-[#FFF8EF] text-[#687386] font-heading font-extrabold uppercase tracking-wider sticky top-0 border-b border-[#F0E5DA]">
+                <tr>
+                  <th className="p-3 font-extrabold">Date</th>
+                  <th className="p-3 font-extrabold text-right">New Users Registered</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#F0E5DA]/60 text-[#25334A]">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <tr key={i} className="hover:bg-[#FFFDF9] transition-colors">
+                    <td className="p-3"><Skeleton className="h-3.5 w-24 rounded" /></td>
+                    <td className="p-3 flex justify-end"><Skeleton className="h-3.5 w-16 rounded" /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : timeline.length > 0 ? (
           <div className="max-h-64 overflow-y-auto rounded-2xl border border-[#F0E5DA]">
             <table className="w-full text-left text-xs">
               <thead className="bg-[#FFF8EF] text-[#687386] font-heading font-extrabold uppercase tracking-wider sticky top-0 border-b border-[#F0E5DA]">

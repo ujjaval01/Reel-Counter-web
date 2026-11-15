@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Search, ChevronLeft, ChevronRight, User as UserIcon, RefreshCw, Eye, Sparkles } from 'lucide-react';
 import { useAdminAuth } from './AdminAuthContext';
 import UserDetailsModal from './UserDetailsModal';
+import { TableSkeletonRows } from './AdminSkeleton';
 
 interface UsersViewProps {
   cache: any;
@@ -126,12 +127,7 @@ export default function UsersView({ cache, setCache }: UsersViewProps) {
             </thead>
             <tbody className="divide-y divide-[#F0E5DA]/60 text-[#25334A]">
               {loading && users.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="p-12 text-center text-[#687386]">
-                    <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-[#FF765E]" />
-                    Loading user records...
-                  </td>
-                </tr>
+                <TableSkeletonRows rows={6} cols={6} />
               ) : users.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="p-12 text-center text-[#687386] font-medium">

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { RefreshCw, AlertCircle, Database, Server, CheckCircle2, Lock } from 'lucide-react';
 import { useAdminAuth } from './AdminAuthContext';
+import { Skeleton } from './AdminSkeleton';
 
 interface SystemViewProps {
   cache: any;
@@ -110,37 +111,51 @@ export default function SystemView({ cache, setCache }: SystemViewProps) {
         </h4>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-sans">
-          <div className="p-5 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
-            <span className="text-xs font-bold text-[#687386]">users</span>
-            <p className="text-3xl font-heading font-extrabold text-[#25334A] mt-1">
-              {collections?.users != null ? collections.users.toLocaleString() : '—'}
-            </p>
-            <p className="text-[10px] text-[#8B95A5] mt-1">User profiles & stats</p>
-          </div>
+          {loading && !data ? (
+            <>
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="p-5 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA] space-y-2">
+                  <Skeleton className="h-3 w-16 rounded" />
+                  <Skeleton className="h-8 w-20 rounded-lg" />
+                  <Skeleton className="h-2.5 w-24 rounded" />
+                </div>
+              ))}
+            </>
+          ) : (
+            <>
+              <div className="p-5 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
+                <span className="text-xs font-bold text-[#687386]">users</span>
+                <p className="text-3xl font-heading font-extrabold text-[#25334A] mt-1">
+                  {collections?.users != null ? collections.users.toLocaleString() : '—'}
+                </p>
+                <p className="text-[10px] text-[#8B95A5] mt-1">User profiles & stats</p>
+              </div>
 
-          <div className="p-5 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
-            <span className="text-xs font-bold text-[#687386]">battles</span>
-            <p className="text-3xl font-heading font-extrabold text-[#F7931A] mt-1">
-              {collections?.battles != null ? collections.battles.toLocaleString() : '—'}
-            </p>
-            <p className="text-[10px] text-[#8B95A5] mt-1">Friend PvP challenges</p>
-          </div>
+              <div className="p-5 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
+                <span className="text-xs font-bold text-[#687386]">battles</span>
+                <p className="text-3xl font-heading font-extrabold text-[#F7931A] mt-1">
+                  {collections?.battles != null ? collections.battles.toLocaleString() : '—'}
+                </p>
+                <p className="text-[10px] text-[#8B95A5] mt-1">Friend PvP challenges</p>
+              </div>
 
-          <div className="p-5 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
-            <span className="text-xs font-bold text-[#687386]">friends</span>
-            <p className="text-3xl font-heading font-extrabold text-[#2D8A78] mt-1">
-              {collections?.friends != null ? collections.friends.toLocaleString() : '—'}
-            </p>
-            <p className="text-[10px] text-[#8B95A5] mt-1">Friend connections</p>
-          </div>
+              <div className="p-5 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
+                <span className="text-xs font-bold text-[#687386]">friends</span>
+                <p className="text-3xl font-heading font-extrabold text-[#2D8A78] mt-1">
+                  {collections?.friends != null ? collections.friends.toLocaleString() : '—'}
+                </p>
+                <p className="text-[10px] text-[#8B95A5] mt-1">Friend connections</p>
+              </div>
 
-          <div className="p-5 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
-            <span className="text-xs font-bold text-[#687386]">account_deletion_requests</span>
-            <p className="text-3xl font-heading font-extrabold text-purple-600 mt-1">
-              {collections?.account_deletion_requests != null ? collections.account_deletion_requests.toLocaleString() : '—'}
-            </p>
-            <p className="text-[10px] text-[#8B95A5] mt-1">Play Store deletion logs</p>
-          </div>
+              <div className="p-5 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
+                <span className="text-xs font-bold text-[#687386]">account_deletion_requests</span>
+                <p className="text-3xl font-heading font-extrabold text-purple-600 mt-1">
+                  {collections?.account_deletion_requests != null ? collections.account_deletion_requests.toLocaleString() : '—'}
+                </p>
+                <p className="text-[10px] text-[#8B95A5] mt-1">Play Store deletion logs</p>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
@@ -148,37 +163,50 @@ export default function SystemView({ cache, setCache }: SystemViewProps) {
       <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] space-y-4">
         <h4 className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#25334A] flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 text-[#2D8A78]" />
-          Schema & Field Integrity (Sampled {integrity?.sampledProfiles || 0} profiles)
+          Schema & Field Integrity {data ? `(Sampled ${integrity?.sampledProfiles || 0} profiles)` : ''}
         </h4>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-sans">
-          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
-            <span className="text-[#687386] font-semibold text-xs">Missing Display Name:</span>
-            <p className={`text-xl font-heading font-extrabold mt-1 ${integrity?.missingDisplayName ? 'text-amber-600' : 'text-[#2D8A78]'}`}>
-              {integrity?.missingDisplayName || 0}
-            </p>
-          </div>
+          {loading && !data ? (
+            <>
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA] space-y-2">
+                  <Skeleton className="h-3 w-28 rounded" />
+                  <Skeleton className="h-6 w-14 rounded-lg" />
+                </div>
+              ))}
+            </>
+          ) : (
+            <>
+              <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
+                <span className="text-[#687386] font-semibold text-xs">Missing Display Name:</span>
+                <p className={`text-xl font-heading font-extrabold mt-1 ${integrity?.missingDisplayName ? 'text-amber-600' : 'text-[#2D8A78]'}`}>
+                  {integrity?.missingDisplayName || 0}
+                </p>
+              </div>
 
-          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
-            <span className="text-[#687386] font-semibold text-xs">Missing Today Date:</span>
-            <p className={`text-xl font-heading font-extrabold mt-1 ${integrity?.missingTodayDate ? 'text-amber-600' : 'text-[#2D8A78]'}`}>
-              {integrity?.missingTodayDate || 0}
-            </p>
-          </div>
+              <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
+                <span className="text-[#687386] font-semibold text-xs">Missing Today Date:</span>
+                <p className={`text-xl font-heading font-extrabold mt-1 ${integrity?.missingTodayDate ? 'text-amber-600' : 'text-[#2D8A78]'}`}>
+                  {integrity?.missingTodayDate || 0}
+                </p>
+              </div>
 
-          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
-            <span className="text-[#687386] font-semibold text-xs">Missing totalReels:</span>
-            <p className={`text-xl font-heading font-extrabold mt-1 ${integrity?.missingTotalReels ? 'text-amber-600' : 'text-[#2D8A78]'}`}>
-              {integrity?.missingTotalReels || 0}
-            </p>
-          </div>
+              <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
+                <span className="text-[#687386] font-semibold text-xs">Missing totalReels:</span>
+                <p className={`text-xl font-heading font-extrabold mt-1 ${integrity?.missingTotalReels ? 'text-amber-600' : 'text-[#2D8A78]'}`}>
+                  {integrity?.missingTotalReels || 0}
+                </p>
+              </div>
 
-          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
-            <span className="text-[#687386] font-semibold text-xs">Guest / Anon Users:</span>
-            <p className="text-xl font-heading font-extrabold text-[#25334A] mt-1">
-              {integrity?.anonymousCount || 0}
-            </p>
-          </div>
+              <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
+                <span className="text-[#687386] font-semibold text-xs">Guest / Anon Users:</span>
+                <p className="text-xl font-heading font-extrabold text-[#25334A] mt-1">
+                  {integrity?.anonymousCount || 0}
+                </p>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

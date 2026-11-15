@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { PieChart, RefreshCw, AlertCircle, Award } from 'lucide-react';
 import { useAdminAuth } from './AdminAuthContext';
+import { Skeleton, PlatformCardSkeleton } from './AdminSkeleton';
 
 interface PlatformAnalyticsViewProps {
   cache: any;
@@ -67,7 +68,22 @@ export default function PlatformAnalyticsView({ cache, setCache }: PlatformAnaly
       )}
 
       {/* Top Dominant Platform Banner */}
-      {topPlatform && (
+      {loading && platforms.length === 0 ? (
+        <div className="p-7 rounded-3xl bg-white border border-[#F0E5DA] shadow-sm flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Skeleton className="w-14 h-14 rounded-2xl" />
+            <div className="space-y-2">
+              <Skeleton className="h-3 w-28 rounded" />
+              <Skeleton className="h-6 w-40 rounded-lg" />
+              <Skeleton className="h-3 w-56 rounded" />
+            </div>
+          </div>
+          <div className="space-y-2 text-right">
+            <Skeleton className="h-8 w-24 rounded-lg ml-auto" />
+            <Skeleton className="h-3 w-16 rounded ml-auto" />
+          </div>
+        </div>
+      ) : topPlatform ? (
         <div className="p-7 rounded-3xl bg-gradient-to-r from-[#FFF1E7] via-white to-[#FFF1E7] border border-[#FFB36B]/40 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-2xl bg-[#FFE2D5] border border-[#FF765E]/30 flex items-center justify-center text-[#FF765E] shadow-sm">
@@ -86,37 +102,46 @@ export default function PlatformAnalyticsView({ cache, setCache }: PlatformAnaly
             <p className="text-xs text-[#687386] font-medium">reels logged</p>
           </div>
         </div>
-      )}
+      ) : null}
 
       {/* 4 Platform Grid Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {platforms.map((p) => (
-          <div key={p.key} className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] flex flex-col justify-between hover:-translate-y-1 transition-all">
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-heading font-extrabold uppercase tracking-wider" style={{ color: p.color }}>
-                  {p.name}
-                </span>
-                <span className="text-xs font-mono font-extrabold px-2.5 py-0.5 rounded-full bg-[#FFF1E7] text-[#D9631E]">
-                  {p.percentage}%
-                </span>
+        {loading && platforms.length === 0 ? (
+          <>
+            <PlatformCardSkeleton />
+            <PlatformCardSkeleton />
+            <PlatformCardSkeleton />
+            <PlatformCardSkeleton />
+          </>
+        ) : (
+          platforms.map((p) => (
+            <div key={p.key} className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] flex flex-col justify-between hover:-translate-y-1 transition-all">
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-heading font-extrabold uppercase tracking-wider" style={{ color: p.color }}>
+                    {p.name}
+                  </span>
+                  <span className="text-xs font-mono font-extrabold px-2.5 py-0.5 rounded-full bg-[#FFF1E7] text-[#D9631E]">
+                    {p.percentage}%
+                  </span>
+                </div>
+                <p className="text-3xl font-heading font-extrabold text-[#25334A]">{p.totalReels.toLocaleString()}</p>
+                <p className="text-xs text-[#687386] font-medium mt-0.5">Total reels</p>
               </div>
-              <p className="text-3xl font-heading font-extrabold text-[#25334A]">{p.totalReels.toLocaleString()}</p>
-              <p className="text-xs text-[#687386] font-medium mt-0.5">Total reels</p>
-            </div>
 
-            <div className="mt-6 pt-4 border-t border-[#F0E5DA] space-y-2 text-xs">
-              <div className="flex items-center justify-between text-[#687386] font-medium">
-                <span>Active Users:</span>
-                <span className="font-heading font-bold text-[#25334A]">{p.activeUserCount}</span>
-              </div>
-              <div className="flex items-center justify-between text-[#687386] font-medium">
-                <span>Adoption Rate:</span>
-                <span className="font-heading font-bold text-[#25334A]">{p.adoptionRate}%</span>
+              <div className="mt-6 pt-4 border-t border-[#F0E5DA] space-y-2 text-xs">
+                <div className="flex items-center justify-between text-[#687386] font-medium">
+                  <span>Active Users:</span>
+                  <span className="font-heading font-bold text-[#25334A]">{p.activeUserCount}</span>
+                </div>
+                <div className="flex items-center justify-between text-[#687386] font-medium">
+                  <span>Adoption Rate:</span>
+                  <span className="font-heading font-bold text-[#25334A]">{p.adoptionRate}%</span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

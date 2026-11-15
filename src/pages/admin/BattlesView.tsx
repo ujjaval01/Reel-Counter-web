@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Swords, RefreshCw, AlertCircle } from 'lucide-react';
 import { useAdminAuth } from './AdminAuthContext';
+import { Skeleton, TableSkeletonRows } from './AdminSkeleton';
 
 interface BattlesViewProps {
   cache: any;
@@ -67,23 +68,37 @@ export default function BattlesView({ cache, setCache }: BattlesViewProps) {
 
       {/* Battle Stats Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)]">
-          <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#687386]">Total Battles Created</span>
-          <p className="text-3xl font-heading font-extrabold text-[#25334A] mt-2">{data?.totalBattles || 0}</p>
-          <p className="text-xs font-sans text-[#8B95A5] mt-1">All-time battle duels</p>
-        </div>
+        {loading && !data ? (
+          <>
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)] space-y-3">
+                <Skeleton className="h-3.5 w-32 rounded-md" />
+                <Skeleton className="h-8 w-24 rounded-xl" />
+                <Skeleton className="h-3 w-28 rounded-md" />
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)]">
+              <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#687386]">Total Battles Created</span>
+              <p className="text-3xl font-heading font-extrabold text-[#25334A] mt-2">{data?.totalBattles || 0}</p>
+              <p className="text-xs font-sans text-[#8B95A5] mt-1">All-time battle duels</p>
+            </div>
 
-        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)]">
-          <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#FF765E]">Active Duels Ongoing</span>
-          <p className="text-3xl font-heading font-extrabold text-[#FF765E] mt-2">{data?.activeBattles || 0}</p>
-          <p className="text-xs font-sans text-[#8B95A5] mt-1">Currently in progress</p>
-        </div>
+            <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)]">
+              <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#FF765E]">Active Duels Ongoing</span>
+              <p className="text-3xl font-heading font-extrabold text-[#FF765E] mt-2">{data?.activeBattles || 0}</p>
+              <p className="text-xs font-sans text-[#8B95A5] mt-1">Currently in progress</p>
+            </div>
 
-        <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)]">
-          <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#2D8A78]">Completed Battles</span>
-          <p className="text-3xl font-heading font-extrabold text-[#2D8A78] mt-2">{data?.completedBattles || 0}</p>
-          <p className="text-xs font-sans text-[#8B95A5] mt-1">Decided winners</p>
-        </div>
+            <div className="p-6 rounded-3xl bg-white border border-[#F0E5DA] shadow-[0_10px_25px_-4px_rgba(37,51,74,0.05)]">
+              <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-[#2D8A78]">Completed Battles</span>
+              <p className="text-3xl font-heading font-extrabold text-[#2D8A78] mt-2">{data?.completedBattles || 0}</p>
+              <p className="text-xs font-sans text-[#8B95A5] mt-1">Decided winners</p>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Battles List Table */}
@@ -107,13 +122,8 @@ export default function BattlesView({ cache, setCache }: BattlesViewProps) {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#F0E5DA] text-[#25334A]">
-              {loading && recentBattles.length === 0 ? (
-                <tr>
-                  <td colSpan={5} className="p-12 text-center text-[#687386]">
-                    <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-[#FF765E]" />
-                    Loading battle records...
-                  </td>
-                </tr>
+              {loading && !data ? (
+                <TableSkeletonRows rows={5} cols={5} />
               ) : recentBattles.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="p-12 text-center text-[#687386]">

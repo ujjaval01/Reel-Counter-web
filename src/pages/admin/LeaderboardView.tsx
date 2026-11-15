@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Trophy, Medal, Crown, RefreshCw, User as UserIcon } from 'lucide-react';
 import { useAdminAuth } from './AdminAuthContext';
+import { TableSkeletonRows } from './AdminSkeleton';
 
 interface LeaderboardViewProps {
   cache: any;
@@ -136,12 +137,7 @@ export default function LeaderboardView({ cache, setCache }: LeaderboardViewProp
             </thead>
             <tbody className="divide-y divide-[#F0E5DA]/60 text-[#25334A]">
               {loading && leaderboard.length === 0 ? (
-                <tr>
-                  <td colSpan={5} className="p-12 text-center text-[#687386]">
-                    <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-[#FF765E]" />
-                    Compiling leaderboard ranks...
-                  </td>
-                </tr>
+                <TableSkeletonRows rows={6} cols={5} />
               ) : leaderboard.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="p-12 text-center text-[#687386] font-medium">
