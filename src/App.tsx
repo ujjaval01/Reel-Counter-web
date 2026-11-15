@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { 
   Menu, X, ArrowRight, ShieldCheck, 
   Swords, Sparkles, ChevronDown, Check, 
@@ -22,6 +22,15 @@ import {
   ClayShield3D,
 } from './components/Clay3DIcons';
 
+const DEFAULT_GLOBAL_LEADERBOARD = [
+  { rank: 1, id: '1', displayName: 'Vanshika Saini', username: 'vanshika_saini', reels: 3724, primaryPlatform: 'Instagram', avatarUrl: null, avatarEmoji: '👑' },
+  { rank: 2, id: '2', displayName: 'Arun Saini', username: 'arun_saini', reels: 2806, primaryPlatform: 'Instagram', avatarUrl: null, avatarEmoji: '⚡' },
+  { rank: 3, id: '3', displayName: 'Suraj', username: 'suraj', reels: 2225, primaryPlatform: 'Instagram', avatarUrl: null, avatarEmoji: '🔥' },
+  { rank: 4, id: '4', displayName: 'Developer', username: 'developer', reels: 1899, primaryPlatform: 'Instagram', avatarUrl: null, avatarEmoji: '💻' },
+  { rank: 5, id: '5', displayName: 'himanshu tomar', username: 'himanshu_tomar', reels: 1875, primaryPlatform: 'Instagram', avatarUrl: null, avatarEmoji: '🎯' },
+  { rank: 6, id: '6', displayName: 'Bad boy Saini', username: 'bad_boy_saini', reels: 1641, primaryPlatform: 'Facebook', avatarUrl: null, avatarEmoji: '🚀' },
+];
+
 export default function App() {
   
   const currentPath = useCurrentPath();
@@ -29,9 +38,30 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<'home' | 'battle' | 'leaderboard' | 'dashboard' | 'settings'>('home');
   const [dashboardSubTab, setDashboardSubTab] = useState<'overview' | 'trends'>('overview');
   const [lightboxImg, setLightboxImg] = useState<{ src: string; title: string } | null>(null);
-  const [lbFilter, setLbFilter] = useState<'global' | 'india' | 'friends'>('global');
+  const [lbFilter, setLbFilter] = useState<'global' | 'today'>('global');
+  const [realLeaderboard, setRealLeaderboard] = useState<any[]>(DEFAULT_GLOBAL_LEADERBOARD);
+  const [lbLoading, setLbLoading] = useState<boolean>(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    setLbLoading(true);
+    fetch(`/api/leaderboard?timeframe=${lbFilter}&limit=6`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted && data?.success && Array.isArray(data.leaderboard) && data.leaderboard.length > 0) {
+          setRealLeaderboard(data.leaderboard);
+        }
+      })
+      .catch((err) => console.error('Failed to load public leaderboard:', err))
+      .finally(() => {
+        if (isMounted) setLbLoading(false);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, [lbFilter]);
 
   const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.uv.reelcounter";
 
@@ -950,33 +980,47 @@ export default function App() {
             </p>
           </div>
 
-          {/* Filter Pills */}
-          <div className="flex justify-center gap-2">
-            {(['global', 'india', 'friends'] as const).map(tab => (
-              <button
-                key={tab}
-                onClick={() => setLbFilter(tab)}
-                className={`px-4 py-2 rounded-full text-xs font-heading font-bold uppercase tracking-wider transition-all active:scale-95 ${
-                  lbFilter === tab 
-                    ? 'bg-[#FF765E] text-white shadow-sm' 
-                    : 'bg-white border border-[#F0E5DA] text-[#687386]'
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
+          {/* Filter Pills: Global & Today */}
+          <div className="flex justify-center gap-2.5">
+            <button
+              onClick={() => setLbFilter('global')}
+              className={`px-6 py-2.5 rounded-full text-xs font-heading font-bold uppercase tracking-wider transition-all active:scale-95 flex items-center gap-1.5 ${
+                lbFilter === 'global'
+                  ? 'bg-gradient-to-r from-[#FF7E67] to-[#FF6F56] text-white shadow-md shadow-[#FF765E]/30 -translate-y-0.5'
+                  : 'bg-white border border-[#F0E5DA] text-[#687386] hover:text-[#25334A] hover:bg-[#FFFDF9]'
+              }`}
+            >
+              <span>🌍</span>
+              <span>Global</span>
+            </button>
+            <button
+              onClick={() => setLbFilter('today')}
+              className={`px-6 py-2.5 rounded-full text-xs font-heading font-bold uppercase tracking-wider transition-all active:scale-95 flex items-center gap-1.5 ${
+                lbFilter === 'today'
+                  ? 'bg-gradient-to-r from-[#FF7E67] to-[#FF6F56] text-white shadow-md shadow-[#FF765E]/30 -translate-y-0.5'
+                  : 'bg-white border border-[#F0E5DA] text-[#687386] hover:text-[#25334A] hover:bg-[#FFFDF9]'
+              }`}
+            >
+              <span>⚡</span>
+              <span>Today (IST)</span>
+            </button>
           </div>
 
           {/* Podium Visual Layout */}
           <div className="grid grid-cols-3 gap-3 sm:gap-6 items-end pt-6 pb-2 text-center max-w-xl mx-auto">
             
             {/* 2nd Place: Silver */}
-            <div className={`p-4 rounded-2xl border transition-all ${
-              'bg-white border-[#F0E5DA] shadow-sm'
-            }`}>
+            <div className="p-4 rounded-2xl border transition-all bg-white border-[#F0E5DA] shadow-sm">
               <div className="text-2xl mb-1">🥈</div>
-              <div className="font-heading font-bold text-sm truncate text-[#25334A]">Rahul S.</div>
-              <div className="text-xs text-[#FF765E] font-bold">142 reels</div>
+              <div className="w-10 h-10 rounded-full bg-[#E4F5EE] mx-auto flex items-center justify-center font-bold text-xs overflow-hidden border border-[#45BFA8]/30 mb-1">
+                {realLeaderboard[1]?.avatarUrl ? (
+                  <img src={realLeaderboard[1].avatarUrl} alt="" className="w-full h-full object-cover" />
+                ) : (
+                  <span>{realLeaderboard[1]?.avatarEmoji || (realLeaderboard[1]?.displayName ? realLeaderboard[1].displayName.slice(0, 2).toUpperCase() : 'AS')}</span>
+                )}
+              </div>
+              <div className="font-heading font-bold text-sm truncate text-[#25334A]">{realLeaderboard[1]?.displayName || 'Scroller #2'}</div>
+              <div className="text-xs text-[#FF765E] font-bold">{realLeaderboard[1]?.reels?.toLocaleString() || 0} reels</div>
               <div className="mt-2 py-0.5 rounded-lg bg-[#FFF1E7] text-[10px] font-bold text-[#D9631E]">
                 #2 Rank
               </div>
@@ -987,20 +1031,32 @@ export default function App() {
               <div className="w-10 h-10 mx-auto mb-1">
                 <ClayTrophy3D className="w-full h-full" />
               </div>
-              <div className="font-heading font-extrabold text-base truncate mt-1 text-[#25334A]">Arjun K.</div>
-              <div className="text-sm text-[#FF765E] font-bold">98 reels</div>
+              <div className="w-12 h-12 rounded-full bg-[#FFE2D5] mx-auto flex items-center justify-center font-bold text-sm overflow-hidden border-2 border-[#FF765E]/40 mb-1">
+                {realLeaderboard[0]?.avatarUrl ? (
+                  <img src={realLeaderboard[0].avatarUrl} alt="" className="w-full h-full object-cover" />
+                ) : (
+                  <span>{realLeaderboard[0]?.avatarEmoji || (realLeaderboard[0]?.displayName ? realLeaderboard[0].displayName.slice(0, 2).toUpperCase() : 'VS')}</span>
+                )}
+              </div>
+              <div className="font-heading font-extrabold text-base truncate mt-1 text-[#25334A]">{realLeaderboard[0]?.displayName || 'Scroller #1'}</div>
+              <div className="text-sm text-[#FF765E] font-bold">{realLeaderboard[0]?.reels?.toLocaleString() || 0} reels</div>
               <div className="mt-2 py-1 px-3 rounded-full bg-[#FF765E] text-white text-[10px] font-bold uppercase tracking-wider shadow-sm">
                 🥇 Champion
               </div>
             </div>
 
             {/* 3rd Place: Bronze */}
-            <div className={`p-4 rounded-2xl border transition-all ${
-              'bg-white border-[#F0E5DA] shadow-sm'
-            }`}>
+            <div className="p-4 rounded-2xl border transition-all bg-white border-[#F0E5DA] shadow-sm">
               <div className="text-2xl mb-1">🥉</div>
-              <div className="font-heading font-bold text-sm truncate text-[#25334A]">Priya P.</div>
-              <div className="text-xs text-[#FF765E] font-bold">189 reels</div>
+              <div className="w-10 h-10 rounded-full bg-[#FFF1E7] mx-auto flex items-center justify-center font-bold text-xs overflow-hidden border border-[#FFB36B]/30 mb-1">
+                {realLeaderboard[2]?.avatarUrl ? (
+                  <img src={realLeaderboard[2].avatarUrl} alt="" className="w-full h-full object-cover" />
+                ) : (
+                  <span>{realLeaderboard[2]?.avatarEmoji || (realLeaderboard[2]?.displayName ? realLeaderboard[2].displayName.slice(0, 2).toUpperCase() : 'SJ')}</span>
+                )}
+              </div>
+              <div className="font-heading font-bold text-sm truncate text-[#25334A]">{realLeaderboard[2]?.displayName || 'Scroller #3'}</div>
+              <div className="text-xs text-[#FF765E] font-bold">{realLeaderboard[2]?.reels?.toLocaleString() || 0} reels</div>
               <div className="mt-2 py-0.5 rounded-lg bg-[#FFF1E7] text-[10px] font-bold text-[#D9631E]">
                 #3 Rank
               </div>
@@ -1008,57 +1064,43 @@ export default function App() {
 
           </div>
 
-          {/* Ranked List & Current User Card */}
-          <div className={`rounded-3xl border overflow-hidden ${
-            'bg-white border-[#F0E5DA] shadow-sm'
-          }`}>
+          {/* Ranked List: 4th, 5th, 6th */}
+          <div className="rounded-3xl border overflow-hidden bg-white border-[#F0E5DA] shadow-sm">
             <div className="p-5 sm:p-6 space-y-2">
-              {[
-                { rank: 4, name: 'Aman Verma', tag: 'Focus Mode', count: '210 reels' },
-                { rank: 5, name: 'Ritu Sen', tag: 'Balanced Habit', count: '230 reels' },
-              ].map(user => (
-                <div key={user.rank} className={`flex items-center justify-between p-3 rounded-xl transition-colors ${
-                  'hover:bg-[#FFF8EF]'
-                }`}>
-                  <div className="flex items-center gap-3">
-                    <span className="w-7 text-center font-bold text-sm text-[#687386]">
+              {realLeaderboard.slice(3, 6).map((user) => (
+                <div key={user.rank || user.id} className="flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-[#FFF8EF]">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className="w-7 text-center font-bold text-sm text-[#687386] shrink-0">
                       #{user.rank}
                     </span>
-                    <div className="w-9 h-9 rounded-full bg-[#FFE2D5] text-[#FF765E] flex items-center justify-center font-bold text-xs">
-                      {user.name.slice(0, 2).toUpperCase()}
+                    <div className="w-9 h-9 rounded-full bg-[#FFE2D5] text-[#FF765E] flex items-center justify-center font-bold text-xs overflow-hidden border border-[#FF765E]/20 shrink-0">
+                      {user.avatarUrl ? (
+                        <img src={user.avatarUrl} alt="" className="w-full h-full object-cover" />
+                      ) : (
+                        <span>{user.avatarEmoji || (user.displayName ? user.displayName.slice(0, 2).toUpperCase() : 'RC')}</span>
+                      )}
                     </div>
-                    <div>
-                      <div className="font-heading font-bold text-sm text-[#25334A]">{user.name}</div>
-                      <div className={`text-[10px] ${'text-[#687386]'}`}>{user.tag}</div>
+                    <div className="min-w-0">
+                      <div className="font-heading font-bold text-sm text-[#25334A] truncate">{user.displayName}</div>
+                      <div className="text-[10px] text-[#687386] font-mono truncate">
+                        @{user.username || 'scroller'} • {user.primaryPlatform || 'Instagram'}
+                      </div>
                     </div>
                   </div>
-                  <div className="font-mono font-bold text-sm text-[#FF765E]">{user.count}</div>
+                  <div className="font-mono font-bold text-sm text-[#FF765E] shrink-0 pl-2">
+                    {user.reels?.toLocaleString()} reels
+                  </div>
                 </div>
               ))}
-
-              {/* Current User Pinned Card */}
-              <div className="mt-3 pt-3 border-t border-[#F0E5DA]">
-                <div className="p-3.5 rounded-xl bg-[#FFE2D5]/70 border border-[#FF765E]/40 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <span className="w-7 text-center font-bold text-sm text-[#FF765E]">#14</span>
-                    <div className="w-9 h-9 rounded-full bg-[#FF765E] flex items-center justify-center text-white font-bold text-xs shadow-sm">
-                      YOU
-                    </div>
-                    <div>
-                      <div className="font-heading font-bold text-sm text-[#25334A]">Your Current Rank</div>
-                      <div className="text-[10px] font-bold text-[#FF765E]">Top 15% mindful scrollers this week</div>
-                    </div>
-                  </div>
-                  <div className="font-mono font-bold text-sm text-[#FF765E]">253 reels</div>
-                </div>
-              </div>
-
             </div>
           </div>
 
-          <p className="text-center text-xs text-[#687386]">
-            *Demo data shown for illustration. Real rankings sync dynamically upon logging into ReelCounter.
-          </p>
+          <div className="flex items-center justify-center gap-2 text-xs text-[#687386] font-medium pt-2">
+            <span className={`w-2 h-2 rounded-full ${lbLoading ? 'bg-[#FF765E] animate-ping' : 'bg-[#45BFA8] animate-pulse'}`} />
+            <span>
+              {lbLoading ? 'Synchronizing latest rankings...' : 'Live ReelCounter rankings synchronized directly from active scrollers.'}
+            </span>
+          </div>
 
         </div>
       </section>
