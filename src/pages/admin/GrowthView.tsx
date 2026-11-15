@@ -42,7 +42,7 @@ export default function GrowthView({ cache, setCache }: GrowthViewProps) {
   const authTypes = data?.authTypes;
   const timeline: any[] = data?.timeline || [];
   const versions: any[] = data?.versions || [];
-  const peakHours: Record<string, number> = data?.peakHours || {};
+  const peakHoursList: any[] = Array.isArray(data?.peakHours) ? data.peakHours : [];
   const totalSampled = data?.totalSampled || 1;
 
   const googlePct = authTypes ? Math.round((authTypes.google / totalSampled) * 100) : 0;
@@ -94,17 +94,6 @@ export default function GrowthView({ cache, setCache }: GrowthViewProps) {
       areaD = `${pathD} L ${last.x} ${chartHeight - paddingY} L ${first.x} ${chartHeight - paddingY} Z`;
     }
   }
-
-  // Peak Hours calculation
-  const totalHourCount = Object.values(peakHours).reduce((sum, val) => sum + (val || 0), 0) || 1;
-  let maxHourKey = '';
-  let maxHourVal = -1;
-  Object.entries(peakHours).forEach(([key, val]) => {
-    if (val > maxHourVal) {
-      maxHourVal = val;
-      maxHourKey = key;
-    }
-  });
 
   return (
     <div className="space-y-6">
@@ -272,33 +261,38 @@ export default function GrowthView({ cache, setCache }: GrowthViewProps) {
           </div>
 
           <div className="space-y-3 pt-1">
-            {Object.entries(peakHours).map(([label, count]) => {
-              const pct = Math.round((count / totalHourCount) * 100);
-              const isPeak = label === maxHourKey && count > 0;
-              return (
-                <div key={label} className="space-y-1.5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-heading font-bold text-[#25334A] flex items-center gap-1.5">
-                      {label}
-                      {isPeak && (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#FFF1E7] text-[#FF765E] text-[10px] font-heading font-extrabold">
-                          <Flame className="w-3 h-3 fill-[#FF765E]" /> Prime Peak
-                        </span>
-                      )}
-                    </span>
-                    <span className="font-mono text-[#687386] font-bold">{count} ({pct}%)</span>
+            {peakHoursList.length > 0 ? (
+              peakHoursList.map((item: any, idx: number) => {
+                const isPeak = idx === 0 && item.count > 0;
+                return (
+                  <div key={item.interval} className="space-y-1.5">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-heading font-bold text-[#25334A] flex items-center gap-1.5">
+                        {item.interval}
+                        {isPeak && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#FFF1E7] text-[#FF765E] text-[10px] font-heading font-extrabold">
+                            <Flame className="w-3 h-3 fill-[#FF765E]" /> Prime Peak
+                          </span>
+                        )}
+                      </span>
+                      <span className="font-mono text-[#687386] font-bold">
+                        {item.count} ({item.percentage}%)
+                      </span>
+                    </div>
+                    <div className="w-full h-2 rounded-full bg-[#FFF1E7] overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all duration-500 ${
+                          isPeak ? 'bg-gradient-to-r from-[#FF765E] to-rose-500' : 'bg-[#FFB36B]'
+                        }`}
+                        style={{ width: `${item.percentage}%` }}
+                      />
+                    </div>
                   </div>
-                  <div className="w-full h-2 rounded-full bg-[#FFF1E7] overflow-hidden">
-                    <div
-                      className={`h-full rounded-full transition-all duration-500 ${
-                        isPeak ? 'bg-gradient-to-r from-[#FF765E] to-rose-500' : 'bg-[#FFB36B]'
-                      }`}
-                      style={{ width: `${pct}%` }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })
+            ) : (
+              <p className="text-xs text-[#687386] italic py-4">No scrolling activity logged yet.</p>
+            )}
           </div>
         </div>
 

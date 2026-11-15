@@ -84,31 +84,28 @@ export default function LeaderboardView({ cache, setCache }: LeaderboardViewProp
         <div className="inline-flex p-1.5 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm">
           <button
             onClick={() => handleTimeframeChange('all')}
-            className={`px-4 py-2 rounded-xl text-xs font-heading font-bold transition-all ${
-              timeframe === 'all'
+            className={`px-4 py-2 rounded-xl text-xs font-heading font-bold transition-all ${timeframe === 'all'
                 ? 'bg-gradient-to-r from-[#FF7E67] to-[#FF6F56] text-white shadow-md'
                 : 'text-[#687386] hover:text-[#25334A] hover:bg-[#FFF1E7]'
-            }`}
+              }`}
           >
             All-Time
           </button>
           <button
             onClick={() => handleTimeframeChange('weekly')}
-            className={`px-4 py-2 rounded-xl text-xs font-heading font-bold transition-all ${
-              timeframe === 'weekly'
+            className={`px-4 py-2 rounded-xl text-xs font-heading font-bold transition-all ${timeframe === 'weekly'
                 ? 'bg-gradient-to-r from-[#FF7E67] to-[#FF6F56] text-white shadow-md'
                 : 'text-[#687386] hover:text-[#25334A] hover:bg-[#FFF1E7]'
-            }`}
+              }`}
           >
             Weekly
           </button>
           <button
             onClick={() => handleTimeframeChange('today')}
-            className={`px-4 py-2 rounded-xl text-xs font-heading font-bold transition-all ${
-              timeframe === 'today'
+            className={`px-4 py-2 rounded-xl text-xs font-heading font-bold transition-all ${timeframe === 'today'
                 ? 'bg-gradient-to-r from-[#FF7E67] to-[#FF6F56] text-white shadow-md'
                 : 'text-[#687386] hover:text-[#25334A] hover:bg-[#FFF1E7]'
-            }`}
+              }`}
           >
             Today (IST)
           </button>
@@ -231,11 +228,10 @@ export default function LeaderboardView({ cache, setCache }: LeaderboardViewProp
                         <button
                           onClick={() => handleToggleHide(item.uid, Boolean(item.hiddenFromLeaderboard))}
                           disabled={modifyingUid === item.uid}
-                          className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[11px] font-heading font-bold border transition-all ${
-                            item.hiddenFromLeaderboard
+                          className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[11px] font-heading font-bold border transition-all ${item.hiddenFromLeaderboard
                               ? 'bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100 shadow-sm'
                               : 'bg-white text-[#687386] border-[#F0E5DA] hover:text-[#25334A] hover:bg-[#FFF8EF]'
-                          }`}
+                            }`}
                           title={item.hiddenFromLeaderboard ? 'Hidden from public leaderboard. Click to make visible' : 'Visible on public leaderboard. Click to hide (Shadow-ban)'}
                         >
                           {item.hiddenFromLeaderboard ? (
