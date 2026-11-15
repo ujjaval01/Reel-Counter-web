@@ -1,8 +1,8 @@
 import { useState, lazy, Suspense } from 'react';
 import { 
   Menu, X, ArrowRight, ShieldCheck, 
-  Swords, Sparkles, ChevronDown, Check, Smartphone, 
-  BarChart3, AlertTriangle, Crown, Copy, Zap
+  Swords, Sparkles, ChevronDown, Check, 
+  AlertTriangle, Crown, Copy, ZoomIn
 } from 'lucide-react';
 
 import { useCurrentPath } from './router';
@@ -26,7 +26,9 @@ export default function App() {
   
   const currentPath = useCurrentPath();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'home' | 'battle' | 'leaderboard' | 'dashboard'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'battle' | 'leaderboard' | 'dashboard' | 'settings'>('home');
+  const [dashboardSubTab, setDashboardSubTab] = useState<'overview' | 'trends'>('overview');
+  const [lightboxImg, setLightboxImg] = useState<{ src: string; title: string } | null>(null);
   const [lbFilter, setLbFilter] = useState<'global' | 'india' | 'friends'>('global');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
@@ -271,98 +273,26 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Realistic Smartphone Mockup */}
-              <div className="relative w-full max-w-[320px] sm:max-w-[340px] z-10">
+              {/* Realistic Smartphone Mockup with Real App Screenshot */}
+              <div className="relative w-full max-w-[310px] sm:max-w-[335px] z-10 group">
                 {/* Outer Phone Bezel */}
-                <div className="relative rounded-[48px] p-3 border border-[#E2D2C3] bg-white shadow-[0_24px_50px_-12px_rgba(37,51,74,0.15)]">
+                <div className="relative rounded-[48px] p-2.5 sm:p-3 border-2 border-[#E2D2C3] bg-white shadow-[0_24px_55px_-12px_rgba(37,51,74,0.18)] transition-all duration-300 group-hover:-translate-y-1">
                   
-                  {/* Phone Screen Container */}
-                  <div className="rounded-[38px] overflow-hidden bg-[#FFFDF9] text-[#25334A] p-4.5 space-y-3.5 border border-[#F0E5DA]">
-                    
-                    {/* Top Status Bar & App Identity */}
-                    <div className="flex items-center justify-between pb-1">
-                      <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-xl bg-[#FF765E] flex items-center justify-center text-white text-xs font-bold shadow-sm">
-                          ▶
-                        </div>
-                        <div>
-                          <div className="text-xs font-heading font-bold leading-tight">ReelCounter</div>
-                          <div className="text-[8px] font-semibold text-[#687386]">Daily Screen Wellbeing</div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1.5 text-xs">
-                        <span className="w-2 h-2 rounded-full bg-[#45BFA8] animate-pulse" />
-                        <span className="text-[10px] font-bold text-[#45BFA8]">Active</span>
-                      </div>
-                    </div>
+                  {/* Speaker & Camera Punch Hole */}
+                  <div className="absolute top-4 sm:top-5 left-1/2 -translate-x-1/2 w-16 h-3 bg-[#25334A] rounded-full z-20 flex items-center justify-center pointer-events-none">
+                    <div className="w-2 h-2 rounded-full bg-black/70 mr-1.5" />
+                    <div className="w-1 h-1 rounded-full bg-slate-600" />
+                  </div>
 
-                    {/* Daily Limit Card */}
-                    <div className="p-3.5 rounded-2xl bg-white border border-[#F0E5DA] space-y-2 shadow-sm">
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <div className="text-xs font-heading font-bold">Daily Limit Meter</div>
-                          <div className="text-[10px] text-[#687386]">253 / 600 Reels</div>
-                        </div>
-                        <span className="text-xs font-bold bg-[#FFE2D5] text-[#FF765E] px-2 py-0.5 rounded-full">
-                          42%
-                        </span>
-                      </div>
-                      
-                      {/* Coral Progress Bar */}
-                      <div className="w-full bg-[#FFF1E7] h-2.5 rounded-full overflow-hidden">
-                        <div className="bg-[#FF765E] h-full w-[42%] rounded-full" />
-                      </div>
-                    </div>
-
-                    {/* Positive Encouragement Pill */}
-                    <div className="p-2.5 rounded-xl bg-[#E4F5EE] border border-[#45BFA8]/20 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm">🎯</span>
-                        <div className="text-[10px] font-bold text-[#2D8A78]">
-                          347 reels remaining before alert threshold
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Today's Platform Breakdown */}
-                    <div>
-                      <div className="flex justify-between text-xs mb-2 font-bold">
-                        <span>Platform Breakdown</span>
-                        <span className="text-[#FF765E]">253 total</span>
-                      </div>
-                      <div className="grid grid-cols-2 gap-2 text-center">
-                        <div className="p-2.5 bg-white rounded-xl border border-[#F0E5DA]">
-                          <div className="text-[#E1306C] font-bold text-[10px]">Instagram</div>
-                          <div className="text-sm font-heading font-bold">126</div>
-                          <div className="text-[8px] text-[#687386]">Reels</div>
-                        </div>
-                        <div className="p-2.5 bg-white rounded-xl border border-[#F0E5DA]">
-                          <div className="text-[#FF0000] font-bold text-[10px]">YouTube</div>
-                          <div className="text-sm font-heading font-bold">72</div>
-                          <div className="text-[8px] text-[#687386]">Shorts</div>
-                        </div>
-                        <div className="p-2.5 bg-white rounded-xl border border-[#F0E5DA]">
-                          <div className="text-[#1877F2] font-bold text-[10px]">Facebook</div>
-                          <div className="text-sm font-heading font-bold">17</div>
-                          <div className="text-[8px] text-[#687386]">Reels</div>
-                        </div>
-                        <div className="p-2.5 bg-white rounded-xl border border-[#F0E5DA]">
-                          <div className="text-[#45BFA8] font-bold text-[10px]">Snapchat</div>
-                          <div className="text-sm font-heading font-bold">38</div>
-                          <div className="text-[8px] text-[#687386]">Spotlight</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Battle Activity Row */}
-                    <div className="p-2.5 rounded-xl bg-white border border-[#F0E5DA] text-[10px] flex items-center justify-between font-bold">
-                      <span className="flex items-center gap-1.5 text-[#25334A]">
-                        <span>⚔️</span>
-                        <span>Duel with Vanshika</span>
-                      </span>
-                      <span className="text-[#45BFA8]">+67 Scrolls Ahead</span>
-                    </div>
-
+                  {/* Phone Screen Container with Real home.jpeg */}
+                  <div className="rounded-[38px] overflow-hidden bg-[#FFFDF9] border border-[#F0E5DA] aspect-[9/19.5] relative shadow-inner">
+                    <img 
+                      src="/home.jpeg" 
+                      alt="ReelCounter Live Android App UI" 
+                      className="w-full h-full object-cover object-top select-none pointer-events-none" 
+                    />
+                    {/* Subtle Glass Reflection */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/20 pointer-events-none" />
                   </div>
                 </div>
               </div>
@@ -499,39 +429,86 @@ export default function App() {
 
           </div>
 
+          {/* REAL WIDGETS & FLOATING OVERLAY SHOWCASE */}
+          <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-[#FFFDF9] via-white to-[#FFF8EF] border border-[#F0E5DA] shadow-[0_15px_35px_-10px_rgba(37,51,74,0.06)] overflow-hidden">
+            <div className="grid lg:grid-cols-12 gap-8 items-center">
+              <div className="lg:col-span-5 space-y-4">
+                <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E4F5EE] text-[#2D8A78] text-xs font-heading font-extrabold uppercase tracking-wider">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  Live Floating Bubble & Android Widgets
+                </span>
+                <h3 className="text-2xl sm:text-4xl font-heading font-extrabold text-[#25334A] tracking-tight">
+                  Track Reels In Real-Time Without Opening The App
+                </h3>
+                <p className="text-sm text-[#687386] leading-relaxed">
+                  ReelCounter’s discreet floating bubble rests quietly in the corner of your screen while you browse Instagram, YouTube Shorts, or Facebook. Glance at your current count instantly, or place mindful widgets directly on your Android home screen.
+                </p>
+                <div className="pt-2 flex flex-wrap gap-3 text-xs font-heading font-bold text-[#25334A]">
+                  <span className="px-3.5 py-2 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-center gap-2">
+                    <Check className="w-4 h-4 text-[#45BFA8]" /> Floating Screen Bubble
+                  </span>
+                  <span className="px-3.5 py-2 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-center gap-2">
+                    <Check className="w-4 h-4 text-[#45BFA8]" /> Home Screen Widgets
+                  </span>
+                  <span className="px-3.5 py-2 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-center gap-2">
+                    <Check className="w-4 h-4 text-[#45BFA8]" /> Zero Battery Drain
+                  </span>
+                </div>
+              </div>
+
+              <div className="lg:col-span-7 flex justify-center">
+                <div 
+                  onClick={() => setLightboxImg({ src: '/widgets.png', title: 'Android Home Screen Widgets & Live Floating Overlay' })}
+                  className="rounded-2xl overflow-hidden border border-[#F0E5DA] shadow-xl hover:scale-[1.02] transition-transform duration-300 bg-[#FFF8EF] cursor-pointer group relative"
+                  title="Click to view full resolution"
+                >
+                  <img 
+                    src="/widgets.png" 
+                    alt="ReelCounter Android Floating Counter and Widgets" 
+                    className="w-full h-auto object-cover max-h-[380px]" 
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                    <span className="px-3.5 py-1.5 rounded-full bg-white/95 text-[#25334A] text-xs font-heading font-bold shadow-md flex items-center gap-1.5">
+                      <ZoomIn className="w-3.5 h-3.5 text-[#FF765E]" /> View Full Size
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
-      {/* INTERACTIVE APP PREVIEW */}
-      <section id="preview" className={`py-24 border-t transition-colors duration-200 ${
-        'border-[#F0E5DA] bg-[#FFF8EF]'
-      }`}>
+      {/* INTERACTIVE APP PREVIEW WITH REAL SCREENSHOTS */}
+      <section id="preview" className="py-24 border-t border-[#F0E5DA] bg-[#FFF8EF] transition-colors duration-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
           <div className="text-center max-w-xl mx-auto space-y-3">
-            <div className="text-xs uppercase font-bold tracking-widest text-[#FF765E]">
-              Interactive Experience
+            <div className="text-xs uppercase font-heading font-extrabold tracking-widest text-[#FF765E]">
+              Authentic Experience
             </div>
             <h2 className="text-3xl sm:text-5xl font-extrabold font-heading tracking-tight text-[#25334A]">
-              Explore the Live App UI
+              Explore The Real Android App UI
             </h2>
-            <p className={`font-normal ${'text-[#687386]'}`}>
-              Select tabs below to preview actual Android app views with working sample data.
+            <p className="font-normal text-[#687386] text-sm sm:text-base">
+              Actual screenshots from the live Google Play release. Tap tabs below to inspect each view.
             </p>
           </div>
 
           {/* Tab Selector Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
             {[
               { id: 'home', label: 'Home View', icon: '📱' },
               { id: 'battle', label: 'Battle Mode', icon: '⚔️' },
               { id: 'leaderboard', label: 'Leaderboard', icon: '🏆' },
               { id: 'dashboard', label: 'Analytics Dashboard', icon: '📊' },
+              { id: 'settings', label: 'Custom Limits', icon: '⚙️' },
             ].map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`px-5 py-2.5 rounded-full font-heading font-bold text-sm flex items-center gap-2 transition-all active:scale-95 ${
+                className={`px-4 sm:px-5 py-2.5 rounded-full font-heading font-bold text-xs sm:text-sm flex items-center gap-2 transition-all active:scale-95 ${
                   activeTab === tab.id
                     ? 'bg-[#FF765E] text-white shadow-md shadow-[#FF765E]/30 -translate-y-0.5'
                     : 'bg-white border border-[#F0E5DA] text-[#25334A] shadow-sm hover:bg-[#FFF1E7]'
@@ -543,244 +520,235 @@ export default function App() {
             ))}
           </div>
 
-          {/* Interactive Mockup Container */}
-          <div className="flex justify-center">
-            <div className="w-full max-w-[380px] rounded-[44px] p-3 border border-[#E2D2C3] bg-white shadow-[0_20px_45px_rgba(37,51,74,0.1)]">
-              <div className="rounded-[34px] overflow-hidden bg-[#FFFDF9] text-[#25334A] min-h-[560px] flex flex-col justify-between border border-[#F0E5DA]">
-                
-                {/* PREVIEW TAB 1: HOME */}
-                {activeTab === 'home' && (
-                  <div className="p-5 space-y-3.5 animate-in fade-in duration-200">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-xl bg-[#FF765E] flex items-center justify-center text-white text-xs font-bold shadow-sm">
-                          ▶
-                        </div>
-                        <div>
-                          <div className="text-xs font-heading font-bold">ReelCounter</div>
-                          <div className="text-[8px] text-[#687386]">Scroll Less. Score More.</div>
-                        </div>
-                      </div>
-                      <div className="flex gap-1.5 text-xs">
-                        <span className="p-1 rounded-full bg-[#FFF1E7] text-[#FFB36B]">☀️</span>
-                        <span className="p-1 rounded-full bg-[#E4F5EE] text-[#45BFA8]">🔔</span>
-                      </div>
-                    </div>
-
-                    <div className="p-4 rounded-2xl bg-white border border-[#F0E5DA] space-y-2.5 shadow-sm">
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <div className="text-xs font-heading font-bold">Daily Limit</div>
-                          <div className="text-[10px] text-[#687386]">600 reels threshold</div>
-                        </div>
-                        <span className="text-xs font-bold bg-[#FFE2D5] text-[#FF765E] px-2.5 py-0.5 rounded-full">42%</span>
-                      </div>
-                      <div className="w-full bg-[#FFF1E7] h-2.5 rounded-full overflow-hidden">
-                        <div className="bg-[#FF765E] h-full w-[42%] rounded-full" />
-                      </div>
-                    </div>
-
-                    <div className="p-3 rounded-xl bg-[#E4F5EE] border border-[#45BFA8]/20 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-base">🔥</span>
-                        <div>
-                          <div className="text-xs font-bold text-[#2D8A78]">7-Day Mindful Streak!</div>
-                          <div className="text-[9px] text-[#687386]">347 reels away from limit</div>
-                        </div>
-                      </div>
-                      <span className="text-xs text-[#45BFA8] font-bold">›</span>
-                    </div>
-
-                    <div>
-                      <div className="flex justify-between text-xs mb-2 font-bold">
-                        <span>Today's Count</span>
-                        <span className="text-[#FF765E]">253 reels</span>
-                      </div>
-                      <div className="grid grid-cols-2 gap-2 text-center text-xs">
-                        <div className="p-3 bg-white rounded-xl border border-[#F0E5DA]">
-                          <div className="text-[#E1306C] font-bold text-[10px]">Instagram</div>
-                          <div className="text-base font-heading font-bold">126</div>
-                          <div className="text-[9px] text-[#687386]">Reels</div>
-                        </div>
-                        <div className="p-3 bg-white rounded-xl border border-[#F0E5DA]">
-                          <div className="text-[#FF0000] font-bold text-[10px]">YouTube</div>
-                          <div className="text-base font-heading font-bold">72</div>
-                          <div className="text-[9px] text-[#687386]">Shorts</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="p-2.5 rounded-xl bg-white border border-[#F0E5DA] text-[10px] text-[#25334A] flex items-center justify-between font-bold">
-                      <span className="flex items-center gap-1.5">
-                        <Zap className="w-3.5 h-3.5 text-[#45BFA8] fill-[#45BFA8]" />
-                        Tracking Active & Standing By
-                      </span>
-                      <span className="text-[#FF765E]">Settings</span>
-                    </div>
+          {/* Main Showcase Layout: Phone Frame on Left + Feature Highlights on Right */}
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center justify-center max-w-5xl mx-auto">
+            
+            {/* Phone Showcase Column */}
+            <div className="lg:col-span-6 flex justify-center">
+              <div className="relative w-full max-w-[320px] sm:max-w-[340px]">
+                {/* Outer Phone Bezel */}
+                <div className="relative rounded-[48px] p-2.5 sm:p-3 border-2 border-[#E2D2C3] bg-white shadow-[0_25px_60px_-12px_rgba(37,51,74,0.18)]">
+                  
+                  {/* Camera Punch Hole */}
+                  <div className="absolute top-4 sm:top-5 left-1/2 -translate-x-1/2 w-16 h-3 bg-[#25334A] rounded-full z-20 flex items-center justify-center pointer-events-none">
+                    <div className="w-2 h-2 rounded-full bg-black/70 mr-1.5" />
+                    <div className="w-1 h-1 rounded-full bg-slate-600" />
                   </div>
-                )}
 
-                {/* PREVIEW TAB 2: BATTLE */}
-                {activeTab === 'battle' && (
-                  <div className="p-5 space-y-3.5 animate-in fade-in duration-200">
-                    <div className="text-center font-heading font-bold text-sm">⚔️ Battle Mode</div>
-                    <div className="p-4 rounded-2xl bg-[#FF765E] text-white text-center space-y-1.5 shadow-sm">
-                      <div className="text-[10px] uppercase font-bold text-white/80">Active Duel</div>
-                      <div className="text-base font-heading font-bold">Challenge Your Friends</div>
-                      <div className="text-xs text-white/90">Invite friends and see who scrolls less!</div>
-                      <div className="pt-1">
-                        <span className="inline-block px-3 py-1 rounded-full bg-white text-[#FF765E] font-bold text-xs shadow-sm">
-                          Invite Code: SC2025
-                        </span>
-                      </div>
-                    </div>
+                  {/* Phone Screen Container with Real Image */}
+                  <div className="rounded-[38px] overflow-hidden bg-[#FFFDF9] border border-[#F0E5DA] aspect-[9/19.5] relative shadow-inner">
+                    <img 
+                      src={
+                        activeTab === 'home' ? '/home.jpeg' :
+                        activeTab === 'battle' ? '/battle.jpeg' :
+                        activeTab === 'leaderboard' ? '/leaderboard.jpeg' :
+                        activeTab === 'dashboard' ? (dashboardSubTab === 'overview' ? '/dashboard_1.jpeg' : '/dashboard_2.jpeg') :
+                        '/setting.jpeg'
+                      }
+                      alt={`ReelCounter ${activeTab} Screen`}
+                      className="w-full h-full object-cover object-top select-none animate-in fade-in duration-300"
+                    />
 
-                    <div className="p-3.5 rounded-2xl bg-white border border-[#F0E5DA] space-y-3">
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="font-bold">You vs Vanshika</span>
-                        <span className="px-2 py-0.5 rounded-full bg-[#E4F5EE] text-[#2D8A78] text-[10px] font-bold">● Live</span>
-                      </div>
-                      
-                      <div className="flex items-center justify-around py-2">
-                        <div className="text-center">
-                          <div className="w-12 h-12 mx-auto rounded-full bg-[#FFE2D5] text-[#FF765E] flex items-center justify-center text-xl font-bold">👦</div>
-                          <div className="text-xs font-semibold mt-1">You</div>
-                          <div className="text-base font-heading font-bold text-[#FF765E]">253</div>
-                        </div>
-                        <div className="px-3 py-1 rounded-full bg-[#25334A] text-white font-bold text-[10px]">VS</div>
-                        <div className="text-center">
-                          <div className="w-12 h-12 mx-auto rounded-full bg-[#E4F5EE] text-[#45BFA8] flex items-center justify-center text-xl font-bold">👧</div>
-                          <div className="text-xs font-semibold mt-1">Vanshika</div>
-                          <div className="text-base font-heading font-bold text-[#45BFA8]">186</div>
-                        </div>
-                      </div>
+                    {/* Subtle Reflection */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/20 pointer-events-none" />
 
-                      <div className="w-full bg-[#FFF1E7] h-2 rounded-full overflow-hidden flex">
-                        <div className="bg-[#FF765E] h-full w-[58%]" />
-                        <div className="bg-[#45BFA8] h-full w-[42%]" />
-                      </div>
-                      <div className="text-[10px] text-center text-[#687386]">Cap: 500 Reels each</div>
-                    </div>
+                    {/* Zoom Button in Corner */}
+                    <button
+                      onClick={() => setLightboxImg({
+                        src: activeTab === 'home' ? '/home.jpeg' :
+                             activeTab === 'battle' ? '/battle.jpeg' :
+                             activeTab === 'leaderboard' ? '/leaderboard.jpeg' :
+                             activeTab === 'dashboard' ? (dashboardSubTab === 'overview' ? '/dashboard_1.jpeg' : '/dashboard_2.jpeg') :
+                             '/setting.jpeg',
+                        title: `ReelCounter ${activeTab.toUpperCase()} View`
+                      })}
+                      className="absolute bottom-4 right-4 z-20 p-2.5 rounded-full bg-[#25334A]/80 hover:bg-[#25334A] text-white shadow-lg backdrop-blur-sm transition-all hover:scale-110 active:scale-95"
+                      title="Inspect Screenshot in Full Resolution"
+                    >
+                      <ZoomIn className="w-4 h-4" />
+                    </button>
                   </div>
-                )}
-
-                {/* PREVIEW TAB 3: LEADERBOARD */}
-                {activeTab === 'leaderboard' && (
-                  <div className="p-5 space-y-3.5 animate-in fade-in duration-200">
-                    <div className="text-center font-heading font-bold text-sm">🏆 Top Scorers Today</div>
-                    
-                    {/* Podium */}
-                    <div className="grid grid-cols-3 gap-2 items-end pt-1 pb-1 text-center">
-                      <div className="p-2.5 rounded-xl bg-white border border-[#F0E5DA]">
-                        <div className="text-xl">🥈</div>
-                        <div className="text-[11px] font-bold truncate mt-1">Rahul</div>
-                        <div className="text-xs text-[#25334A] font-bold">142</div>
-                      </div>
-                      <div className="p-3 rounded-xl bg-[#FFF8EF] border-2 border-[#FFB36B] shadow-sm transform -translate-y-1.5">
-                        <div className="text-2xl">🥇</div>
-                        <div className="text-xs font-heading font-bold truncate mt-1">Arjun</div>
-                        <div className="text-xs text-[#FF765E] font-bold">98</div>
-                      </div>
-                      <div className="p-2.5 rounded-xl bg-white border border-[#F0E5DA]">
-                        <div className="text-xl">🥉</div>
-                        <div className="text-[11px] font-bold truncate mt-1">Priya</div>
-                        <div className="text-xs text-[#25334A] font-bold">189</div>
-                      </div>
-                    </div>
-
-                    {/* Ranked List */}
-                    <div className="space-y-1.5">
-                      <div className="p-2.5 rounded-xl bg-white border border-[#F0E5DA] flex items-center justify-between text-xs">
-                        <span className="text-[#687386]">#4 Aman V.</span>
-                        <span className="font-bold">210 reels</span>
-                      </div>
-                      <div className="p-2.5 rounded-xl bg-white border border-[#F0E5DA] flex items-center justify-between text-xs">
-                        <span className="text-[#687386]">#5 Ritu S.</span>
-                        <span className="font-bold">230 reels</span>
-                      </div>
-                      <div className="p-2.5 rounded-xl bg-[#FFE2D5] border border-[#FF765E]/40 flex items-center justify-between text-xs font-bold text-[#FF765E]">
-                        <span>#14 You</span>
-                        <span>253 reels</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* PREVIEW TAB 4: DASHBOARD */}
-                {activeTab === 'dashboard' && (
-                  <div className="p-5 space-y-3 animate-in fade-in duration-200">
-                    <div className="flex justify-between items-center">
-                      <span className="font-heading font-bold text-xs">📊 Weekly Summary</span>
-                      <span className="text-[10px] font-bold bg-[#E4F5EE] text-[#2D8A78] px-2.5 py-0.5 rounded-full">This Week</span>
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-2 text-center">
-                      <div className="p-2 bg-white rounded-xl border border-[#F0E5DA]">
-                        <div className="text-[8px] text-[#687386]">Total</div>
-                        <div className="text-xs font-heading font-bold">2,303</div>
-                      </div>
-                      <div className="p-2 bg-white rounded-xl border border-[#F0E5DA]">
-                        <div className="text-[8px] text-[#687386]">Daily Avg</div>
-                        <div className="text-xs font-heading font-bold">327</div>
-                      </div>
-                      <div className="p-2 bg-white rounded-xl border border-[#F0E5DA]">
-                        <div className="text-[8px] text-[#687386]">Streak</div>
-                        <div className="text-xs font-heading font-bold text-[#45BFA8]">7 Days</div>
-                      </div>
-                    </div>
-
-                    {/* Minimal Bar Chart */}
-                    <div className="p-3 bg-white rounded-xl border border-[#F0E5DA] space-y-1.5">
-                      <div className="text-[10px] font-bold">Daily Activity Breakdown</div>
-                      <div className="flex items-end justify-between h-20 pt-1 gap-1.5 px-1">
-                        {[
-                          { day: 'M', val: 55 },
-                          { day: 'T', val: 40 },
-                          { day: 'W', val: 75 },
-                          { day: 'T', val: 65 },
-                          { day: 'F', val: 50 },
-                          { day: 'S', val: 90 },
-                          { day: 'S', val: 45 }
-                        ].map((item, idx) => (
-                          <div key={idx} className="flex-1 flex flex-col items-center gap-1">
-                            <div 
-                              className={`w-full rounded-t-sm ${idx === 5 ? 'bg-[#FF765E]' : 'bg-[#FFB36B]'}`}
-                              style={{ height: `${item.val}%` }}
-                            />
-                            <span className="text-[8px] font-semibold text-[#687386]">{item.day}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="p-2.5 rounded-xl bg-[#E4F5EE] text-[10px] text-[#2D8A78] font-semibold">
-                      💡 <strong>Insight:</strong> Scrolling dropped 30% after 9:00 PM with daily limits active.
-                    </div>
-                  </div>
-                )}
-
-                {/* Bottom App Navigation */}
-                <div className="border-t border-[#F0E5DA] bg-white p-3 flex justify-around text-center text-[10px]">
-                  <button onClick={() => setActiveTab('home')} className={activeTab === 'home' ? 'text-[#FF765E] font-bold' : 'text-[#687386]'}>
-                    <Smartphone className="w-4 h-4 mx-auto mb-0.5" />
-                    Home
-                  </button>
-                  <button onClick={() => setActiveTab('battle')} className={activeTab === 'battle' ? 'text-[#FF765E] font-bold' : 'text-[#687386]'}>
-                    <Swords className="w-4 h-4 mx-auto mb-0.5" />
-                    Battle
-                  </button>
-                  <button onClick={() => setActiveTab('leaderboard')} className={activeTab === 'leaderboard' ? 'text-[#FF765E] font-bold' : 'text-[#687386]'}>
-                    <Crown className="w-4 h-4 mx-auto mb-0.5" />
-                    Ranks
-                  </button>
-                  <button onClick={() => setActiveTab('dashboard')} className={activeTab === 'dashboard' ? 'text-[#FF765E] font-bold' : 'text-[#687386]'}>
-                    <BarChart3 className="w-4 h-4 mx-auto mb-0.5" />
-                    Insights
-                  </button>
                 </div>
-
               </div>
             </div>
+
+            {/* Feature Spotlight Details Column */}
+            <div className="lg:col-span-6 space-y-6">
+              
+              {/* Active Tab Badge & Title */}
+              <div className="space-y-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFE2D5] text-[#FF765E] text-xs font-heading font-extrabold uppercase tracking-wider">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  {activeTab === 'home' && 'Core Counter & Platform Breakdown'}
+                  {activeTab === 'battle' && 'Multiplayer 1-on-1 Challenges'}
+                  {activeTab === 'leaderboard' && 'Daily & All-Time Rankings'}
+                  {activeTab === 'dashboard' && 'Deep Consumption Analytics'}
+                  {activeTab === 'settings' && 'Precision Threshold Controls'}
+                </span>
+                
+                <h3 className="text-2xl sm:text-3xl font-heading font-extrabold text-[#25334A]">
+                  {activeTab === 'home' && 'Live Reel Tracking at a Glance'}
+                  {activeTab === 'battle' && 'Gamified Peer Accountability'}
+                  {activeTab === 'leaderboard' && 'Compete for Mindful Mastery'}
+                  {activeTab === 'dashboard' && 'Uncover Hidden Scrolling Patterns'}
+                  {activeTab === 'settings' && 'Tailor Limits to Your Daily Lifestyle'}
+                </h3>
+
+                <p className="text-sm text-[#687386] leading-relaxed">
+                  {activeTab === 'home' && 'Track your scrolling numbers effortlessly across Instagram, YouTube Shorts, and Facebook. The dynamic circular meter and streak counter keep you mindful without disrupting your flow.'}
+                  {activeTab === 'battle' && 'Challenge your friends with an instant invite code. Set a shared reel limit and see who possesses the highest digital discipline before bedtime.'}
+                  {activeTab === 'leaderboard' && 'Check the podium daily. Friendly competitions, regional rankings, and fair-play detection ensure true scroller transparency.'}
+                  {activeTab === 'dashboard' && 'Explore your prime consumption hours (evening peaks, morning checks) and platform split percentages to reduce doomscrolling gradually.'}
+                  {activeTab === 'settings' && 'Customize exact alert thresholds per platform, enable discreet floating screen bubbles, and toggle clean light or dark theme aesthetics.'}
+                </p>
+              </div>
+
+              {/* Sub-toggle for Analytics Dashboard */}
+              {activeTab === 'dashboard' && (
+                <div className="p-1 rounded-2xl bg-[#FFF1E7] inline-flex items-center gap-1 border border-[#FFB36B]/30">
+                  <button
+                    onClick={() => setDashboardSubTab('overview')}
+                    className={`px-3.5 py-1.5 rounded-xl text-xs font-heading font-bold transition-all ${
+                      dashboardSubTab === 'overview'
+                        ? 'bg-[#FF765E] text-white shadow-sm'
+                        : 'text-[#687386] hover:text-[#25334A]'
+                    }`}
+                  >
+                    Screen 1: Overview
+                  </button>
+                  <button
+                    onClick={() => setDashboardSubTab('trends')}
+                    className={`px-3.5 py-1.5 rounded-xl text-xs font-heading font-bold transition-all ${
+                      dashboardSubTab === 'trends'
+                        ? 'bg-[#FF765E] text-white shadow-sm'
+                        : 'text-[#687386] hover:text-[#25334A]'
+                    }`}
+                  >
+                    Screen 2: Deep Habits
+                  </button>
+                </div>
+              )}
+
+              {/* 3 Highlight Cards */}
+              <div className="space-y-3">
+                {activeTab === 'home' && (
+                  <>
+                    <div className="p-4 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-xl bg-[#E4F5EE] text-[#2D8A78] flex items-center justify-center font-bold text-sm shrink-0">
+                        ✓
+                      </div>
+                      <div>
+                        <h5 className="font-heading font-bold text-xs text-[#25334A]">Auto Multi-Platform Sync</h5>
+                        <p className="text-[11px] text-[#687386]">Separates Instagram Reels, YouTube Shorts, and Facebook Reels automatically.</p>
+                      </div>
+                    </div>
+                    <div className="p-4 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-xl bg-[#FFE2D5] text-[#FF765E] flex items-center justify-center font-bold text-sm shrink-0">
+                        🔥
+                      </div>
+                      <div>
+                        <h5 className="font-heading font-bold text-xs text-[#25334A]">Streak Motivation Meter</h5>
+                        <p className="text-[11px] text-[#687386]">Build multi-day mindful streaks and get notified before crossing your limit.</p>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {activeTab === 'battle' && (
+                  <>
+                    <div className="p-4 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-xl bg-[#FFE2D5] text-[#FF765E] flex items-center justify-center font-bold text-sm shrink-0">
+                        ⚔️
+                      </div>
+                      <div>
+                        <h5 className="font-heading font-bold text-xs text-[#25334A]">Instant Room Invite Codes</h5>
+                        <p className="text-[11px] text-[#687386]">Share a 6-character room code on WhatsApp or Instagram to duel instantly.</p>
+                      </div>
+                    </div>
+                    <div className="p-4 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-xl bg-[#E4F5EE] text-[#2D8A78] flex items-center justify-center font-bold text-sm shrink-0">
+                        ●
+                      </div>
+                      <div>
+                        <h5 className="font-heading font-bold text-xs text-[#25334A]">Real-Time Lead Difference</h5>
+                        <p className="text-[11px] text-[#687386]">See how many reels you are ahead or behind your friend in live sync.</p>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {activeTab === 'leaderboard' && (
+                  <>
+                    <div className="p-4 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm shrink-0">
+                        👑
+                      </div>
+                      <div>
+                        <h5 className="font-heading font-bold text-xs text-[#25334A]">Global & Friends Podium</h5>
+                        <p className="text-[11px] text-[#687386]">Climb daily, weekly, and all-time ranking ladders with custom avatars.</p>
+                      </div>
+                    </div>
+                    <div className="p-4 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-xl bg-[#E4F5EE] text-[#2D8A78] flex items-center justify-center font-bold text-sm shrink-0">
+                        🛡️
+                      </div>
+                      <div>
+                        <h5 className="font-heading font-bold text-xs text-[#25334A]">Fair Play Anti-Cheat</h5>
+                        <p className="text-[11px] text-[#687386]">Strict verification and rate limits prevent artificial botting on the leaderboard.</p>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {activeTab === 'dashboard' && (
+                  <>
+                    <div className="p-4 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-xl bg-[#FFE2D5] text-[#FF765E] flex items-center justify-center font-bold text-sm shrink-0">
+                        📊
+                      </div>
+                      <div>
+                        <h5 className="font-heading font-bold text-xs text-[#25334A]">Hourly Consumption Peaks</h5>
+                        <p className="text-[11px] text-[#687386]">Pinpoint the exact hours (evening or late night) where you scroll the most.</p>
+                      </div>
+                    </div>
+                    <div className="p-4 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-xl bg-[#E4F5EE] text-[#2D8A78] flex items-center justify-center font-bold text-sm shrink-0">
+                        📈
+                      </div>
+                      <div>
+                        <h5 className="font-heading font-bold text-xs text-[#25334A]">7-Day Habit Comparison</h5>
+                        <p className="text-[11px] text-[#687386]">Compare current weekly performance against previous weeks to celebrate progress.</p>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {activeTab === 'settings' && (
+                  <>
+                    <div className="p-4 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-xl bg-[#E4F5EE] text-[#2D8A78] flex items-center justify-center font-bold text-sm shrink-0">
+                        ⚙️
+                      </div>
+                      <div>
+                        <h5 className="font-heading font-bold text-xs text-[#25334A]">Personalized Daily Limits</h5>
+                        <p className="text-[11px] text-[#687386]">Fine-tune thresholds for each platform or set a strict global daily cap.</p>
+                      </div>
+                    </div>
+                    <div className="p-4 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-xl bg-[#FFF1E7] text-[#D9631E] flex items-center justify-center font-bold text-sm shrink-0">
+                        🔔
+                      </div>
+                      <div>
+                        <h5 className="font-heading font-bold text-xs text-[#25334A]">Sound & Overlay Alerts</h5>
+                        <p className="text-[11px] text-[#687386]">Gentle mindful reminders and full-screen pause barriers when limits are reached.</p>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+
+            </div>
+
           </div>
 
         </div>
@@ -908,6 +876,54 @@ export default function App() {
               ))}
             </div>
 
+          </div>
+
+          {/* REAL WIDGETS & FLOATING OVERLAY SHOWCASE */}
+          <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-[#FFFDF9] via-white to-[#FFF8EF] border border-[#F0E5DA] shadow-[0_15px_35px_-10px_rgba(37,51,74,0.06)] overflow-hidden">
+            <div className="grid lg:grid-cols-12 gap-8 items-center">
+              <div className="lg:col-span-5 space-y-4">
+                <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E4F5EE] text-[#2D8A78] text-xs font-heading font-extrabold uppercase tracking-wider">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  Live Floating Bubble & Android Widgets
+                </span>
+                <h3 className="text-2xl sm:text-4xl font-heading font-extrabold text-[#25334A] tracking-tight">
+                  Track Reels In Real-Time Without Opening The App
+                </h3>
+                <p className="text-sm text-[#687386] leading-relaxed">
+                  ReelCounter’s discreet floating bubble rests quietly in the corner of your screen while you browse Instagram, YouTube Shorts, or Facebook. Glance at your current count instantly, or place mindful widgets directly on your Android home screen.
+                </p>
+                <div className="pt-2 flex flex-wrap gap-3 text-xs font-heading font-bold text-[#25334A]">
+                  <span className="px-3.5 py-2 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-center gap-2">
+                    <Check className="w-4 h-4 text-[#45BFA8]" /> Floating Screen Bubble
+                  </span>
+                  <span className="px-3.5 py-2 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-center gap-2">
+                    <Check className="w-4 h-4 text-[#45BFA8]" /> Home Screen Widgets
+                  </span>
+                  <span className="px-3.5 py-2 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex items-center gap-2">
+                    <Check className="w-4 h-4 text-[#45BFA8]" /> Zero Battery Drain
+                  </span>
+                </div>
+              </div>
+
+              <div className="lg:col-span-7 flex justify-center">
+                <div 
+                  onClick={() => setLightboxImg({ src: '/widgets.png', title: 'Android Home Screen Widgets & Live Floating Overlay' })}
+                  className="rounded-2xl overflow-hidden border border-[#F0E5DA] shadow-xl hover:scale-[1.02] transition-transform duration-300 bg-[#FFF8EF] cursor-pointer group relative"
+                  title="Click to view full resolution"
+                >
+                  <img 
+                    src="/widgets.png" 
+                    alt="ReelCounter Android Floating Counter and Widgets" 
+                    className="w-full h-auto object-cover max-h-[380px]" 
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                    <span className="px-3.5 py-1.5 rounded-full bg-white/95 text-[#25334A] text-xs font-heading font-bold shadow-md flex items-center gap-1.5">
+                      <ZoomIn className="w-3.5 h-3.5 text-[#FF765E]" /> View Full Size
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -1228,6 +1244,24 @@ export default function App() {
       <section id="download" className="py-24 relative overflow-hidden">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-7 relative z-10">
           
+          {/* Google Play Feature Graphic Card */}
+          <div 
+            className="max-w-2xl mx-auto rounded-3xl overflow-hidden border border-[#F0E5DA] shadow-[0_15px_35px_-5px_rgba(37,51,74,0.08)] bg-white p-2 sm:p-2.5 group cursor-pointer transition-transform duration-300 hover:-translate-y-1"
+            onClick={() => setLightboxImg({ src: '/feature.png', title: 'ReelCounter Google Play Official Feature Graphic' })}
+            title="Click to view full size"
+          >
+            <div className="rounded-2xl overflow-hidden relative">
+              <img 
+                src="/feature.png" 
+                alt="ReelCounter Feature Graphic" 
+                className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-black/60 backdrop-blur-sm text-white text-[11px] font-heading font-bold flex items-center gap-1.5 shadow-sm">
+                <Sparkles className="w-3 h-3 text-[#FFB36B]" /> Official Google Play Release
+              </div>
+            </div>
+          </div>
+
           <div className="w-14 h-14 mx-auto mb-2">
             <ClayTrophy3D className="w-full h-full" />
           </div>
@@ -1271,6 +1305,36 @@ export default function App() {
 
       {/* FOOTER */}
       <Footer />
+
+      {/* Lightbox Fullscreen Modal */}
+      {lightboxImg && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200"
+          onClick={() => setLightboxImg(null)}
+        >
+          <div 
+            className="max-w-lg w-full bg-white rounded-3xl overflow-hidden shadow-2xl border border-white/20 p-2 relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between p-3.5 border-b border-[#F0E5DA]">
+              <span className="font-heading font-extrabold text-sm text-[#25334A]">{lightboxImg.title}</span>
+              <button 
+                onClick={() => setLightboxImg(null)}
+                className="p-1.5 rounded-full hover:bg-[#FFF1E7] text-[#687386] hover:text-[#25334A] transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-3 max-h-[80vh] overflow-y-auto flex justify-center bg-[#FFF8EF] rounded-2xl">
+              <img 
+                src={lightboxImg.src} 
+                alt={lightboxImg.title} 
+                className="max-h-[72vh] w-auto rounded-2xl object-contain shadow-lg"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
