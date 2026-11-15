@@ -312,29 +312,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // 1. OVERVIEW
     // ==========================================
     if (route === 'overview') {
-      const usersCount = (await db.collection(usersCol).count().get()).data().count;
+      const [
+        usersCountRes,
+        activeUsersTodayRes,
+        totalBattlesRes,
+        activeBattlesRes,
+        totalDeletionRes,
+        pendingDeletionRes,
+        topProfilesSnap
+      ] = await Promise.all([
+        db.collection(usersCol).count().get().catch(() => null),
+        db.collection(usersCol).where('todayDate', '==', istToday).count().get().catch(() => null),
+        db.collection('battles').count().get().catch(() => null),
+        db.collection('battles').where('status', '==', 'ACTIVE').count().get().catch(() => null),
+        db.collection('account_deletion_requests').count().get().catch(() => null),
+        db.collection('account_deletion_requests').where('status', '==', 'Pending').count().get().catch(() => null),
+        db.collection(usersCol).orderBy('totalReels', 'desc').limit(100).get().catch(() => null),
+      ]);
 
-      let activeUsersToday = 0;
-      try {
-        const activeSnap = await db.collection(usersCol).where('todayDate', '==', istToday).count().get();
-        activeUsersToday = activeSnap.data().count;
-      } catch {}
+      const usersCount = usersCountRes ? usersCountRes.data().count : 0;
+      const activeUsersToday = activeUsersTodayRes ? activeUsersTodayRes.data().count : 0;
+      const totalBattles = totalBattlesRes ? totalBattlesRes.data().count : 0;
+      const activeBattles = activeBattlesRes ? activeBattlesRes.data().count : 0;
+      const totalDeletionRequests = totalDeletionRes ? totalDeletionRes.data().count : 0;
+      const pendingDeletionRequests = pendingDeletionRes ? pendingDeletionRes.data().count : 0;
 
-      let totalBattles = 0;
-      let activeBattles = 0;
-      try {
-        totalBattles = (await db.collection('battles').count().get()).data().count;
-        activeBattles = (await db.collection('battles').where('status', '==', 'ACTIVE').count().get()).data().count;
-      } catch {}
-
-      let totalDeletionRequests = 0;
-      let pendingDeletionRequests = 0;
-      try {
-        totalDeletionRequests = (await db.collection('account_deletion_requests').count().get()).data().count;
-        pendingDeletionRequests = (await db.collection('account_deletion_requests').where('status', '==', 'Pending').count().get()).data().count;
-      } catch {}
-
-      const topProfilesSnap = await db.collection(usersCol).orderBy('totalReels', 'desc').limit(100).get();
       let sampleTotalReels = 0;
       let sampleTodayReels = 0;
       let instagramTotal = 0;
@@ -342,17 +344,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       let facebookTotal = 0;
       let snapchatTotal = 0;
 
-      topProfilesSnap.forEach((doc) => {
-        const d = doc.data();
-        sampleTotalReels += Number(d.totalReels) || 0;
-        if (d.todayDate === istToday) {
-          sampleTodayReels += Number(d.todayReels) || 0;
-        }
-        instagramTotal += Number(d.instagramTotal) || 0;
-        youtubeTotal += Number(d.youtubeTotal) || 0;
-        facebookTotal += Number(d.facebookTotal) || 0;
-        snapchatTotal += Number(d.snapchatTotal) || 0;
-      });
+      if (topProfilesSnap && !topProfilesSnap.empty) {
+        topProfilesSnap.forEach((doc: any) => {
+          const d = doc.data();
+          sampleTotalReels += Number(d.totalReels) || 0;
+          if (d.todayDate === istToday) {
+            sampleTodayReels += Number(d.todayReels) || 0;
+          }
+          instagramTotal += Number(d.instagramTotal) || 0;
+          youtubeTotal += Number(d.youtubeTotal) || 0;
+          facebookTotal += Number(d.facebookTotal) || 0;
+          snapchatTotal += Number(d.snapchatTotal) || 0;
+        });
+      }
 
       return res.status(200).json({
         success: true,
@@ -421,6 +425,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               facebookTotal: Number(d.facebookTotal) || 0,
               snapchatTotal: Number(d.snapchatTotal) || 0,
               isAnonymous: d.isAnonymous ?? !d.googlePhotoUrl,
+              hiddenFromLeaderboard: Boolean(d.hiddenFromLeaderboard),
+              isBanned: Boolean(d.isBanned),
               createdAt: formatTime(d.createdAt || d.updatedAt),
               updatedAt: formatTime(d.updatedAt),
             });
@@ -463,6 +469,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           facebookTotal: Number(d.facebookTotal) || 0,
           snapchatTotal: Number(d.snapchatTotal) || 0,
           isAnonymous: d.isAnonymous ?? !d.googlePhotoUrl,
+          hiddenFromLeaderboard: Boolean(d.hiddenFromLeaderboard),
+          isBanned: Boolean(d.isBanned),
           createdAt: formatTime(d.createdAt || d.updatedAt),
           updatedAt: formatTime(d.updatedAt),
         });
@@ -598,10 +606,123 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           weeklyReels: Number(d.weeklyReels) || 0,
           primaryPlatform,
           isAnonymous: d.isAnonymous ?? !d.googlePhotoUrl,
+          hiddenFromLeaderboard: Boolean(d.hiddenFromLeaderboard),
+          isBanned: Boolean(d.isBanned),
         });
       });
 
       return res.status(200).json({ success: true, timeframe, limit, leaderboard });
+    }
+
+    // ==========================================
+    // 4.1 MODERATE USER (Anti-Cheat & Bans)
+    // ==========================================
+    if (route === 'moderate-user') {
+      const body = req.body || {};
+      const uid = (body.uid || getQueryParam(req, 'uid', '')).trim();
+      const action = body.action || getQueryParam(req, 'action', '');
+
+      if (!uid) return res.status(400).json({ success: false, error: 'Missing user UID' });
+
+      let userRef = db.collection(usersCol).doc(uid);
+      let userDoc = await userRef.get();
+      if (!userDoc.exists) {
+        userRef = db.collection('publicProfile').doc(uid);
+        userDoc = await userRef.get();
+      }
+      if (!userDoc.exists) {
+        return res.status(404).json({ success: false, error: 'User profile not found' });
+      }
+
+      const updates: Record<string, any> = { updatedAt: Date.now() };
+      if (action === 'hide_leaderboard') {
+        updates.hiddenFromLeaderboard = true;
+      } else if (action === 'unhide_leaderboard') {
+        updates.hiddenFromLeaderboard = false;
+      } else if (action === 'ban') {
+        updates.isBanned = true;
+        updates.hiddenFromLeaderboard = true;
+      } else if (action === 'unban') {
+        updates.isBanned = false;
+        updates.hiddenFromLeaderboard = false;
+      } else {
+        return res.status(400).json({ success: false, error: `Invalid moderation action: ${action}` });
+      }
+
+      await userRef.update(updates);
+      return res.status(200).json({ success: true, uid, action, updates });
+    }
+
+    // ==========================================
+    // 4.2 PLAY STORE DELETION REQUESTS
+    // ==========================================
+    if (route === 'deletion-requests') {
+      const snap = await db.collection('account_deletion_requests').orderBy('createdAt', 'desc').limit(50).get();
+      const requests: any[] = [];
+      snap.forEach((doc) => {
+        const d = doc.data();
+        requests.push({
+          id: doc.id,
+          email: d.email || '',
+          status: d.status || 'Pending',
+          verified: Boolean(d.verified),
+          reason: d.reason || 'Requested by user',
+          createdAt: formatTime(d.createdAt),
+          processedAt: formatTime(d.processedAt),
+          processedByAdmin: d.processedByAdmin || null,
+        });
+      });
+      return res.status(200).json({ success: true, requests });
+    }
+
+    // ==========================================
+    // 4.3 PROCESS DELETION REQUEST (Approve/Purge or Reject)
+    // ==========================================
+    if (route === 'process-deletion') {
+      const body = req.body || {};
+      const requestId = (body.requestId || getQueryParam(req, 'requestId', '')).trim();
+      const action = body.action || getQueryParam(req, 'action', '');
+
+      if (!requestId) return res.status(400).json({ success: false, error: 'Missing requestId' });
+
+      const reqRef = db.collection('account_deletion_requests').doc(requestId);
+      const reqDoc = await reqRef.get();
+      if (!reqDoc.exists) {
+        return res.status(404).json({ success: false, error: 'Deletion request not found' });
+      }
+
+      const reqData = reqDoc.data() || {};
+      const newStatus = action === 'approve' ? 'Completed' : 'Rejected';
+      await reqRef.update({
+        status: newStatus,
+        processedAt: new Date().toISOString(),
+        processedByAdmin: decodedToken.email || decodedToken.uid,
+      });
+
+      // If approved, wipe user metrics & mark account purged
+      if (action === 'approve' && reqData.email) {
+        try {
+          const userSnap = await db.collection(usersCol).where('email', '==', reqData.email).limit(1).get();
+          if (!userSnap.empty) {
+            const uDoc = userSnap.docs[0];
+            await uDoc.ref.update({
+              displayName: '[Purged User]',
+              username: `deleted_${uDoc.id.slice(0, 6)}`,
+              hiddenFromLeaderboard: true,
+              isDeleted: true,
+              isBanned: true,
+              totalReels: 0,
+              todayReels: 0,
+              weeklyReels: 0,
+              purgedAt: Date.now(),
+            });
+          }
+        } catch (delErr) {
+          console.error('Error wiping user data in Firestore:', delErr);
+        }
+      }
+
+      return res.status(200).json({ success: true, requestId, status: newStatus });
     }
 
     // ==========================================
@@ -684,33 +805,79 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // ==========================================
-    // 7. USER GROWTH
+    // 7. USER GROWTH & ANALYTICS INSIGHTS
     // ==========================================
     if (route === 'growth') {
-      const snap = await db.collection(usersCol).limit(100).get();
+      const snap = await db.collection(usersCol).limit(150).get();
       let anon = 0, google = 0;
       const daily: Record<string, number> = {};
+      const versionCounts: Record<string, number> = {};
+      const hourBuckets: Record<string, number> = {
+        'Morning (06:00 - 12:00)': 0,
+        'Afternoon (12:00 - 17:00)': 0,
+        'Prime Evening (17:00 - 21:00)': 0,
+        'Night Owls (21:00 - 02:00)': 0,
+        'Dawn (02:00 - 06:00)': 0,
+      };
+
+      let sampled = snap.size || 1;
 
       snap.forEach((doc) => {
         const d = doc.data();
         if (d.isAnonymous || !d.googlePhotoUrl) anon++;
         else google++;
 
+        // Track App Version
+        const ver = String(d.appVersion || d.version || (d.isAnonymous ? 'v1.0.1' : 'v1.0.2')).trim();
+        versionCounts[ver] = (versionCounts[ver] || 0) + 1;
+
+        // Track Timeline Date
         const timeVal = d.createdAt || d.updatedAt;
         if (timeVal) {
           try {
-            const date = new Date(timeVal).toISOString().split('T')[0];
-            daily[date] = (daily[date] || 0) + 1;
+            const dateObj = new Date(timeVal);
+            const dateStr = dateObj.toISOString().split('T')[0];
+            daily[dateStr] = (daily[dateStr] || 0) + 1;
+
+            // IST Hour calculation (UTC + 5:30)
+            const utcHour = dateObj.getUTCHours();
+            const utcMin = dateObj.getUTCMinutes();
+            const istHour = (utcHour + 5 + Math.floor((utcMin + 30) / 60)) % 24;
+
+            if (istHour >= 6 && istHour < 12) hourBuckets['Morning (06:00 - 12:00)']++;
+            else if (istHour >= 12 && istHour < 17) hourBuckets['Afternoon (12:00 - 17:00)']++;
+            else if (istHour >= 17 && istHour < 21) hourBuckets['Prime Evening (17:00 - 21:00)']++;
+            else if (istHour >= 21 || istHour < 2) hourBuckets['Night Owls (21:00 - 02:00)']++;
+            else hourBuckets['Dawn (02:00 - 06:00)']++;
           } catch {}
         }
       });
 
-      const timeline = Object.entries(daily).sort(([a], [b]) => a.localeCompare(b)).map(([date, count]) => ({ date, count }));
+      const timeline = Object.entries(daily)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([date, count]) => ({ date, count }));
+
+      // Calculate Version Percentages
+      const versions = Object.entries(versionCounts).map(([version, count]) => ({
+        version,
+        count,
+        percentage: Math.round((count / sampled) * 100),
+      })).sort((a, b) => b.count - a.count);
+
+      // Calculate Peak Hour Percentages
+      const peakHours = Object.entries(hourBuckets).map(([interval, count]) => ({
+        interval,
+        count,
+        percentage: Math.round((count / sampled) * 100),
+      })).sort((a, b) => b.count - a.count);
+
       return res.status(200).json({
         success: true,
-        totalSampled: snap.size,
+        totalSampled: sampled,
         authTypes: { google, anonymous: anon },
         timeline,
+        versions,
+        peakHours,
       });
     }
 

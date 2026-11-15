@@ -145,11 +145,11 @@ export default function AdminLayout() {
       )}
 
       {/* Sidebar (Permanently fixed on desktop, slide-over on mobile) */}
-      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-72 shrink-0 h-screen bg-white border-r border-[#F0E5DA] lg:border-r-0 shadow-[0_4px_24px_rgba(37,51,74,0.03)] flex flex-col justify-between transition-transform duration-200 ${
+      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-72 shrink-0 h-screen bg-white border-r border-[#F0E5DA] shadow-[0_4px_24px_rgba(37,51,74,0.03)] flex flex-col justify-between transition-transform duration-200 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       }`}>
-        {/* Brand Lockup - matches header height */}
-        <div className="h-20 p-5 border-b border-[#F0E5DA] flex items-center justify-between shrink-0">
+        {/* Brand Lockup - seamless top bar without harsh horizontal divider */}
+        <div className="h-20 p-5 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#FF765E] to-[#FFB36B] p-0.5 shadow-sm">
               <div className="w-full h-full bg-[#FFF8EF] rounded-[14px] flex items-center justify-center">
@@ -238,8 +238,8 @@ export default function AdminLayout() {
 
       {/* Main Content Area - Only this container scrolls */}
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden bg-white">
-        {/* Top Header Bar - Fixed at top */}
-        <header className="h-20 shrink-0 bg-white border-b border-[#F0E5DA] lg:border-b-0 px-4 sm:px-8 flex items-center justify-between z-30">
+        {/* Top Header Bar - Fixed at top with clean continuous divider */}
+        <header className="h-20 shrink-0 bg-white border-b border-[#F0E5DA] px-4 sm:px-8 flex items-center justify-between z-30">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -284,7 +284,7 @@ export default function AdminLayout() {
         </header>
 
         {/* Right Side Content Canvas with Top-Left Corner Radius across all pages */}
-        <div className="flex-1 flex flex-col min-h-0 bg-[#FFF8EF] lg:rounded-tl-[32px] border-t border-[#F0E5DA] lg:border-l overflow-hidden shadow-[inset_0_2px_6px_rgba(37,51,74,0.02)]">
+        <div className="flex-1 flex flex-col min-h-0 bg-[#FFF8EF] lg:rounded-tl-[32px] overflow-hidden shadow-[inset_0_2px_6px_rgba(37,51,74,0.02)]">
           {/* View Sub-Header Freshness Indicator */}
           <div className="shrink-0 px-4 sm:px-8 pt-5 pb-2 flex items-center justify-between text-xs text-[#687386] font-medium">
             <span>Viewing data in India Standard Time (IST, UTC+5:30)</span>

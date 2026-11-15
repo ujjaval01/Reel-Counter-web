@@ -1,43 +1,63 @@
 import { useState, useEffect } from 'react';
-import { X, Copy, Check, Calendar, Swords, AlertCircle, RefreshCw } from 'lucide-react';
+import { X, Copy, Check, Calendar, Swords, AlertCircle, RefreshCw, EyeOff, Eye, Ban, ShieldCheck } from 'lucide-react';
 import { useAdminAuth } from './AdminAuthContext';
 
 interface UserDetailsModalProps {
   uid: string | null;
   onClose: () => void;
+  onUserUpdated?: () => void;
 }
 
-export default function UserDetailsModal({ uid, onClose }: UserDetailsModalProps) {
+export default function UserDetailsModal({ uid, onClose, onUserUpdated }: UserDetailsModalProps) {
   const { fetchAdminApi } = useAdminAuth();
   const [loading, setLoading] = useState<boolean>(true);
+  const [modifying, setModifying] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [userData, setUserData] = useState<any | null>(null);
   const [copiedUid, setCopiedUid] = useState(false);
 
-  useEffect(() => {
+  const fetchUser = async () => {
     if (!uid) return;
-
-    let mounted = true;
-    const fetchUser = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await fetchAdminApi(`/api/admin/user-details?uid=${encodeURIComponent(uid)}`);
-        if (mounted && data?.success) {
-          setUserData(data.user);
-        }
-      } catch (err: any) {
-        if (mounted) {
-          setError(err.message || 'Failed to load user details');
-        }
-      } finally {
-        if (mounted) setLoading(false);
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await fetchAdminApi(`/api/admin/user-details?uid=${encodeURIComponent(uid)}`);
+      if (data?.success) {
+        setUserData(data.user);
       }
-    };
+    } catch (err: any) {
+      setError(err.message || 'Failed to load user details');
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchUser();
-    return () => { mounted = false; };
-  }, [uid, fetchAdminApi]);
+  }, [uid]);
+
+  const handleModeration = async (action: 'hide_leaderboard' | 'unhide_leaderboard' | 'ban' | 'unban') => {
+    if (!uid || modifying) return;
+    setModifying(true);
+    try {
+      const res = await fetchAdminApi('/api/admin/moderate-user', {
+        method: 'POST',
+        body: JSON.stringify({ uid, action }),
+      });
+      if (res?.success) {
+        setUserData((prev: any) => ({
+          ...prev,
+          hiddenFromLeaderboard: action === 'hide_leaderboard' ? true : action === 'unhide_leaderboard' ? false : prev?.hiddenFromLeaderboard,
+          isBanned: action === 'ban' ? true : action === 'unban' ? false : prev?.isBanned,
+        }));
+        if (onUserUpdated) onUserUpdated();
+      }
+    } catch (err: any) {
+      alert(err?.message || 'Failed to apply moderation action');
+    } finally {
+      setModifying(false);
+    }
+  };
 
   if (!uid) return null;
 
@@ -113,6 +133,46 @@ export default function UserDetailsModal({ uid, onClose }: UserDetailsModalProps
             </div>
           ) : userData ? (
             <>
+              {/* Admin Moderation Bar */}
+              <div className="p-4 rounded-2xl bg-white border border-[#F0E5DA] shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-[#687386]">Account Status:</span>
+                  {userData.isBanned ? (
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-heading font-bold bg-rose-100 text-rose-700 border border-rose-200">
+                      BANNED
+                    </span>
+                  ) : userData.hiddenFromLeaderboard ? (
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-heading font-bold bg-amber-100 text-amber-700 border border-amber-200">
+                      HIDDEN FROM LEADERBOARD
+                    </span>
+                  ) : (
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-heading font-bold bg-[#E4F5EE] text-[#2D8A78] border border-[#45BFA8]/30">
+                      ACTIVE &amp; GOOD STANDING
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleModeration(userData.hiddenFromLeaderboard ? 'unhide_leaderboard' : 'hide_leaderboard')}
+                    disabled={modifying}
+                    className="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-heading font-bold border border-amber-200 flex items-center gap-1.5 transition-all shadow-sm"
+                  >
+                    {userData.hiddenFromLeaderboard ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                    <span>{userData.hiddenFromLeaderboard ? 'Restore on Leaderboard' : 'Hide from Leaderboard'}</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleModeration(userData.isBanned ? 'unban' : 'ban')}
+                    disabled={modifying}
+                    className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-heading font-bold border border-rose-200 flex items-center gap-1.5 transition-all shadow-sm"
+                  >
+                    {userData.isBanned ? <ShieldCheck className="w-3.5 h-3.5" /> : <Ban className="w-3.5 h-3.5" />}
+                    <span>{userData.isBanned ? 'Unban User' : 'Ban Account'}</span>
+                  </button>
+                </div>
+              </div>
+
               {/* Core Metrics Cards */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div className="p-4 rounded-2xl bg-[#FFF8EF] border border-[#F0E5DA]">

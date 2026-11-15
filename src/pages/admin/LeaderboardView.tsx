@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Trophy, Medal, Crown, RefreshCw, User as UserIcon } from 'lucide-react';
+import { Trophy, Medal, Crown, RefreshCw, User as UserIcon, EyeOff, Eye } from 'lucide-react';
 import { useAdminAuth } from './AdminAuthContext';
 import { TableSkeletonRows } from './AdminSkeleton';
 
@@ -15,6 +15,7 @@ export default function LeaderboardView({ cache, setCache }: LeaderboardViewProp
   const [leaderboard, setLeaderboard] = useState<any[]>(cache?.leaderboard || []);
   const [loading, setLoading] = useState<boolean>(!cache);
   const [error, setError] = useState<string | null>(null);
+  const [modifyingUid, setModifyingUid] = useState<string | null>(null);
 
   const fetchLeaderboard = async (tf = timeframe, lim = limit) => {
     setLoading(true);
@@ -34,6 +35,27 @@ export default function LeaderboardView({ cache, setCache }: LeaderboardViewProp
       setError(err?.message || 'Failed to fetch leaderboard');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleToggleHide = async (uid: string, currentlyHidden: boolean) => {
+    if (modifyingUid) return;
+    setModifyingUid(uid);
+    try {
+      const action = currentlyHidden ? 'unhide_leaderboard' : 'hide_leaderboard';
+      const res = await fetchAdminApi('/api/admin/moderate-user', {
+        method: 'POST',
+        body: JSON.stringify({ uid, action }),
+      });
+      if (res?.success) {
+        setLeaderboard((prev) =>
+          prev.map((item) => (item.uid === uid ? { ...item, hiddenFromLeaderboard: !currentlyHidden } : item))
+        );
+      }
+    } catch (err: any) {
+      alert(err?.message || 'Failed to update user leaderboard visibility');
+    } finally {
+      setModifyingUid(null);
     }
   };
 
@@ -133,14 +155,15 @@ export default function LeaderboardView({ cache, setCache }: LeaderboardViewProp
                 <th className="p-4 font-extrabold text-right">Reels Tracked</th>
                 <th className="p-4 font-extrabold text-center">Primary Platform</th>
                 <th className="p-4 font-extrabold text-right">All-Time Total</th>
+                <th className="p-4 font-extrabold text-center w-28">Moderation</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#F0E5DA]/60 text-[#25334A]">
               {loading && leaderboard.length === 0 ? (
-                <TableSkeletonRows rows={6} cols={5} />
+                <TableSkeletonRows rows={6} cols={6} />
               ) : leaderboard.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="p-12 text-center text-[#687386] font-medium">
+                  <td colSpan={6} className="p-12 text-center text-[#687386] font-medium">
                     No leaderboard data available for this timeframe.
                   </td>
                 </tr>
@@ -203,6 +226,30 @@ export default function LeaderboardView({ cache, setCache }: LeaderboardViewProp
                       </td>
                       <td className="p-4 text-right font-mono font-bold text-[#687386]">
                         {item.totalReels.toLocaleString()}
+                      </td>
+                      <td className="p-4 text-center">
+                        <button
+                          onClick={() => handleToggleHide(item.uid, Boolean(item.hiddenFromLeaderboard))}
+                          disabled={modifyingUid === item.uid}
+                          className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[11px] font-heading font-bold border transition-all ${
+                            item.hiddenFromLeaderboard
+                              ? 'bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100 shadow-sm'
+                              : 'bg-white text-[#687386] border-[#F0E5DA] hover:text-[#25334A] hover:bg-[#FFF8EF]'
+                          }`}
+                          title={item.hiddenFromLeaderboard ? 'Hidden from public leaderboard. Click to make visible' : 'Visible on public leaderboard. Click to hide (Shadow-ban)'}
+                        >
+                          {item.hiddenFromLeaderboard ? (
+                            <>
+                              <EyeOff className="w-3.5 h-3.5 text-amber-600" />
+                              <span>Hidden</span>
+                            </>
+                          ) : (
+                            <>
+                              <Eye className="w-3.5 h-3.5 text-[#687386]" />
+                              <span>Visible</span>
+                            </>
+                          )}
+                        </button>
                       </td>
                     </tr>
                   );
