@@ -102,6 +102,90 @@ function getFirebaseAdmin(): App {
   });
 }
 
+async function logAndNotifyUnauthorizedAttempt(
+  adminApp: App,
+  decodedToken: DecodedIdToken,
+  clientIp: string,
+  req: VercelRequest
+) {
+  const email = decodedToken.email || 'unknown@user';
+  const name = decodedToken.name || 'Anonymous User';
+  const uid = decodedToken.uid;
+  const picture = decodedToken.picture || null;
+  const userAgent = (req.headers['user-agent'] as string) || 'unknown';
+  const istTimeStr = getIstDateString() + ' ' + new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' });
+
+  // 1. Record permanently in Firestore collection 'admin_security_alerts'
+  try {
+    const db = getFirestore(adminApp);
+    await db.collection('admin_security_alerts').add({
+      type: 'UNAUTHORIZED_ADMIN_LOGIN_ATTEMPT',
+      email,
+      name,
+      uid,
+      picture,
+      ip: clientIp,
+      userAgent,
+      timestamp: Date.now(),
+      timestampIst: istTimeStr,
+      status: 'BLOCKED_AND_EJECTED',
+    });
+  } catch (err) {
+    console.error('Failed to save security alert in Firestore:', err);
+  }
+
+  // 2. Dispatch external webhook (Discord / Slack / Generic) or Email (Resend)
+  try {
+    const webhookUrl = process.env.ADMIN_ALERT_WEBHOOK || process.env.DISCORD_WEBHOOK_URL;
+    const resendApiKey = process.env.RESEND_API_KEY;
+    const alertEmail = process.env.ADMIN_ALERT_EMAIL || 'sainiujvl@gmail.com';
+
+    // Discord / Slack / Generic Webhook
+    if (webhookUrl) {
+      await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          content: `🚨 **ReelCounter Security Alert: Unauthorized Login Blocked**\n• **Email**: ${email}\n• **Name**: ${name}\n• **UID**: ${uid}\n• **IP**: ${clientIp}\n• **Time (IST)**: ${istTimeStr}\n• **Status**: BLOCKED & ACCESS DENIED`,
+        }),
+      }).catch((e) => console.error('Webhook notification error:', e));
+    }
+
+    // Resend Email API
+    if (resendApiKey) {
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${resendApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'ReelCounter Security <security@resend.dev>',
+          to: [alertEmail],
+          subject: `🚨 Security Alert: Unauthorized Admin Login Attempt (${email})`,
+          html: `
+            <div style="font-family: sans-serif; padding: 20px; background: #FFF8EF; border-radius: 16px; border: 1px solid #F0E5DA;">
+              <h2 style="color: #E11D48; margin-top: 0;">⚠️ Unauthorized Admin Access Blocked</h2>
+              <p style="color: #25334A; font-size: 14px;">An unauthorized account attempted to log into the ReelCounter Admin Dashboard:</p>
+              <ul style="background: white; padding: 16px 28px; border-radius: 12px; border: 1px solid #F0E5DA; color: #25334A; font-size: 13px;">
+                <li><strong>Email:</strong> ${email}</li>
+                <li><strong>Name:</strong> ${name}</li>
+                <li><strong>UID:</strong> ${uid}</li>
+                <li><strong>Client IP:</strong> ${clientIp}</li>
+                <li><strong>IST Time:</strong> ${istTimeStr}</li>
+                <li><strong>Status:</strong> BLOCKED & ACCESS DENIED</li>
+              </ul>
+              <p style="color: #687386; font-size: 12px;">This incident has been logged in your Firestore <code>admin_security_alerts</code> collection.</p>
+            </div>
+          `,
+        }),
+      }).catch((e) => console.error('Resend notification error:', e));
+    }
+  } catch (err) {
+    console.error('Failed to dispatch alert notification:', err);
+  }
+}
+
 async function authenticateAdmin(
   req: VercelRequest,
   res: VercelResponse
@@ -147,9 +231,14 @@ async function authenticateAdmin(
   }
 
   if (decodedToken.uid !== configuredAdminUid) {
+    await logAndNotifyUnauthorizedAttempt(adminApp, decodedToken, clientIp, req);
+
     res.status(403).json({
       success: false,
-      error: `Forbidden: Logged-in UID (${decodedToken.uid}) does not match ADMIN_UID.`,
+      isUnauthorized: true,
+      error: `Forbidden: Logged-in account (${decodedToken.email || decodedToken.uid}) does not have admin permissions.`,
+      email: decodedToken.email || null,
+      uid: decodedToken.uid,
     });
     return null;
   }
@@ -205,6 +294,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { db, decodedToken } = auth;
     const istToday = getIstDateString();
     const usersCol = await getUsersCol(db);
+
+    // ==========================================
+    // 0. VERIFY (Admin Authorization Check)
+    // ==========================================
+    if (route === 'verify') {
+      return res.status(200).json({
+        success: true,
+        isAdmin: true,
+        uid: decodedToken.uid,
+        email: decodedToken.email || null,
+        name: decodedToken.name || null,
+      });
+    }
 
     // ==========================================
     // 1. OVERVIEW
@@ -745,6 +847,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       let friendsCount = 0;
       try { friendsCount = (await db.collection('friends').count().get()).data().count; } catch {}
 
+      let securityAlertsCount = 0;
+      try { securityAlertsCount = (await db.collection('admin_security_alerts').count().get()).data().count; } catch {}
+
       const sample = await db.collection(usersCol).limit(50).get();
       let missingDisplayName = 0, missingTodayDate = 0, missingTotalReels = 0, anonymousCount = 0;
 
@@ -770,6 +875,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           battles: battlesCount,
           friends: friendsCount,
           account_deletion_requests: deletionCount,
+          security_alerts: securityAlertsCount,
         },
         integrityCheck: {
           sampledProfiles: sample.size,

@@ -13,6 +13,8 @@ interface AdminAuthContextType {
   user: User | null;
   idToken: string | null;
   loading: boolean;
+  isAuthorized: boolean | null;
+  unauthorizedEmail: string | null;
   error: string | null;
   isConfigured: boolean;
   loginWithGoogle: () => Promise<void>;
@@ -27,7 +29,36 @@ export const AdminAuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [idToken, setIdToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+  const [unauthorizedEmail, setUnauthorizedEmail] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const verifyTokenWithBackend = async (token: string, currentUserEmail?: string | null): Promise<boolean> => {
+    try {
+      const res = await fetch('/api/admin/verify', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await res.json().catch(() => null);
+
+      if (res.ok && data?.isAdmin) {
+        setIsAuthorized(true);
+        setUnauthorizedEmail(null);
+        return true;
+      } else {
+        setIsAuthorized(false);
+        setUnauthorizedEmail(data?.email || currentUserEmail || 'Unauthorized Account');
+        return false;
+      }
+    } catch (err) {
+      console.error('Backend admin verification error:', err);
+      setIsAuthorized(false);
+      setUnauthorizedEmail(currentUserEmail || 'Unauthorized Account');
+      return false;
+    }
+  };
 
   useEffect(() => {
     if (!auth) {
@@ -41,13 +72,17 @@ export const AdminAuthProvider = ({ children }: { children: ReactNode }) => {
         try {
           const token = await currentUser.getIdToken();
           setIdToken(token);
+          await verifyTokenWithBackend(token, currentUser.email);
         } catch (err: any) {
           console.error('Failed to get user ID token:', err);
           setError(err?.message || 'Failed to authenticate session token.');
           setIdToken(null);
+          setIsAuthorized(null);
         }
       } else {
         setIdToken(null);
+        setIsAuthorized(null);
+        setUnauthorizedEmail(null);
       }
       setLoading(false);
     });
@@ -68,6 +103,7 @@ export const AdminAuthProvider = ({ children }: { children: ReactNode }) => {
       const token = await result.user.getIdToken(true);
       setUser(result.user);
       setIdToken(token);
+      await verifyTokenWithBackend(token, result.user.email);
     } catch (err: any) {
       console.error('Google sign-in failed:', err);
       setError(err?.message || 'Failed to sign in with Google');
@@ -83,6 +119,8 @@ export const AdminAuthProvider = ({ children }: { children: ReactNode }) => {
       }
       setUser(null);
       setIdToken(null);
+      setIsAuthorized(null);
+      setUnauthorizedEmail(null);
       setError(null);
     } catch (err: any) {
       console.error('Sign-out failed:', err);
@@ -124,7 +162,9 @@ export const AdminAuthProvider = ({ children }: { children: ReactNode }) => {
 
     if (!res.ok) {
       const errorMsg = data?.error || `Request failed with status ${res.status}`;
-      if (res.status === 403) {
+      if (res.status === 403 || data?.isUnauthorized) {
+        setIsAuthorized(false);
+        setUnauthorizedEmail(data?.email || user?.email || 'Unauthorized Account');
         throw new Error(`Unauthorized Admin Access: ${errorMsg}`);
       }
       throw new Error(errorMsg);
@@ -143,6 +183,8 @@ export const AdminAuthProvider = ({ children }: { children: ReactNode }) => {
         user,
         idToken,
         loading,
+        isAuthorized,
+        unauthorizedEmail,
         error,
         isConfigured: isFirebaseConfigured,
         loginWithGoogle,

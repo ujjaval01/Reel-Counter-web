@@ -110,10 +110,10 @@ export default function SystemView({ cache, setCache }: SystemViewProps) {
           Firestore Collection Document Counts
         </h4>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-sans">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 text-xs font-sans">
           {loading && !data ? (
             <>
-              {[1, 2, 3, 4].map((i) => (
+              {[1, 2, 3, 4, 5].map((i) => (
                 <div key={i} className="p-5 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA] space-y-2">
                   <Skeleton className="h-3 w-16 rounded" />
                   <Skeleton className="h-8 w-20 rounded-lg" />
@@ -153,6 +153,14 @@ export default function SystemView({ cache, setCache }: SystemViewProps) {
                   {collections?.account_deletion_requests != null ? collections.account_deletion_requests.toLocaleString() : '—'}
                 </p>
                 <p className="text-[10px] text-[#8B95A5] mt-1">Play Store deletion logs</p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-[#FAF7F2] border border-[#F0E5DA]">
+                <span className="text-xs font-bold text-rose-600">security_alerts</span>
+                <p className="text-3xl font-heading font-extrabold text-rose-600 mt-1">
+                  {collections?.security_alerts != null ? collections.security_alerts.toLocaleString() : '0'}
+                </p>
+                <p className="text-[10px] text-[#8B95A5] mt-1">Blocked intrusion logs</p>
               </div>
             </>
           )}
