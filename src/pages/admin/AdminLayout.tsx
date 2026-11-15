@@ -149,7 +149,7 @@ export default function AdminLayout() {
         sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       }`}>
         {/* Brand Lockup - matches header height */}
-        <div className="h-20 p-5 border-b border-[#F0E5DA] lg:border-r flex items-center justify-between shrink-0">
+        <div className="h-20 p-5 border-b border-[#F0E5DA] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#FF765E] to-[#FFB36B] p-0.5 shadow-sm">
               <div className="w-full h-full bg-[#FFF8EF] rounded-[14px] flex items-center justify-center">
