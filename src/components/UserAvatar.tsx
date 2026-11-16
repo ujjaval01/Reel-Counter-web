@@ -32,44 +32,73 @@ export function resolveUserAvatar(user?: AvatarUser | null): {
   const isHttpUrl = (val: any): boolean =>
     typeof val === 'string' && (/^https?:\/\//i.test(val.trim()) || val.trim().startsWith('/avatars/'));
 
-  // 1. In-app character drawable (ch_1 ... ch_24)
-  const charKey = (user.avatarId || user.avatarUrl || '').trim().toLowerCase();
-  if (/^ch_([1-9]|1[0-9]|2[0-4])$/.test(charKey)) {
-    return { type: 'image', value: `/avatars/${charKey}.png` };
+  const avatarType = String(user.avatarType || '').toUpperCase().trim();
+  const avatarUrl = String(user.avatarUrl || '').trim();
+  const googlePhotoUrl = String(user.googlePhotoUrl || '').trim();
+  const avatarEmoji = String(user.avatarEmoji || '').trim();
+  const avatarId = String(user.avatarId || '').trim().toLowerCase();
+
+  // 1. Explicit EMOJI avatar
+  if (avatarType === 'EMOJI') {
+    if (avatarEmoji) return { type: 'emoji', value: avatarEmoji };
+    if (avatarUrl && !isHttpUrl(avatarUrl) && !avatarUrl.startsWith('ch_')) {
+      return { type: 'emoji', value: avatarUrl };
+    }
   }
 
-  // 2. Google photo URL
-  if (user.avatarType === 'GOOGLE_PHOTO') {
-    if (isHttpUrl(user.avatarUrl)) return { type: 'image', value: user.avatarUrl!.trim() };
-    if (isHttpUrl(user.googlePhotoUrl)) return { type: 'image', value: user.googlePhotoUrl!.trim() };
+  // 2. Explicit GOOGLE_PHOTO avatar
+  if (avatarType === 'GOOGLE_PHOTO') {
+    if (isHttpUrl(avatarUrl) && !avatarUrl.includes('/avatars/ch_')) {
+      return { type: 'image', value: avatarUrl };
+    }
+    if (isHttpUrl(googlePhotoUrl)) {
+      return { type: 'image', value: googlePhotoUrl };
+    }
   }
 
-  // 3. Direct valid image URL in avatarUrl
-  if (isHttpUrl(user.avatarUrl)) {
-    return { type: 'image', value: user.avatarUrl!.trim() };
+  // 3. Explicit CHARACTER_DRAWABLE, REMOTE_AVATAR, or DEFAULT
+  if (avatarType === 'CHARACTER_DRAWABLE' || avatarType === 'REMOTE_AVATAR' || avatarType === 'DEFAULT') {
+    if (avatarUrl.includes('/avatars/ch_') || /^\/avatars\/ch_\d+\.png$/i.test(avatarUrl)) {
+      return { type: 'image', value: avatarUrl };
+    }
+    const key = (avatarUrl.startsWith('ch_') ? avatarUrl : avatarId).toLowerCase();
+    const match = key.match(/^ch_([1-9]|1[0-9]|2[0-4])$/);
+    if (match) {
+      return { type: 'image', value: `/avatars/ch_${match[1]}.png` };
+    }
   }
 
-  // 4. User configured explicit emoji
-  if (user.avatarEmoji && typeof user.avatarEmoji === 'string' && user.avatarEmoji.trim()) {
-    return { type: 'emoji', value: user.avatarEmoji.trim() };
+  // 4. Any direct avatar URL that points to /avatars/
+  if (avatarUrl.includes('/avatars/ch_')) {
+    return { type: 'image', value: avatarUrl };
   }
 
-  // 5. avatarUrl itself is an emoji (e.g. "🐼", "🔥")
-  if (user.avatarUrl && typeof user.avatarUrl === 'string' && !isHttpUrl(user.avatarUrl) && !user.avatarUrl.startsWith('ch_')) {
-    return { type: 'emoji', value: user.avatarUrl.trim() };
+  // 5. If avatarUrl or avatarId is ch_1 to ch_24 and not GOOGLE_PHOTO
+  if (avatarType !== 'GOOGLE_PHOTO') {
+    const rawChar = (avatarUrl.startsWith('ch_') ? avatarUrl : avatarId).toLowerCase();
+    const match = rawChar.match(/^ch_([1-9]|1[0-9]|2[0-4])$/);
+    if (match) {
+      return { type: 'image', value: `/avatars/ch_${match[1]}.png` };
+    }
   }
 
-  // 6. Character map emoji fallback
-  if (CHARACTER_DRAWABLE_MAP[charKey]) {
-    return { type: 'emoji', value: CHARACTER_DRAWABLE_MAP[charKey] };
+  // 6. Direct HTTP image (Google photo or custom image link)
+  if (isHttpUrl(avatarUrl) && !avatarUrl.startsWith('ch_')) {
+    return { type: 'image', value: avatarUrl };
+  }
+  if (isHttpUrl(googlePhotoUrl)) {
+    return { type: 'image', value: googlePhotoUrl };
   }
 
-  // 7. Fallback to Google photo if available
-  if (isHttpUrl(user.googlePhotoUrl)) {
-    return { type: 'image', value: user.googlePhotoUrl!.trim() };
+  // 7. Explicit Emoji Fallback
+  if (avatarEmoji) {
+    return { type: 'emoji', value: avatarEmoji };
+  }
+  if (avatarUrl && !isHttpUrl(avatarUrl) && !avatarUrl.startsWith('ch_')) {
+    return { type: 'emoji', value: avatarUrl };
   }
 
-  // 8. Fallback to Initials
+  // 8. Initials Fallback
   const name = (user.displayName || user.username || 'RC').trim();
   const initials = name
     .split(/\s+/)

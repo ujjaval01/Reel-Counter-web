@@ -46,27 +46,60 @@ function sanitizeAvatar(d: any) {
   let avatarUrl: string | null = null;
   let avatarEmoji: string | null = null;
 
-  const charKey = (d.avatarId || d.avatarUrl || '').trim().toLowerCase();
+  const avatarType = String(d.avatarType || '').toUpperCase().trim();
+  const rawAvatarUrl = typeof d.avatarUrl === 'string' ? d.avatarUrl.trim() : '';
+  const rawGooglePhoto = typeof d.googlePhotoUrl === 'string' ? d.googlePhotoUrl.trim() : '';
+  const rawEmoji = typeof d.avatarEmoji === 'string' ? d.avatarEmoji.trim() : '';
+  const avatarId = typeof d.avatarId === 'string' ? d.avatarId.trim().toLowerCase() : '';
 
-  if (/^ch_([1-9]|1[0-9]|2[0-4])$/.test(charKey)) {
-    avatarUrl = `https://reelcounter.vercel.app/avatars/${charKey}.png`;
-    avatarEmoji = CHARACTER_DRAWABLE_MAP[charKey] || null;
-  } else if (isHttp(d.avatarUrl)) {
-    avatarUrl = d.avatarUrl.trim();
-  } else if (isHttp(d.googlePhotoUrl)) {
-    avatarUrl = d.googlePhotoUrl.trim();
-  }
-
-  if (d.avatarEmoji && typeof d.avatarEmoji === 'string' && d.avatarEmoji.trim()) {
-    avatarEmoji = d.avatarEmoji.trim();
-  } else if (d.avatarUrl && typeof d.avatarUrl === 'string' && !isHttp(d.avatarUrl) && !d.avatarUrl.startsWith('ch_')) {
-    avatarEmoji = d.avatarUrl.trim();
-  } else if (!avatarEmoji && CHARACTER_DRAWABLE_MAP[charKey]) {
-    avatarEmoji = CHARACTER_DRAWABLE_MAP[charKey];
-  }
-
-  if (d.avatarType === 'EMOJI') {
+  // 1. Explicit EMOJI
+  if (avatarType === 'EMOJI') {
     avatarUrl = null;
+    avatarEmoji = rawEmoji || (rawAvatarUrl && !isHttp(rawAvatarUrl) && !rawAvatarUrl.startsWith('ch_') ? rawAvatarUrl : '🐼');
+    return { avatarUrl, avatarEmoji, avatarType, avatarId: d.avatarId || null };
+  }
+
+  // 2. Explicit GOOGLE_PHOTO
+  if (avatarType === 'GOOGLE_PHOTO') {
+    if (isHttp(rawAvatarUrl) && !rawAvatarUrl.includes('/avatars/ch_')) {
+      avatarUrl = rawAvatarUrl;
+    } else if (isHttp(rawGooglePhoto)) {
+      avatarUrl = rawGooglePhoto;
+    }
+    return { avatarUrl, avatarEmoji: null, avatarType, avatarId: d.avatarId || null };
+  }
+
+  // 3. In-app character drawable (ch_1 to ch_24), DEFAULT, or REMOTE_AVATAR
+  if (avatarType === 'CHARACTER_DRAWABLE' || avatarType === 'DEFAULT' || avatarType === 'REMOTE_AVATAR') {
+    if (rawAvatarUrl.includes('/avatars/ch_')) {
+      avatarUrl = rawAvatarUrl.startsWith('http') ? rawAvatarUrl : `https://reelcounter.vercel.app${rawAvatarUrl}`;
+    } else {
+      const charKey = (rawAvatarUrl.startsWith('ch_') ? rawAvatarUrl : avatarId).toLowerCase();
+      const match = charKey.match(/^ch_([1-9]|1[0-9]|2[0-4])$/);
+      if (match) {
+        avatarUrl = `https://reelcounter.vercel.app/avatars/ch_${match[1]}.png`;
+      }
+    }
+    return { avatarUrl, avatarEmoji: rawEmoji || null, avatarType, avatarId: d.avatarId || null };
+  }
+
+  // 4. Fallback checks if avatarType is unspecified
+  if (rawAvatarUrl.includes('/avatars/ch_')) {
+    avatarUrl = rawAvatarUrl.startsWith('http') ? rawAvatarUrl : `https://reelcounter.vercel.app${rawAvatarUrl}`;
+  } else if (isHttp(rawAvatarUrl)) {
+    avatarUrl = rawAvatarUrl;
+  } else if (isHttp(rawGooglePhoto)) {
+    avatarUrl = rawGooglePhoto;
+  } else {
+    const charKey = (rawAvatarUrl.startsWith('ch_') ? rawAvatarUrl : avatarId).toLowerCase();
+    const match = charKey.match(/^ch_([1-9]|1[0-9]|2[0-4])$/);
+    if (match) {
+      avatarUrl = `https://reelcounter.vercel.app/avatars/ch_${match[1]}.png`;
+    } else if (rawEmoji) {
+      avatarEmoji = rawEmoji;
+    } else if (rawAvatarUrl && !rawAvatarUrl.startsWith('ch_')) {
+      avatarEmoji = rawAvatarUrl;
+    }
   }
 
   return {

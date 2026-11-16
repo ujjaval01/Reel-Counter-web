@@ -24,10 +24,10 @@ import {
 } from './components/Clay3DIcons';
 
 const DEFAULT_GLOBAL_LEADERBOARD = [
-  { rank: 1, id: '1', displayName: 'Vanshika Saini', username: 'vanshika_saini', reels: 3724, primaryPlatform: 'Instagram', avatarUrl: null, avatarEmoji: '👑' },
+  { rank: 1, id: '1', displayName: 'Vanshika Saini', username: 'vanshika_saini', reels: 3724, primaryPlatform: 'Instagram', avatarUrl: '/avatars/ch_1.png', avatarId: 'ch_1', avatarType: 'CHARACTER_DRAWABLE', avatarEmoji: null },
   { rank: 2, id: '2', displayName: 'Arun Saini', username: 'arun_saini', reels: 2806, primaryPlatform: 'Instagram', avatarUrl: null, avatarEmoji: '⚡' },
-  { rank: 3, id: '3', displayName: 'Suraj', username: 'suraj', reels: 2225, primaryPlatform: 'Instagram', avatarUrl: null, avatarEmoji: '🔥' },
-  { rank: 4, id: '4', displayName: 'Developer', username: 'developer', reels: 1899, primaryPlatform: 'Instagram', avatarUrl: null, avatarEmoji: '💻' },
+  { rank: 3, id: '3', displayName: 'Suraj', username: 'suraj', reels: 2225, primaryPlatform: 'Instagram', avatarUrl: null, avatarEmoji: '🐼', avatarType: 'EMOJI' },
+  { rank: 4, id: '4', displayName: 'Developer', username: 'developer', reels: 1899, primaryPlatform: 'Instagram', avatarUrl: '/avatars/ch_8.png', avatarId: 'ch_8', avatarType: 'CHARACTER_DRAWABLE', avatarEmoji: null },
   { rank: 5, id: '5', displayName: 'himanshu tomar', username: 'himanshu_tomar', reels: 1875, primaryPlatform: 'Instagram', avatarUrl: null, avatarEmoji: '🎯' },
   { rank: 6, id: '6', displayName: 'Bad boy Saini', username: 'bad_boy_saini', reels: 1641, primaryPlatform: 'Facebook', avatarUrl: null, avatarEmoji: '🚀' },
 ];
